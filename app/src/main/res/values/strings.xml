@@ -1,3 +1,27 @@
 <resources>
-    <string name="app_name">PersonalMusic</string>
+    <string name="app_name">简易音乐</string>
+    <string name="day_recommend">每日推荐</string>
+    <string name="playlist">歌单</string>
+    <string name="rank">排行榜</string>
+    <string name="radio">电台</string>
+    <string name="live">直播</string>
+    <string name="fm">私人FM</string>
+    <string name="recommend_playlist">推荐歌单</string>
+    <string name="playlist_playground">更多</string>
+    <string name="login_phone_number">手机号登录</string>
+    <string name="press_exit_again">再按一次退出应用</string>
+    <string name="input_phone">请输入手机号</string>
+    <string name="input_pwd">请输入密码</string>
+    <string name="toast_login">手机号和密码不能为空</string>
+    <string name="msg_password_error">密码错误</string>
+    <string name="msg_user_error">账号不存在</string>
+    <string name="login">立即登录</string>
+    <string name="permission_denied">部分权限未授予</string>
+    <string name="need_ask_permission">您需要去设置当中同意存储权限</string>
+    <string name="btn_ok">确定</string>
+    <string name="btn_denied">拒绝</string>
+    <string name="bottom_home">发现</string>
+    <string name="bottom_podcast">播客</string>
+    <string name="bottom_my">我的</string>
+    <string name="bottom_follow">关注</string>
 </resources>

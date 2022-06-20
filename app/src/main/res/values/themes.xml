@@ -2,8 +2,9 @@
     <!-- Base application theme. -->
     <style name="Theme.PersonalMusic" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimaryVariant">@color/colorPrimary</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
@@ -12,5 +13,11 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+    </style>
+
+    <style name="ThemeSplash" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@color/colorPrimary</item>
+        <!--Android 5.x开始需要把颜色设置透明，否则导航栏会呈现系统默认的浅灰色-->
+        <item name="android:statusBarColor" tools:ignore="NewApi">#00000000</item>
     </style>
 </resources>
