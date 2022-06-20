@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="vm"
+            type="com.tobery.personalmusic.ui.login.LoginViewModel" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.login.LoginActivity">
+
+        <include
+            android:id="@+id/title"
+            layout="@layout/ui_common_title" />
+
+
+        <TextView
+            android:id="@+id/im_User"
+            android:layout_width="@dimen/dp_25"
+            android:layout_height="@dimen/dp_25"
+            android:layout_marginStart="@dimen/dp_30"
+            android:layout_marginTop="@dimen/dp_30"
+            android:background="@drawable/ic_login_user"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title"
+            />
+
+        <EditText
+            android:id="@+id/edit_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_35"
+            android:layout_marginEnd="@dimen/dp_30"
+            android:background="@null"
+            android:hint="@string/input_phone"
+            android:inputType="phone"
+            android:maxLength="20"
+            android:maxLines="1"
+            android:text="@={vm.ui.userName}"
+            android:textColor="@color/tv_black"
+            android:textColorHint="@color/tv_hint"
+            android:textSize="@dimen/sp_15"
+            app:layout_constraintStart_toEndOf="@id/im_User"
+            app:layout_constraintStart_toStartOf="@id/im_User"
+            app:layout_constraintBottom_toBottomOf="@id/im_User"
+            />
+
+        <View
+            android:id="@+id/view_user"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_1"
+            android:layout_marginLeft="@dimen/dp_30"
+            android:layout_marginRight="@dimen/dp_30"
+            android:layout_marginTop="@dimen/dp_12"
+            android:background="@color/color_border"
+            app:layout_constraintTop_toBottomOf="@id/im_User"
+            />
+
+        <TextView
+            android:id="@+id/im_password"
+            android:layout_width="@dimen/dp_25"
+            android:layout_height="@dimen/dp_25"
+            android:layout_marginStart="@dimen/dp_30"
+            android:layout_marginTop="@dimen/dp_30"
+            android:background="@drawable/ic_login_password"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/view_user"
+            />
+
+        <EditText
+            android:id="@+id/edit_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_35"
+            android:layout_marginEnd="@dimen/dp_30"
+            android:background="@null"
+            android:hint="@string/input_pwd"
+            android:maxLength="20"
+            android:maxLines="1"
+            android:text="@={vm.ui.password}"
+            android:textColor="@color/tv_black"
+            android:textColorHint="@color/tv_hint"
+            android:textSize="@dimen/sp_15"
+            app:layout_constraintStart_toStartOf="@id/im_User"
+            app:layout_constraintTop_toTopOf="@id/im_password"
+            app:layout_constraintBottom_toBottomOf="@id/im_password"
+            />
+
+        <View
+            android:id="@+id/view_password"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_1"
+            android:layout_marginLeft="@dimen/dp_30"
+            android:layout_marginRight="@dimen/dp_30"
+            android:layout_marginTop="@dimen/dp_12"
+            android:background="@color/color_border"
+            app:layout_constraintTop_toBottomOf="@id/im_password"
+            />
+
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_45"
+            android:layout_marginStart="@dimen/dp_60"
+            android:layout_marginTop="@dimen/dp_30"
+            android:layout_marginEnd="@dimen/dp_60"
+            android:background="@drawable/shape_btn_login_confirm"
+            android:text="@string/login"
+            android:textColor="@color/tv_white"
+            app:layout_constraintTop_toBottomOf="@id/view_password"
+            />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

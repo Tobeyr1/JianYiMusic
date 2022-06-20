@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="vm"
+            type="com.tobery.personalmusic.ui.home.discover.DiscoverFragmentViewModel" />
+    </data>
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".ui.splash.SplashActivity">
+
+    <View
+        android:id="@+id/view_title_bg"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_45"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/colorPrimary"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_95"
+        app:layout_constraintTop_toBottomOf="@id/view_title_bg"
+        android:background="@color/colorPrimary"
+        />
+    
+    <com.youth.banner.Banner
+        android:id="@+id/banner_img"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_160"
+        app:layout_constraintTop_toBottomOf="@id/view_title_bg"
+        android:layout_margin="@dimen/dp_16"
+        />
+    
+    <ImageView
+        android:id="@+id/img_recommend"
+        android:layout_width="@dimen/dp_50"
+        android:layout_height="@dimen/dp_50"
+        android:src="@drawable/ic_daily_recommend"
+        android:layout_margin="@dimen/dp_16"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/banner_img"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/sp_12"
+        android:text="@{vm.date}"
+        app:layout_constraintTop_toTopOf="@id/img_recommend"
+        app:layout_constraintBottom_toBottomOf="@id/img_recommend"
+        app:layout_constraintStart_toStartOf="@id/img_recommend"
+        app:layout_constraintEnd_toEndOf="@id/img_recommend"
+        />
+
+    <TextView
+        android:id="@+id/tv_daily"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/dp_4"
+        android:text="@string/day_recommend"
+        android:textColor="@color/dark_grey"
+        app:layout_constraintTop_toBottomOf="@id/img_recommend"
+        app:layout_constraintStart_toStartOf="@id/img_recommend"
+        app:layout_constraintEnd_toEndOf="@id/img_recommend"
+        android:textSize="@dimen/sp_12" />
+
+    <ImageView
+        android:id="@+id/img_mine_fm"
+        android:layout_width="@dimen/dp_50"
+        android:layout_height="@dimen/dp_50"
+        android:src="@drawable/ic_mine_fm"
+        android:layout_margin="@dimen/dp_16"
+        app:layout_constraintStart_toEndOf="@id/img_recommend"
+        app:layout_constraintTop_toBottomOf="@id/banner_img"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/dp_4"
+        android:text="@string/fm"
+        android:textColor="@color/dark_grey"
+        app:layout_constraintTop_toBottomOf="@id/img_mine_fm"
+        app:layout_constraintStart_toStartOf="@id/img_mine_fm"
+        app:layout_constraintEnd_toEndOf="@id/img_mine_fm"
+        android:textSize="@dimen/sp_12" />
+
+    <ImageView
+        android:id="@+id/img_playlist"
+        android:layout_width="@dimen/dp_50"
+        android:layout_height="@dimen/dp_50"
+        android:src="@drawable/ic_playlist"
+        android:layout_margin="@dimen/dp_16"
+        app:layout_constraintStart_toEndOf="@id/img_mine_fm"
+        app:layout_constraintTop_toBottomOf="@id/banner_img"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/dp_4"
+        android:text="@string/playlist"
+        android:textColor="@color/dark_grey"
+        app:layout_constraintTop_toBottomOf="@id/img_playlist"
+        app:layout_constraintStart_toStartOf="@id/img_playlist"
+        app:layout_constraintEnd_toEndOf="@id/img_playlist"
+        android:textSize="@dimen/sp_12" />
+
+    <ImageView
+        android:id="@+id/img_rank"
+        android:layout_width="@dimen/dp_50"
+        android:layout_height="@dimen/dp_50"
+        android:src="@drawable/ic_playlist"
+        android:layout_margin="@dimen/dp_16"
+        app:layout_constraintStart_toEndOf="@id/img_playlist"
+        app:layout_constraintTop_toBottomOf="@id/banner_img"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/dp_4"
+        android:text="@string/rank"
+        android:textColor="@color/dark_grey"
+        app:layout_constraintTop_toBottomOf="@id/img_rank"
+        app:layout_constraintStart_toStartOf="@id/img_rank"
+        app:layout_constraintEnd_toEndOf="@id/img_rank"
+        android:textSize="@dimen/sp_12" />
+
+    <ImageView
+        android:id="@+id/img_live"
+        android:layout_width="@dimen/dp_50"
+        android:layout_height="@dimen/dp_50"
+        android:src="@drawable/ic_live"
+        android:layout_margin="@dimen/dp_16"
+        app:layout_constraintStart_toEndOf="@id/img_rank"
+        app:layout_constraintTop_toBottomOf="@id/banner_img"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/dp_4"
+        android:text="@string/live"
+        android:textColor="@color/dark_grey"
+        app:layout_constraintTop_toBottomOf="@id/img_live"
+        app:layout_constraintStart_toStartOf="@id/img_live"
+        app:layout_constraintEnd_toEndOf="@id/img_live"
+        android:textSize="@dimen/sp_12" />
+
+    <ImageView
+        android:id="@+id/img_radio"
+        android:layout_width="@dimen/dp_50"
+        android:layout_height="@dimen/dp_50"
+        android:src="@drawable/ic_radio"
+        android:layout_margin="@dimen/dp_16"
+        app:layout_constraintStart_toEndOf="@id/img_live"
+        app:layout_constraintTop_toBottomOf="@id/banner_img"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/dp_4"
+        android:text="@string/radio"
+        android:textColor="@color/dark_grey"
+        app:layout_constraintTop_toBottomOf="@id/img_radio"
+        app:layout_constraintStart_toStartOf="@id/img_radio"
+        app:layout_constraintEnd_toEndOf="@id/img_radio"
+        android:textSize="@dimen/sp_12" />
+
+    <View
+        android:id="@+id/view_recommend"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:layout_marginTop="@dimen/dp_12"
+        android:background="@color/boundary_gray"
+        app:layout_constraintTop_toBottomOf="@id/tv_daily"/>
+
+    <TextView
+        android:id="@+id/tv_recommend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_16"
+        android:text="@string/recommend_playlist"
+        android:textColor="@color/tv_black"
+        android:textSize="@dimen/sp_14"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/view_recommend"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/tv_playlist_playground"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dp_16"
+        android:layout_marginStart="@dimen/dp_15"
+        android:background="@drawable/bg_playlist_playground"
+        android:paddingLeft="@dimen/dp_15"
+        android:paddingTop="@dimen/dp_8"
+        android:paddingRight="@dimen/dp_15"
+        android:paddingBottom="@dimen/dp_8"
+        android:text="@string/playlist_playground"
+        android:textColor="@color/tv_gray_01"
+        android:textSize="@dimen/sp_11"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_recommend"
+        app:layout_constraintBottom_toBottomOf="@id/tv_recommend"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recommend_recycle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/dp_12"
+        android:layout_marginStart="@dimen/dp_16"
+        app:layout_constraintTop_toBottomOf="@id/tv_recommend"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
