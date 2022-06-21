@@ -1,25 +1,35 @@
 package com.tobery.personalmusic.ui.home;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 
+import com.google.android.material.navigation.NavigationBarView;
 import com.tobery.personalmusic.BaseActivity;
 import com.tobery.personalmusic.R;
 import com.tobery.personalmusic.databinding.ActivityMainBinding;
+import com.tobery.personalmusic.ui.home.discover.DiscoverFragment;
 import com.tobery.personalmusic.util.ClickUtil;
+
+import java.util.ArrayList;
 
 public class MainActivity extends BaseActivity {
 
     private MainViewModel viewModel;
 
     private ActivityMainBinding binding;
+
+    private NavigationBarView navigationBarView;
+
+    private ArrayList<Fragment> fragments;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +38,14 @@ public class MainActivity extends BaseActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         initView();
+        initFragment();
         initObserver();
+    }
+
+    private void initFragment() {
+        fragments = new ArrayList<>();
+        fragments.add(new DiscoverFragment());
+        setFragment(0);
     }
 
     private void initObserver() {
@@ -37,7 +54,21 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initView() {
-
+        navigationBarView = binding.bottomNav;
+        navigationBarView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.discoverFragment:
+                        setFragment(0);
+                        break;
+                    case R.id.podcastFragment:
+                        setFragment(1);
+                        break;
+                }
+                return true;
+            }
+        });
         setDrawMenu();
     }
 
@@ -65,6 +96,12 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onDrawerStateChanged(int newState) {}
         });
+    }
+
+    private void setFragment(int position){
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.frame_main,fragments.get(position));
+        ft.commit();
     }
 
     @Override
