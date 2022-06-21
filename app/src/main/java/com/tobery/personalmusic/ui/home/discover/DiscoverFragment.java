@@ -27,7 +27,7 @@ import com.tobery.personalmusic.entity.banner_bean;
  * @UpdateRemark: 更新说明
  * @Version: 1.0
  */
-class DiscoverFragment extends Fragment {
+public class DiscoverFragment extends Fragment {
 
     private FragmentDiscoverBinding binding;
 
