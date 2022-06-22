@@ -1,4 +1,4 @@
-package com.tobery.personalmusic.ui.home.discover;
+package com.tobery.personalmusic.ui.home.discover.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;

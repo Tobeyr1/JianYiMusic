@@ -31,13 +31,4 @@ public class LogInterceptor implements Interceptor {
                 .body(ResponseBody.create(mediaType,content))
                 .build();
     }
-
-
-
-
-
-
-
-
-
 }

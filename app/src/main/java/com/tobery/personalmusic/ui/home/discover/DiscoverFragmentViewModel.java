@@ -2,9 +2,12 @@ package com.tobery.personalmusic.ui.home.discover;
 
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 
 import com.tobery.livedata.call.livedatalib.ApiResponse;
+import com.tobery.personalmusic.entity.MainRecommendListBean;
 import com.tobery.personalmusic.entity.banner_bean;
 import com.tobery.personalmusic.http.Retrofit.RetrofitUtils;
 
@@ -25,8 +28,23 @@ public class DiscoverFragmentViewModel extends ViewModel {
 
     public String date = Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + "";
 
+    public MutableLiveData<ApiResponse<MainRecommendListBean>> _recommendLiveData = new MutableLiveData();
+
+    private LiveData<ApiResponse<MainRecommendListBean>> recommendLiveData;
+
+    public LiveData<ApiResponse<MainRecommendListBean>> getRecommendLiveData() {
+        if (recommendLiveData == null){
+            recommendLiveData = RetrofitUtils.getmApiUrl().getRecommendPlayList();
+        }
+        return recommendLiveData;
+    }
+
     public LiveData<ApiResponse<banner_bean>> getBanner(){
         return RetrofitUtils.getmApiUrl().getBanner(2);
+    }
+
+    public LiveData<ApiResponse<MainRecommendListBean>> getRecommendList(){
+        return RetrofitUtils.getmApiUrl().getRecommendPlayList();
     }
 
 }

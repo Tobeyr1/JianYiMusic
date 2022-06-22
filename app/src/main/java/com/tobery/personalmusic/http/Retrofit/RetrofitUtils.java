@@ -14,7 +14,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitUtils {
-    private static ApiService mApiUrl;
     /**
      * 单例模式
      */

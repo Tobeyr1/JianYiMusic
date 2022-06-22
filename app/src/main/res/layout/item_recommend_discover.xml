@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    >
+
+    <ImageView
+        android:id="@+id/img_recommend"
+        android:layout_width="@dimen/dp_120"
+        android:layout_height="@dimen/dp_120"
+        android:layout_margin="@dimen/dp_8"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:scaleType="fitXY" />
+
+    <TextView
+        android:id="@+id/recommend_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:ellipsize="marquee"
+        android:textColor="@color/tv_black"
+        app:layout_constraintTop_toBottomOf="@id/img_recommend"
+        app:layout_constraintStart_toStartOf="@id/img_recommend"
+        app:layout_constraintEnd_toEndOf="@id/img_recommend"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>

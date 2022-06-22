@@ -37,6 +37,5 @@ public class LoginViewModel extends ViewModel {
         return RetrofitUtils.getmApiUrl().login(ui.userName.get(),ui.password.get());
     }
 
-
 }
 

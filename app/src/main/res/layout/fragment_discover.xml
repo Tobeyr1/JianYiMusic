@@ -225,7 +225,6 @@
         android:id="@+id/recommend_recycle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginTop="@dimen/dp_12"
         android:layout_marginStart="@dimen/dp_16"
         app:layout_constraintTop_toBottomOf="@id/tv_recommend"/>
