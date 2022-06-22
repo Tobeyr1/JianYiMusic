@@ -4,13 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
-
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.viewpager2.widget.ViewPager2;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 
 import com.google.android.material.navigation.NavigationBarView;
@@ -40,8 +39,8 @@ public class MainActivity extends BaseActivity {
         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        initView();
         initFragment();
+        initView();
         initObserver();
     }
 
@@ -50,7 +49,6 @@ public class MainActivity extends BaseActivity {
         fragments.add(new DiscoverFragment());
         fragments.add(new PodcastFragment());
         fragments.add(new MineFragment());
-        setFragment(0);
     }
 
     private void initObserver() {
@@ -61,21 +59,45 @@ public class MainActivity extends BaseActivity {
     @SuppressLint("NonConstantResourceId")
     private void initView() {
         navigationBarView = binding.bottomNav;
+        initViewPager();
+        setDrawMenu();
+    }
+
+    private void initViewPager() {
         navigationBarView.setOnItemSelectedListener(item -> {
             switch (item.getItemId()){
                 case R.id.discoverFragment:
-                    setFragment(0);
+                    binding.homeViewpager.setCurrentItem(0,true);
                     break;
                 case R.id.podcastFragment:
-                    setFragment(1);
+                    binding.homeViewpager.setCurrentItem(1,true);
                     break;
                 case R.id.myFragment:
-                    setFragment(2);
+                    binding.homeViewpager.setCurrentItem(2,true);
                     break;
             }
             return true;
         });
-        setDrawMenu();
+        binding.homeViewpager.setUserInputEnabled(false); //禁止滑动
+        binding.homeViewpager.setAdapter(new FragmentStateAdapter(this) {
+            @NonNull
+            @Override
+            public Fragment createFragment(int position) {
+                return fragments.get(position);
+            }
+
+            @Override
+            public int getItemCount() {
+                return fragments.size();
+            }
+        });
+        binding.homeViewpager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                binding.bottomNav.getMenu().getItem(position).setChecked(true);
+            }
+        });
     }
 
     private void setDrawMenu() {
@@ -102,12 +124,6 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onDrawerStateChanged(int newState) {}
         });
-    }
-
-    private void setFragment(int position){
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.frame_main,fragments.get(position));
-        ft.commit();
     }
 
     @Override
