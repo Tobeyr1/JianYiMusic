@@ -1,6 +1,7 @@
 package com.tobery.personalmusic.ui.home.discover;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,10 +10,15 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import com.tobery.livedata.call.livedatalib.ApiResponse;
 import com.tobery.livedata.call.livedatalib.Status;
 import com.tobery.personalmusic.databinding.FragmentDiscoverBinding;
+import com.tobery.personalmusic.entity.MainRecommendListBean;
 import com.tobery.personalmusic.entity.banner_bean;
+import com.tobery.personalmusic.ui.home.discover.adapter.RecommendAdapter;
+import com.tobery.personalmusic.ui.home.discover.adapter.bannerAdapter;
 import com.youth.banner.config.IndicatorConfig;
 import com.youth.banner.indicator.RectangleIndicator;
 import com.youth.banner.listener.OnBannerListener;
@@ -35,6 +41,8 @@ public class DiscoverFragment extends Fragment {
 
     private DiscoverFragmentViewModel viewModel;
 
+    private RecommendAdapter adapter;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -48,16 +56,30 @@ public class DiscoverFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        initRecycle();
         initObserver();
     }
 
+    private void initRecycle() {
+        adapter = new RecommendAdapter(getContext());
+        LinearLayoutManager manager = new LinearLayoutManager(getContext());
+        manager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        binding.recommendRecycle.setLayoutManager(manager);
+        binding.recommendRecycle.setHasFixedSize(true);
+        binding.recommendRecycle.setAdapter(adapter);
+    }
+
     private void initObserver() {
-        viewModel.getBanner().observe(getViewLifecycleOwner(), new Observer<ApiResponse<banner_bean>>() {
-            @Override
-            public void onChanged(ApiResponse<banner_bean> banner_beanApiResponse) {
-                if (banner_beanApiResponse.getStatus() == Status.SUCCESS){
-                    initData(banner_beanApiResponse.getData().getBanners());
-                }
+        viewModel.getBanner().observe(getViewLifecycleOwner(), banner_beanApiResponse -> {
+            if (banner_beanApiResponse.getStatus() == Status.SUCCESS){
+                initData(banner_beanApiResponse.getData().getBanners());
+            }
+        });
+
+        viewModel.getRecommendList().observe(getViewLifecycleOwner(), mainRecommendListBeanApiResponse -> {
+            if (mainRecommendListBeanApiResponse.getStatus() == Status.SUCCESS){
+                Log.e("主界面数据",mainRecommendListBeanApiResponse.getData().getRecommend().get(0).getName());
+                adapter.setDataList(mainRecommendListBeanApiResponse.getData().getRecommend());
             }
         });
     }

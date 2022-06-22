@@ -45,6 +45,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void initView() {
+        binding.title.ivBack.setOnClickListener(view -> finish());
         binding.btnLogin.setOnClickListener(view -> {
             if (ClickUtil.enableClick()){
                 if (Objects.requireNonNull(viewModel.ui.userName.get()).isEmpty() || viewModel.ui.password.get().isEmpty()){
