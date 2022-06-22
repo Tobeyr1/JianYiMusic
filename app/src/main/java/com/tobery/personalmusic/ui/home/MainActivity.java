@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -17,6 +18,8 @@ import com.tobery.personalmusic.BaseActivity;
 import com.tobery.personalmusic.R;
 import com.tobery.personalmusic.databinding.ActivityMainBinding;
 import com.tobery.personalmusic.ui.home.discover.DiscoverFragment;
+import com.tobery.personalmusic.ui.home.mine.MineFragment;
+import com.tobery.personalmusic.ui.home.podcast.PodcastFragment;
 import com.tobery.personalmusic.util.ClickUtil;
 
 import java.util.ArrayList;
@@ -45,6 +48,8 @@ public class MainActivity extends BaseActivity {
     private void initFragment() {
         fragments = new ArrayList<>();
         fragments.add(new DiscoverFragment());
+        fragments.add(new PodcastFragment());
+        fragments.add(new MineFragment());
         setFragment(0);
     }
 
@@ -53,21 +58,22 @@ public class MainActivity extends BaseActivity {
 
     }
 
+    @SuppressLint("NonConstantResourceId")
     private void initView() {
         navigationBarView = binding.bottomNav;
-        navigationBarView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()){
-                    case R.id.discoverFragment:
-                        setFragment(0);
-                        break;
-                    case R.id.podcastFragment:
-                        setFragment(1);
-                        break;
-                }
-                return true;
+        navigationBarView.setOnItemSelectedListener(item -> {
+            switch (item.getItemId()){
+                case R.id.discoverFragment:
+                    setFragment(0);
+                    break;
+                case R.id.podcastFragment:
+                    setFragment(1);
+                    break;
+                case R.id.myFragment:
+                    setFragment(2);
+                    break;
             }
+            return true;
         });
         setDrawMenu();
     }
