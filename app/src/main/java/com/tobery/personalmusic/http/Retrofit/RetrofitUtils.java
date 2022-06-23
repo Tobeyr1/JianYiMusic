@@ -1,13 +1,20 @@
 package com.tobery.personalmusic.http.Retrofit;
 
 import androidx.annotation.NonNull;
+
+import com.franmontiel.persistentcookiejar.ClearableCookieJar;
+import com.franmontiel.persistentcookiejar.PersistentCookieJar;
+import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
+import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.tobery.livedata.call.livedatalib.LiveDataCallAdapterFactory;
 import com.tobery.personalmusic.http.ApiService;
 import com.tobery.personalmusic.util.Constant;
 import com.tobery.personalmusic.util.ContextProvider;
+
 import java.io.File;
 import java.util.concurrent.TimeUnit;
+
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
@@ -38,16 +45,15 @@ public class RetrofitUtils {
     private OkHttpClient initOkHttp() {
         File cacheDir = ContextProvider.get().getContext().getCacheDir();
         long cacheSize = 10L * 1024L * 1024L; // 10 MiB
-
-        //ClearableCookieJar cookieJar = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(MyApplication.getContext()));
+        ClearableCookieJar cookieJar = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(ContextProvider.get().getContext()));
         return new OkHttpClient().newBuilder()
                 .readTimeout(Constant.DEFAULT_TIME, TimeUnit.SECONDS) //设置读取超时时间
-                .connectTimeout(Constant.DEFAULT_TIME,TimeUnit.SECONDS) //设置请求超时时间
-                .writeTimeout(Constant.DEFAULT_TIME,TimeUnit.SECONDS) //设置写入超时时间
+                .connectTimeout(Constant.DEFAULT_TIME, TimeUnit.SECONDS) //设置请求超时时间
+                .writeTimeout(Constant.DEFAULT_TIME, TimeUnit.SECONDS) //设置写入超时时间
                 .addInterceptor(new LogInterceptor())  //添加打印拦截器
                 .retryOnConnectionFailure(true) //设置出错进行重新连接
                 .cache(new Cache(cacheDir, cacheSize))
-                //.cookieJar(cookieJar)
+                .cookieJar(cookieJar)
                 .build();
     }
 

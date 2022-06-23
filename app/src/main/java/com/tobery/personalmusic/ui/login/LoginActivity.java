@@ -1,7 +1,6 @@
 package com.tobery.personalmusic.ui.login;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -13,7 +12,7 @@ import com.hjq.toast.ToastUtils;
 import com.tobery.personalmusic.BaseActivity;
 import com.tobery.personalmusic.R;
 import com.tobery.personalmusic.databinding.ActivityLoginBinding;
-import com.tobery.personalmusic.entity.Login_Bean;
+import com.tobery.personalmusic.entity.LoginEntity;
 import com.tobery.personalmusic.http.Retrofit.RXHelper;
 import com.tobery.personalmusic.http.Retrofit.RxExceptionUtil;
 import com.tobery.personalmusic.ui.home.MainActivity;
@@ -55,24 +54,24 @@ public class LoginActivity extends BaseActivity {
                 dialog = AlertDialogUtil.Companion.createLoading(this,"登录中");
                 viewModel.login()
                         .compose(RXHelper.observableIO2Main(this))
-                        .subscribe(new Observer<Login_Bean>() {
+                        .subscribe(new Observer<LoginEntity>() {
                             @Override
                             public void onSubscribe(Disposable d) {
 
                             }
 
                             @Override
-                            public void onNext(Login_Bean login_bean) {
-                                Log.e("数据",login_bean.toString());
+                            public void onNext(LoginEntity login_bean) {
+                                Log.e("数据", login_bean.toString());
                                 AlertDialogUtil.Companion.closeDialog(dialog);
-                                if (login_bean.getCode() == 200){
-                                    SharePreferencesUtil.getInstance(LoginActivity.this).saveUserInfo(login_bean,viewModel.ui.userName.get());
+                                if (login_bean.getCode() == 200) {
+                                    SharePreferencesUtil.getInstance(LoginActivity.this).saveUserInfo(login_bean, viewModel.ui.userName.get());
                                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                     startActivity(intent);
                                     finish();
-                                }else if (login_bean.getCode() == 502){
+                                } else if (login_bean.getCode() == 502) {
                                     ToastUtils.show(R.string.msg_password_error);
-                                }else {
+                                } else {
                                     ToastUtils.show(R.string.msg_user_error);
                                 }
 

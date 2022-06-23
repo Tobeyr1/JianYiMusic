@@ -10,88 +10,88 @@ import lombok.NoArgsConstructor;
 @Data
 public class UserDetailEntity {
 
-    public Integer level;
-    public Integer listenSongs;
-    public UserPointEntity userPoint;
-    public Boolean mobileSign;
-    public Boolean pcSign;
-    public ProfileEntity profile;
-    public Boolean peopleCanSeeMyPlayRecord;
-    public List<BindingsEntity> bindings;
-    public Boolean adValid;
-    public Integer code;
-    public Long createTime;
-    public Integer createDays;
-    public ProfileVillageInfoEntity profileVillageInfo;
+    private int level;
+    private int listenSongs;
+    private UserPointEntity userPoint;
+    private boolean mobileSign;
+    private boolean pcSign;
+    private ProfileEntity profile;
+    private boolean peopleCanSeeMyPlayRecord;
+    private List<BindingsEntity> bindings;
+    private boolean adValid;
+    private int code;
+    private long createTime;
+    private int createDays;
+    private ProfileVillageInfoEntity profileVillageInfo;
 
     @NoArgsConstructor
     @Data
     public static class UserPointEntity {
-        public Integer userId;
-        public Integer balance;
-        public Long updateTime;
-        public Integer version;
-        public Integer status;
-        public Integer blockBalance;
+        private int userId;
+        private int balance;
+        private long updateTime;
+        private int version;
+        private int status;
+        private int blockBalance;
     }
 
     @NoArgsConstructor
     @Data
     public static class ProfileEntity {
-        public PrivacyItemUnlimitEntity privacyItemUnlimit;
-        public Object avatarDetail;
-        public Object remarkName;
-        public Integer authStatus;
-        public String detailDescription;
-        public ExpertsEntity experts;
-        public Object expertTags;
-        public String description;
-        public String avatarImgIdStr;
-        public String backgroundImgIdStr;
-        public Long createTime;
-        public Boolean defaultAvatar;
-        public Long birthday;
-        public String nickname;
-        public String avatarUrl;
-        public Long backgroundImgId;
-        public String backgroundUrl;
-        public Integer userType;
-        public Long avatarImgId;
-        public Integer province;
-        public Integer city;
-        public Integer gender;
-        public Boolean followed;
-        public Boolean mutual;
-        public Integer djStatus;
-        public Integer accountStatus;
-        public Integer vipType;
-        public Integer userId;
-        public String signature;
-        public Integer authority;
-        public Integer followeds;
-        public Integer follows;
-        public Boolean blacklist;
-        public Integer eventCount;
-        public Integer allSubscribedCount;
-        public Integer playlistBeSubscribedCount;
-        public String avatarImgId_str;
-        public Object followTime;
-        public Boolean followMe;
-        public List<?> artistIdentity;
-        public Integer cCount;
-        public Boolean inBlacklist;
-        public Integer sDJPCount;
-        public Integer playlistCount;
-        public Integer sCount;
-        public Integer newFollows;
+        private PrivacyItemUnlimitEntity privacyItemUnlimit;
+        private Object avatarDetail;
+        private String backgroundImgIdStr;
+        private String avatarImgIdStr;
+        private String description;
+        private int userId;
+        private int vipType;
+        private int userType;
+        private long createTime;
+        private String nickname;
+        private String avatarUrl;
+        private int gender;
+        private boolean mutual;
+        private boolean followed;
+        private Object remarkName;
+        private int authStatus;
+        private String detailDescription;
+        private ExpertsEntity experts;
+        private Object expertTags;
+        private int djStatus;
+        private int accountStatus;
+        private int province;
+        private int city;
+        private boolean defaultAvatar;
+        private long backgroundImgId;
+        private String backgroundUrl;
+        private long birthday;
+        private long avatarImgId;
+        private String signature;
+        private int authority;
+        private int followeds;
+        private int follows;
+        private boolean blacklist;
+        private int eventCount;
+        private int allSubscribedCount;
+        private int playlistBeSubscribedCount;
+        private String avatarImgId_str;
+        private Object followTime;
+        private boolean followMe;
+        private List<?> artistIdentity;
+        private int cCount;
+        private boolean inBlacklist;
+        private int sDJPCount;
+        private int playlistCount;
+        private int sCount;
+        private int newFollows;
 
         @NoArgsConstructor
         @Data
         public static class PrivacyItemUnlimitEntity {
-            public Boolean area;
-            public Boolean college;
-            public Boolean age;
-            public Boolean villageAge;
+            private boolean area;
+            private boolean college;
+            private boolean age;
+            private boolean villageAge;
         }
 
         @NoArgsConstructor
@@ -103,22 +103,22 @@ public class UserDetailEntity {
     @NoArgsConstructor
     @Data
     public static class ProfileVillageInfoEntity {
-        public String title;
-        public String imageUrl;
-        public String targetUrl;
+        private String title;
+        private Object imageUrl;
+        private String targetUrl;
     }
 
     @NoArgsConstructor
     @Data
     public static class BindingsEntity {
-        public Integer expiresIn;
-        public Integer refreshTime;
-        public Long bindingTime;
-        public Object tokenJsonStr;
-        public Boolean expired;
-        public String url;
-        public Integer userId;
-        public Integer id;
-        public Integer type;
+        private boolean expired;
+        private String url;
+        private int userId;
+        private int expiresIn;
+        private int refreshTime;
+        private long bindingTime;
+        private Object tokenJsonStr;
+        private long id;
+        private int type;
     }
 }
