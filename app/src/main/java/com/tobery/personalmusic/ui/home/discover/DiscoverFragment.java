@@ -1,21 +1,16 @@
 package com.tobery.personalmusic.ui.home.discover;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
-
-import com.tobery.livedata.call.livedatalib.ApiResponse;
 import com.tobery.livedata.call.livedatalib.Status;
 import com.tobery.personalmusic.databinding.FragmentDiscoverBinding;
-import com.tobery.personalmusic.entity.MainRecommendListBean;
 import com.tobery.personalmusic.entity.banner_bean;
 import com.tobery.personalmusic.ui.home.discover.adapter.RecommendAdapter;
 import com.tobery.personalmusic.ui.home.discover.adapter.bannerAdapter;
@@ -78,7 +73,6 @@ public class DiscoverFragment extends Fragment {
 
         viewModel.getRecommendList().observe(getViewLifecycleOwner(), mainRecommendListBeanApiResponse -> {
             if (mainRecommendListBeanApiResponse.getStatus() == Status.SUCCESS){
-                Log.e("主界面数据",mainRecommendListBeanApiResponse.getData().getRecommend().get(0).getName());
                 adapter.setDataList(mainRecommendListBeanApiResponse.getData().getRecommend());
             }
         });

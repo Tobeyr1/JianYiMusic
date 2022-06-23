@@ -6,7 +6,6 @@ import static com.tobery.personalmusic.util.Constant.DENIED_PERMISSION;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -19,6 +18,7 @@ import android.os.Looper;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.hjq.toast.ToastUtils;
 import com.tobery.personalmusic.BaseActivity;
