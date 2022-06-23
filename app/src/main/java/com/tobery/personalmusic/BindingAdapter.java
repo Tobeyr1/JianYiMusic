@@ -29,7 +29,6 @@ public class BindingAdapter {
     public static void loadUrl(ImageView view, @Nullable String url, Drawable error) {
         if (!url.isEmpty()) {
             RequestOptions options = new RequestOptions()
-                    //这里我通过添加参数DiskCaheStrategy.RESPURCE来使其缓存我们定好的图片大小样式，而不是缓存原图片大小
                     .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                     .circleCrop();
             Glide.with(view.getContext())
