@@ -9,7 +9,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
-import com.tobery.personalmusic.entity.Login_Bean;
+import com.tobery.personalmusic.entity.LoginEntity;
 
 /**
  * @Package: com.tobery.personalmusic.util
@@ -58,24 +58,28 @@ public class SharePreferencesUtil {
         return getString(key);
     }
 
-    public void saveUserInfo(Login_Bean bean, String phoneNumber) {
+    public void saveUserInfo(LoginEntity bean, String phoneNumber) {
         if (bean.getBindings().size() > 1) {
-            saveAuthToken(AUTH_TOKEN,bean.getBindings().get(1).getTokenJsonStr());
+            saveAuthToken(AUTH_TOKEN, bean.getBindings().get(1).getTokenJsonStr());
         }
         saveAccountNum(phoneNumber);
         String userInfo = new Gson().toJson(bean);
         saveString(USER_INFO, userInfo);
     }
 
-    public void savePermissionDeniedNum(String key,int value){
+    public String getUserInfo() {
+        return getString(USER_INFO);
+    }
+
+    public void savePermissionDeniedNum(String key, int value) {
         saveInt(key, value);
     }
 
-    public int getPermissionDeniedNum(String key){
+    public int getPermissionDeniedNum(String key) {
         return getInt(key);
     }
 
-    private void saveAuthToken(String key,String value) {
+    private void saveAuthToken(String key, String value) {
         saveString(key, value);
     }
 

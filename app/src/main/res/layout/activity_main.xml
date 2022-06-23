@@ -28,15 +28,42 @@
             app:layout_constraintTop_toTopOf="@id/view_top"
             app:layout_constraintBottom_toBottomOf="@id/view_top"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="@dimen/dp_12"
-            />
+            android:layout_marginStart="@dimen/dp_12" />
+
+        <ImageView
+            android:id="@+id/search"
+            android:layout_width="@dimen/dp_22"
+            android:layout_height="@dimen/dp_25"
+            android:layout_marginEnd="@dimen/dp_16"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:src="@drawable/music_mike"
+            app:layout_constraintTop_toTopOf="@id/view_top"
+            app:layout_constraintBottom_toBottomOf="@id/view_top" />
+
+        <EditText
+            android:id="@+id/ed_search"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="@dimen/dp_30"
+            android:layout_marginStart="@dimen/dp_16"
+            android:layout_marginEnd="@dimen/dp_16"
+            app:layout_constraintStart_toEndOf="@id/home_top_left_btn"
+            app:layout_constraintEnd_toStartOf="@id/search"
+            app:layout_constraintTop_toTopOf="@id/view_top"
+            android:alpha="0.5"
+            android:textColor="@color/white"
+            android:paddingStart="@dimen/dp_8"
+            android:paddingEnd="@dimen/dp_8"
+            android:paddingTop="@dimen/dp_5"
+            android:paddingBottom="@dimen/dp_5"
+            app:layout_constraintBottom_toBottomOf="@id/view_top"
+            android:background="@drawable/bg_edit_search_gray" />
+
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/home_viewpager"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_0"
             app:layout_constraintTop_toBottomOf="@id/view_top"
-            app:layout_constraintBottom_toTopOf="@id/bottom_nav"
-            />
+            app:layout_constraintBottom_toTopOf="@id/bottom_nav" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_nav"

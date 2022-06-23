@@ -34,19 +34,27 @@ import java.util.List;
  * @UpdateRemark: 更新说明
  * @Version: 1.0
  */
-public class RecommendAdapter extends RecyclerView.Adapter<ViewHolder>{
+public class RecommendAdapter extends RecyclerView.Adapter<ViewHolder> {
 
-    private List<MainRecommendListBean.RecommendBean> dataList = new ArrayList<>();
+    private final List<MainRecommendListBean.RecommendBean> dataList = new ArrayList<>();
 
-    private Context mContext;
-    public RecommendAdapter(Context context){
+    private final Context mContext;
+
+    private OnItemClick onItemClick;
+
+    public void setOnItemClick(OnItemClick onItemClick) {
+        this.onItemClick = onItemClick;
+    }
+
+    public RecommendAdapter(Context context) {
         this.mContext = context;
     }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         ItemRecommendDiscoverBinding binding = ItemRecommendDiscoverBinding
-                .inflate(LayoutInflater.from(parent.getContext()),parent,false);
+                .inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new ViewHolder(binding);
     }
 
@@ -60,8 +68,8 @@ public class RecommendAdapter extends RecyclerView.Adapter<ViewHolder>{
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         MainRecommendListBean.RecommendBean bean = dataList.get(position);
-        Log.e("数据",bean.getName());
         holder.tvTitle.setText(bean.getName());
+        holder.tvCount.setText(bean.getPlaycount() + "");
         RequestOptions options = new RequestOptions()
                 .placeholder(R.drawable.ic_banner_loading)
                 //这里我通过添加参数DiskCaheStrategy.RESPURCE来使其缓存我们定好的图片大小样式，而不是缓存原图片大小
@@ -82,12 +90,18 @@ public class RecommendAdapter extends RecyclerView.Adapter<ViewHolder>{
     }
 }
 
-class ViewHolder extends RecyclerView.ViewHolder{
-    TextView tvTitle;
+class ViewHolder extends RecyclerView.ViewHolder {
+    TextView tvTitle, tvCount;
     ImageView imRecommend;
+
     public ViewHolder(ItemRecommendDiscoverBinding binding) {
         super(binding.getRoot());
         tvTitle = binding.recommendTitle;
         imRecommend = binding.imgRecommend;
+        tvCount = binding.playCount;
     }
+}
+
+interface OnItemClick {
+    void onClick();
 }

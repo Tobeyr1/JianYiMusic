@@ -4,22 +4,18 @@ import androidx.annotation.NonNull;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import com.google.android.material.navigation.NavigationBarView;
-import com.tobery.livedata.call.livedatalib.ApiResponse;
 import com.tobery.personalmusic.BaseActivity;
 import com.tobery.personalmusic.R;
 import com.tobery.personalmusic.databinding.ActivityMainBinding;
-import com.tobery.personalmusic.entity.UserDetailEntity;
 import com.tobery.personalmusic.ui.home.discover.DiscoverFragment;
 import com.tobery.personalmusic.ui.home.mine.MineFragment;
 import com.tobery.personalmusic.ui.home.podcast.PodcastFragment;
@@ -56,12 +52,6 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initObserver() {
-        viewModel.getUserDetails().observe(this, new Observer<ApiResponse<UserDetailEntity>>() {
-            @Override
-            public void onChanged(ApiResponse<UserDetailEntity> userDetailEntityApiResponse) {
-                Log.e("信息",userDetailEntityApiResponse.getData().level.toString());
-            }
-        });
     }
 
     @SuppressLint("NonConstantResourceId")

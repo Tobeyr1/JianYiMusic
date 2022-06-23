@@ -17,6 +17,8 @@ public class Constant {
 
     public static final String KEY_LOGIN_UI = "KEY_LOGIN_UI";
 
+    public static final String KEY_MAIN_UI = "KEY_MAIN_UI";
+
     public static final String APP_SHARED_SAVE = "APP_SHARED_SAVE";
 
     public static final String USER_INFO = "USER_INFO";

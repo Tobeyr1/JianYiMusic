@@ -16,13 +16,27 @@
 
     <TextView
         android:id="@+id/recommend_title"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/dp_120"
         android:layout_height="wrap_content"
         android:background="@null"
-        android:ellipsize="marquee"
+        android:ellipsize="end"
+        android:maxLines="2"
         android:textColor="@color/tv_black"
+        android:textSize="@dimen/sp_12"
         app:layout_constraintTop_toBottomOf="@id/img_recommend"
         app:layout_constraintStart_toStartOf="@id/img_recommend"
+        app:layout_constraintEnd_toEndOf="@id/img_recommend" />
+
+    <TextView
+        android:id="@+id/play_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLength="1"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_8"
+        app:layout_constraintTop_toTopOf="@id/img_recommend"
+        android:layout_marginTop="@dimen/dp_5"
         app:layout_constraintEnd_toEndOf="@id/img_recommend"
-        />
+        android:layout_marginEnd="@dimen/dp_5" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

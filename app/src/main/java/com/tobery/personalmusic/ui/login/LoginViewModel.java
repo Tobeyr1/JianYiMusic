@@ -6,7 +6,7 @@ import androidx.databinding.ObservableField;
 import androidx.lifecycle.SavedStateHandle;
 import androidx.lifecycle.ViewModel;
 
-import com.tobery.personalmusic.entity.Login_Bean;
+import com.tobery.personalmusic.entity.LoginEntity;
 import com.tobery.personalmusic.http.Retrofit.RetrofitUtils;
 
 import io.reactivex.Observable;
@@ -33,8 +33,8 @@ public class LoginViewModel extends ViewModel {
         ui = state.get(KEY_LOGIN_UI) == null?new LoginUi(new ObservableField<>(""),new ObservableField<>("")):state.get(KEY_LOGIN_UI);
     }
 
-    public Observable<Login_Bean> login() {
-        return RetrofitUtils.getmApiUrl().login(ui.userName.get(),ui.password.get());
+    public Observable<LoginEntity> login() {
+        return RetrofitUtils.getmApiUrl().login(ui.userName.get(), ui.password.get());
     }
 
 }
