@@ -1,8 +1,13 @@
 package com.tobery.personalmusic.ui.home;
 
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.SavedStateHandle;
 import androidx.lifecycle.ViewModel;
+
+import com.tobery.livedata.call.livedatalib.ApiResponse;
+import com.tobery.personalmusic.entity.UserDetailEntity;
+import com.tobery.personalmusic.http.Retrofit.RetrofitUtils;
 
 /**
  * @Package: com.tobery.personalmusic.ui
@@ -23,7 +28,9 @@ public class MainViewModel extends ViewModel{
         this.state = savedStateHandle;
     }
 
-
+    public LiveData<ApiResponse<UserDetailEntity>> getUserDetails(){
+        return RetrofitUtils.getmApiUrl().getUserDetails(374898690);
+    }
 
 
 }

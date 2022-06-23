@@ -1,14 +1,10 @@
 package com.tobery.personalmusic;
 
 import android.app.Application;
-
 import androidx.multidex.MultiDex;
-
-
 import com.hjq.toast.ToastUtils;
 import com.hjq.toast.style.BlackToastStyle;
 import com.tobery.personalmusic.util.CrashHandler;
-
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

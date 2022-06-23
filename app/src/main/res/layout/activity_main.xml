@@ -51,11 +51,10 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/design_navigation_view"
+    <fragment
+        android:name="com.tobery.personalmusic.ui.home.menu.DrawerMenuFragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:menu="@menu/nav_menu"
-        />
+        android:layout_height="match_parent"
+        android:layout_gravity="left"
+        tools:ignore="RtlHardcoded" />
 </androidx.drawerlayout.widget.DrawerLayout>

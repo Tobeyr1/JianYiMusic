@@ -6,6 +6,7 @@ import com.tobery.livedata.call.livedatalib.ApiResponse;
 import com.tobery.personalmusic.entity.Login_Bean;
 import com.tobery.personalmusic.entity.MainRecommendListBean;
 import com.tobery.personalmusic.entity.SearchHotDetail_Bean;
+import com.tobery.personalmusic.entity.UserDetailEntity;
 import com.tobery.personalmusic.entity.banner_bean;
 import io.reactivex.Observable;
 import retrofit2.http.GET;
@@ -21,6 +22,6 @@ public interface  ApiService {
     Observable<Login_Bean> login(@Query("phone") String phone, @Query("password") String password);
     @GET("search/hot/detail")
     Observable<SearchHotDetail_Bean> getSearchHotDetail();
-    @POST("http://tobeyr1.cn/record/crashAdd")
-    Observable<Login_Bean> report(@Query("crash_info")String ex, @Query("crash_time")String time, @Query("device_info")String deviceInfo);
+    @GET("user/detail")
+    LiveData<ApiResponse<UserDetailEntity>> getUserDetails(@Query("uid") long userId);
 }
