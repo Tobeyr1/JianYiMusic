@@ -9,6 +9,8 @@ import com.tobery.personalmusic.entity.RefreshCookieEntity;
 import com.tobery.personalmusic.entity.SearchHotDetail_Bean;
 import com.tobery.personalmusic.entity.UserDetailEntity;
 import com.tobery.personalmusic.entity.banner_bean;
+import com.tobery.personalmusic.entity.home.HomeDiscoverEntity;
+
 import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
@@ -34,6 +36,10 @@ public interface ApiService {
         //用户信息
     LiveData<ApiResponse<UserDetailEntity>> getUserDetails(@Query("uid") long userId);
 
-    @GET("login/refresh")
+    @GET("login/refresh")//刷新登录
     LiveData<ApiResponse<RefreshCookieEntity>> refreshLogin();
+
+    @GET("homepage/block/page")//首页发现
+    LiveData<ApiResponse<HomeDiscoverEntity>> requireHomeDiscover(@Query("refresh") Boolean start);
+
 }

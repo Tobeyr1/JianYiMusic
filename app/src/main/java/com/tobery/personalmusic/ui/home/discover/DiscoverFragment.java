@@ -1,17 +1,22 @@
 package com.tobery.personalmusic.ui.home.discover;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
+
+import com.tobery.livedata.call.livedatalib.ApiResponse;
 import com.tobery.livedata.call.livedatalib.Status;
 import com.tobery.personalmusic.databinding.FragmentDiscoverBinding;
 import com.tobery.personalmusic.entity.banner_bean;
+import com.tobery.personalmusic.entity.home.HomeDiscoverEntity;
 import com.tobery.personalmusic.ui.home.discover.adapter.RecommendAdapter;
 import com.tobery.personalmusic.ui.home.discover.adapter.bannerAdapter;
 import com.youth.banner.config.IndicatorConfig;
@@ -65,15 +70,23 @@ public class DiscoverFragment extends Fragment {
     }
 
     private void initObserver() {
-        viewModel.getBanner().observe(getViewLifecycleOwner(), banner_beanApiResponse -> {
+        /*viewModel.getBanner().observe(getViewLifecycleOwner(), banner_beanApiResponse -> {
             if (banner_beanApiResponse.getStatus() == Status.SUCCESS){
                 initData(banner_beanApiResponse.getData().getBanners());
             }
-        });
+        });*/
 
-        viewModel.getRecommendList().observe(getViewLifecycleOwner(), mainRecommendListBeanApiResponse -> {
+        /*viewModel.getRecommendList().observe(getViewLifecycleOwner(), mainRecommendListBeanApiResponse -> {
             if (mainRecommendListBeanApiResponse.getStatus() == Status.SUCCESS){
                 adapter.setDataList(mainRecommendListBeanApiResponse.getData().getRecommend());
+            }
+        });*/
+
+        viewModel.requireDiscover(false).observe(getViewLifecycleOwner(), homeDiscoverEntityApiResponse -> {
+            if (homeDiscoverEntityApiResponse.getStatus() == Status.SUCCESS){
+
+            }else {
+                Log.e("报错",homeDiscoverEntityApiResponse.getMessage());
             }
         });
     }
