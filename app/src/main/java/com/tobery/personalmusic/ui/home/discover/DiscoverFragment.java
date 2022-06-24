@@ -12,10 +12,12 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.google.gson.Gson;
 import com.tobery.livedata.call.livedatalib.ApiResponse;
 import com.tobery.livedata.call.livedatalib.Status;
 import com.tobery.personalmusic.databinding.FragmentDiscoverBinding;
 import com.tobery.personalmusic.entity.banner_bean;
+import com.tobery.personalmusic.entity.home.BannerExtInfoEntity;
 import com.tobery.personalmusic.entity.home.HomeDiscoverEntity;
 import com.tobery.personalmusic.ui.home.discover.adapter.RecommendAdapter;
 import com.tobery.personalmusic.ui.home.discover.adapter.bannerAdapter;
@@ -84,6 +86,29 @@ public class DiscoverFragment extends Fragment {
 
         viewModel.requireDiscover(false).observe(getViewLifecycleOwner(), homeDiscoverEntityApiResponse -> {
             if (homeDiscoverEntityApiResponse.getStatus() == Status.SUCCESS){
+                for (HomeDiscoverEntity.DataEntity.BlocksEntity block : homeDiscoverEntityApiResponse.getData().getData().getBlocks()){
+                    switch (block.getBlockCode()){
+                        case "HOMEPAGE_BANNER": //banner
+                            String bannerJson = new Gson().toJson(block.getExtInfo());
+                            viewModel.bannerList = new Gson().fromJson(bannerJson,BannerExtInfoEntity.class);
+                            break;
+                        case "HOMEPAGE_BLOCK_PLAYLIST_RCMD": //推荐歌单
+                            viewModel.recommendList = block.getCreatives();
+                            break;
+                        case "HOMEPAGE_BLOCK_LISTEN_LIVE":
+
+                            break;
+                        case "HOMEPAGE_BLOCK_STYLE_RCMD":
+
+                            break;
+                        case "HOMEPAGE_BLOCK_MGC_PLAYLIST":
+                            break;
+
+                    }
+                    Log.e("解析后",block.getBlockCode());
+                }
+                initData(viewModel.bannerList.getBanners());
+                adapter.setDataList(viewModel.recommendList);
 
             }else {
                 Log.e("报错",homeDiscoverEntityApiResponse.getMessage());
@@ -91,7 +116,7 @@ public class DiscoverFragment extends Fragment {
         });
     }
 
-    private void initData(List<banner_bean.BannersBean> banners) {
+    private void initData(List<BannerExtInfoEntity.BannersEntity> banners) {
         binding.bannerImg.setAdapter(new bannerAdapter(banners))
                 .addBannerLifecycleObserver(getViewLifecycleOwner())
                 .setIntercept(false) //不拦截事件

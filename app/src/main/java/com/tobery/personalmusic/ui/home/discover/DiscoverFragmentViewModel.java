@@ -9,10 +9,12 @@ import androidx.lifecycle.ViewModel;
 import com.tobery.livedata.call.livedatalib.ApiResponse;
 import com.tobery.personalmusic.entity.MainRecommendListBean;
 import com.tobery.personalmusic.entity.banner_bean;
+import com.tobery.personalmusic.entity.home.BannerExtInfoEntity;
 import com.tobery.personalmusic.entity.home.HomeDiscoverEntity;
 import com.tobery.personalmusic.http.Retrofit.RetrofitUtils;
 
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * @Package: com.tobery.personalmusic.ui.home.discover
@@ -29,16 +31,10 @@ public class DiscoverFragmentViewModel extends ViewModel {
 
     public String date = Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + "";
 
-    public MutableLiveData<ApiResponse<MainRecommendListBean>> _recommendLiveData = new MutableLiveData();
+    public BannerExtInfoEntity bannerList;
 
-    private LiveData<ApiResponse<MainRecommendListBean>> recommendLiveData;
+    public List<HomeDiscoverEntity.DataEntity.BlocksEntity.CreativesEntity> recommendList;
 
-    public LiveData<ApiResponse<MainRecommendListBean>> getRecommendLiveData() {
-        if (recommendLiveData == null){
-            recommendLiveData = RetrofitUtils.getmApiUrl().getRecommendPlayList();
-        }
-        return recommendLiveData;
-    }
 
     public LiveData<ApiResponse<banner_bean>> getBanner(){
         return RetrofitUtils.getmApiUrl().getBanner(2);
