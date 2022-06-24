@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel;
 import com.tobery.livedata.call.livedatalib.ApiResponse;
 import com.tobery.personalmusic.entity.MainRecommendListBean;
 import com.tobery.personalmusic.entity.banner_bean;
+import com.tobery.personalmusic.entity.home.HomeDiscoverEntity;
 import com.tobery.personalmusic.http.Retrofit.RetrofitUtils;
 
 import java.util.Calendar;
@@ -45,6 +46,10 @@ public class DiscoverFragmentViewModel extends ViewModel {
 
     public LiveData<ApiResponse<MainRecommendListBean>> getRecommendList(){
         return RetrofitUtils.getmApiUrl().getRecommendPlayList();
+    }
+
+    public LiveData<ApiResponse<HomeDiscoverEntity>> requireDiscover(Boolean refresh){
+        return RetrofitUtils.getmApiUrl().requireHomeDiscover(refresh);
     }
 
 }
