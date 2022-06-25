@@ -19,6 +19,7 @@ import com.tobery.personalmusic.R;
 import com.tobery.personalmusic.app;
 import com.tobery.personalmusic.databinding.ItemRecommendDiscoverBinding;
 import com.tobery.personalmusic.entity.MainRecommendListBean;
+import com.tobery.personalmusic.entity.home.HomeDiscoverEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +37,7 @@ import java.util.List;
  */
 public class RecommendAdapter extends RecyclerView.Adapter<ViewHolder> {
 
-    private final List<MainRecommendListBean.RecommendBean> dataList = new ArrayList<>();
+    private final List<HomeDiscoverEntity.DataEntity.BlocksEntity.CreativesEntity> dataList = new ArrayList<>();
 
     private final Context mContext;
 
@@ -59,7 +60,7 @@ public class RecommendAdapter extends RecyclerView.Adapter<ViewHolder> {
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void setDataList(List<MainRecommendListBean.RecommendBean> data) {
+    public void setDataList(List<HomeDiscoverEntity.DataEntity.BlocksEntity.CreativesEntity> data) {
         dataList.clear();
         dataList.addAll(data);
         notifyDataSetChanged();
@@ -67,9 +68,9 @@ public class RecommendAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        MainRecommendListBean.RecommendBean bean = dataList.get(position);
-        holder.tvTitle.setText(bean.getName());
-        holder.tvCount.setText(bean.getPlaycount() + "");
+        HomeDiscoverEntity.DataEntity.BlocksEntity.CreativesEntity bean = dataList.get(position);
+        holder.tvTitle.setText(bean.getUiElement().getMainTitle().getTitle());
+        //holder.tvCount.setText(bean.getResources().get(0).getResourceExtInfo().getPlayCount());
         RequestOptions options = new RequestOptions()
                 .placeholder(R.drawable.ic_banner_loading)
                 //这里我通过添加参数DiskCaheStrategy.RESPURCE来使其缓存我们定好的图片大小样式，而不是缓存原图片大小
@@ -77,7 +78,7 @@ public class RecommendAdapter extends RecyclerView.Adapter<ViewHolder> {
                 .transform(new CenterCrop(),new RoundedCorners(10))
                 .error(R.mipmap.ic_launcher);
         Glide.with(mContext)
-                .load(bean.getPicUrl())
+                .load(bean.getUiElement().getImage().getImageUrl())
                 .transition(new DrawableTransitionOptions().crossFade())
                 .apply(options)
                 .into(holder.imRecommend);

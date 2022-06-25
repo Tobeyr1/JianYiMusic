@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.tobery.personalmusic.R;
 import com.tobery.personalmusic.entity.banner_bean;
+import com.tobery.personalmusic.entity.home.BannerExtInfoEntity;
 import com.youth.banner.adapter.BannerAdapter;
 
 import java.util.List;
@@ -27,10 +28,10 @@ import java.util.List;
  * @UpdateRemark: 更新说明
  * @Version: 1.0
  */
-public class bannerAdapter extends BannerAdapter<banner_bean.BannersBean, TitleHolder> {
+public class bannerAdapter extends BannerAdapter<BannerExtInfoEntity.BannersEntity, TitleHolder> {
 
 
-    public bannerAdapter(List<banner_bean.BannersBean> datas) {
+    public bannerAdapter(List<BannerExtInfoEntity.BannersEntity> datas) {
         super(datas);
     }
 
@@ -40,7 +41,7 @@ public class bannerAdapter extends BannerAdapter<banner_bean.BannersBean, TitleH
     }
 
     @Override
-    public void onBindView(TitleHolder holder, banner_bean.BannersBean data, int position, int size) {
+    public void onBindView(TitleHolder holder, BannerExtInfoEntity.BannersEntity data, int position, int size) {
         Glide.with(holder.imageView)
                 .load(data.getPic())
                 .thumbnail(Glide.with(holder.itemView)

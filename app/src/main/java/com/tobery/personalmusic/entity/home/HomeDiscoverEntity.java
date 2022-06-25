@@ -161,7 +161,7 @@ public class HomeDiscoverEntity {
                     @NoArgsConstructor
                     @Data
                     public static class ResourceExtInfoEntity {
-                        private int playCount;
+                        private long playCount;
                         private boolean highQuality;
                         private int specialType;
                     }

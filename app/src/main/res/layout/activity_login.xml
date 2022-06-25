@@ -79,6 +79,7 @@
             android:layout_marginEnd="@dimen/dp_30"
             android:background="@null"
             android:hint="@string/input_pwd"
+            android:inputType="textPassword"
             android:maxLength="20"
             android:maxLines="1"
             android:text="@={vm.ui.password}"
