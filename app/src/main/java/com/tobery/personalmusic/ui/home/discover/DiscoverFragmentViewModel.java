@@ -2,13 +2,9 @@ package com.tobery.personalmusic.ui.home.discover;
 
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 
 import com.tobery.livedata.call.livedatalib.ApiResponse;
-import com.tobery.personalmusic.entity.MainRecommendListBean;
-import com.tobery.personalmusic.entity.banner_bean;
 import com.tobery.personalmusic.entity.home.BannerExtInfoEntity;
 import com.tobery.personalmusic.entity.home.HomeDiscoverEntity;
 import com.tobery.personalmusic.http.Retrofit.RetrofitUtils;
@@ -35,14 +31,8 @@ public class DiscoverFragmentViewModel extends ViewModel {
 
     public List<HomeDiscoverEntity.DataEntity.BlocksEntity.CreativesEntity> recommendList;
 
+    public List<HomeDiscoverEntity.DataEntity.BlocksEntity.CreativesEntity> selfMgcList;
 
-    public LiveData<ApiResponse<banner_bean>> getBanner(){
-        return RetrofitUtils.getmApiUrl().getBanner(2);
-    }
-
-    public LiveData<ApiResponse<MainRecommendListBean>> getRecommendList(){
-        return RetrofitUtils.getmApiUrl().getRecommendPlayList();
-    }
 
     public LiveData<ApiResponse<HomeDiscoverEntity>> requireDiscover(Boolean refresh){
         return RetrofitUtils.getmApiUrl().requireHomeDiscover(refresh);

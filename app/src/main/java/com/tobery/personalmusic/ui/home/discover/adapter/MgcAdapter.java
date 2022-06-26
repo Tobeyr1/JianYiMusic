@@ -6,8 +6,10 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
@@ -32,7 +34,7 @@ import java.util.List;
  * @UpdateRemark: 更新说明
  * @Version: 1.0
  */
-public class RecommendAdapter extends RecyclerView.Adapter<ViewHolder> {
+public class MgcAdapter extends RecyclerView.Adapter<MgcViewHolder> {
 
     private final List<HomeDiscoverEntity.DataEntity.BlocksEntity.CreativesEntity> dataList = new ArrayList<>();
 
@@ -44,16 +46,16 @@ public class RecommendAdapter extends RecyclerView.Adapter<ViewHolder> {
         this.onItemClick = onItemClick;
     }
 
-    public RecommendAdapter(Context context) {
+    public MgcAdapter(Context context) {
         this.mContext = context;
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public MgcViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         ItemRecommendDiscoverBinding binding = ItemRecommendDiscoverBinding
                 .inflate(LayoutInflater.from(parent.getContext()), parent, false);
-        return new ViewHolder(binding);
+        return new MgcViewHolder(binding);
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -64,7 +66,7 @@ public class RecommendAdapter extends RecyclerView.Adapter<ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MgcViewHolder holder, int position) {
         HomeDiscoverEntity.DataEntity.BlocksEntity.CreativesEntity bean = dataList.get(position);
         holder.tvTitle.setText(bean.getUiElement().getMainTitle().getTitle());
         //holder.tvCount.setText(bean.getResources().get(0).getResourceExtInfo().getPlayCount());
@@ -88,18 +90,14 @@ public class RecommendAdapter extends RecyclerView.Adapter<ViewHolder> {
     }
 }
 
-class ViewHolder extends RecyclerView.ViewHolder {
+class MgcViewHolder extends RecyclerView.ViewHolder {
     TextView tvTitle, tvCount;
     ImageView imRecommend;
 
-    public ViewHolder(ItemRecommendDiscoverBinding binding) {
+    public MgcViewHolder(ItemRecommendDiscoverBinding binding) {
         super(binding.getRoot());
         tvTitle = binding.recommendTitle;
         imRecommend = binding.imgRecommend;
         tvCount = binding.playCount;
     }
-}
-
-interface OnItemClick {
-    void onClick();
 }

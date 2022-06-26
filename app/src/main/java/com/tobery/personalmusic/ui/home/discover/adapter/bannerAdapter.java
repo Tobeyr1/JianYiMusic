@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.tobery.personalmusic.R;
-import com.tobery.personalmusic.entity.banner_bean;
 import com.tobery.personalmusic.entity.home.BannerExtInfoEntity;
 import com.youth.banner.adapter.BannerAdapter;
 

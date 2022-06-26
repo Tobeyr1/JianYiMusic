@@ -77,7 +77,6 @@
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
     <fragment
         android:name="com.tobery.personalmusic.ui.home.menu.DrawerMenuFragment"
         android:layout_width="match_parent"

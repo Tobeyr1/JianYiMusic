@@ -8,17 +8,15 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.gson.Gson;
-import com.tobery.livedata.call.livedatalib.ApiResponse;
 import com.tobery.livedata.call.livedatalib.Status;
 import com.tobery.personalmusic.databinding.FragmentDiscoverBinding;
-import com.tobery.personalmusic.entity.banner_bean;
 import com.tobery.personalmusic.entity.home.BannerExtInfoEntity;
 import com.tobery.personalmusic.entity.home.HomeDiscoverEntity;
+import com.tobery.personalmusic.ui.home.discover.adapter.MgcAdapter;
 import com.tobery.personalmusic.ui.home.discover.adapter.RecommendAdapter;
 import com.tobery.personalmusic.ui.home.discover.adapter.bannerAdapter;
 import com.youth.banner.config.IndicatorConfig;
@@ -45,6 +43,8 @@ public class DiscoverFragment extends Fragment {
 
     private RecommendAdapter adapter;
 
+    private MgcAdapter mgcAdapter;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -69,20 +69,16 @@ public class DiscoverFragment extends Fragment {
         binding.recommendRecycle.setLayoutManager(manager);
         binding.recommendRecycle.setHasFixedSize(true);
         binding.recommendRecycle.setAdapter(adapter);
+
+        mgcAdapter = new MgcAdapter(getContext());
+        LinearLayoutManager managerMgc = new LinearLayoutManager(getContext());
+        manager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        binding.mgcRecycle.setLayoutManager(managerMgc);
+        binding.mgcRecycle.setHasFixedSize(true);
+        binding.mgcRecycle.setAdapter(mgcAdapter);
     }
 
     private void initObserver() {
-        /*viewModel.getBanner().observe(getViewLifecycleOwner(), banner_beanApiResponse -> {
-            if (banner_beanApiResponse.getStatus() == Status.SUCCESS){
-                initData(banner_beanApiResponse.getData().getBanners());
-            }
-        });*/
-
-        /*viewModel.getRecommendList().observe(getViewLifecycleOwner(), mainRecommendListBeanApiResponse -> {
-            if (mainRecommendListBeanApiResponse.getStatus() == Status.SUCCESS){
-                adapter.setDataList(mainRecommendListBeanApiResponse.getData().getRecommend());
-            }
-        });*/
 
         viewModel.requireDiscover(false).observe(getViewLifecycleOwner(), homeDiscoverEntityApiResponse -> {
             if (homeDiscoverEntityApiResponse.getStatus() == Status.SUCCESS){
@@ -101,7 +97,8 @@ public class DiscoverFragment extends Fragment {
                         case "HOMEPAGE_BLOCK_STYLE_RCMD":
 
                             break;
-                        case "HOMEPAGE_BLOCK_MGC_PLAYLIST":
+                        case "HOMEPAGE_BLOCK_MGC_PLAYLIST"://雷达歌单
+                            viewModel.selfMgcList = block.getCreatives();
                             break;
 
                     }
@@ -109,7 +106,7 @@ public class DiscoverFragment extends Fragment {
                 }
                 initData(viewModel.bannerList.getBanners());
                 adapter.setDataList(viewModel.recommendList);
-
+                mgcAdapter.setDataList(viewModel.selfMgcList);
             }else {
                 Log.e("报错",homeDiscoverEntityApiResponse.getMessage());
             }
