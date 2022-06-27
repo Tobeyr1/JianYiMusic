@@ -72,7 +72,7 @@ public class DiscoverFragment extends Fragment {
 
         mgcAdapter = new MgcAdapter(getContext());
         LinearLayoutManager managerMgc = new LinearLayoutManager(getContext());
-        manager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        managerMgc.setOrientation(LinearLayoutManager.HORIZONTAL);
         binding.mgcRecycle.setLayoutManager(managerMgc);
         binding.mgcRecycle.setHasFixedSize(true);
         binding.mgcRecycle.setAdapter(mgcAdapter);
@@ -99,6 +99,8 @@ public class DiscoverFragment extends Fragment {
                             break;
                         case "HOMEPAGE_BLOCK_MGC_PLAYLIST"://雷达歌单
                             viewModel.selfMgcList = block.getCreatives();
+                            binding.tvMgc.setText(block.getUiElement().getSubTitle().getTitle());
+                            binding.tvMgcMore.setText(block.getUiElement().getButton().getText());
                             break;
 
                     }
