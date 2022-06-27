@@ -19,6 +19,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.tobery.personalmusic.R;
 import com.tobery.personalmusic.databinding.ItemRecommendDiscoverBinding;
 import com.tobery.personalmusic.entity.home.HomeDiscoverEntity;
+import com.tobery.personalmusic.entity.home.LookLiveEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +37,7 @@ import java.util.List;
  */
 public class LookAdapter extends RecyclerView.Adapter<LookViewHolder> {
 
-    private final List<HomeDiscoverEntity.DataEntity.BlocksEntity.CreativesEntity> dataList = new ArrayList<>();
+    private final List<LookLiveEntity> dataList = new ArrayList<>();
 
     private final Context mContext;
 
@@ -59,7 +60,7 @@ public class LookAdapter extends RecyclerView.Adapter<LookViewHolder> {
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void setDataList(List<HomeDiscoverEntity.DataEntity.BlocksEntity.CreativesEntity> data) {
+    public void setDataList(List<LookLiveEntity> data) {
         dataList.clear();
         dataList.addAll(data);
         notifyDataSetChanged();
@@ -67,8 +68,8 @@ public class LookAdapter extends RecyclerView.Adapter<LookViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull LookViewHolder holder, int position) {
-        HomeDiscoverEntity.DataEntity.BlocksEntity.CreativesEntity bean = dataList.get(position);
-        holder.tvTitle.setText(bean.getUiElement().getMainTitle().getTitle());
+        LookLiveEntity bean = dataList.get(position);
+        holder.tvTitle.setText(bean.getTitle());
         //holder.tvCount.setText(bean.getResources().get(0).getResourceExtInfo().getPlayCount());
         RequestOptions options = new RequestOptions()
                 .placeholder(R.drawable.ic_banner_loading)
@@ -76,7 +77,7 @@ public class LookAdapter extends RecyclerView.Adapter<LookViewHolder> {
                 .transform(new CenterCrop(),new RoundedCorners(10))
                 .error(R.mipmap.ic_launcher);
         Glide.with(mContext)
-                .load(bean.getUiElement().getImage().getImageUrl())
+                .load(bean.getVerticalCover())
                 .transition(new DrawableTransitionOptions().crossFade())
                 .apply(options)
                 .into(holder.imRecommend);

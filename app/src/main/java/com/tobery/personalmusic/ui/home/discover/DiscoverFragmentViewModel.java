@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel;
 import com.tobery.livedata.call.livedatalib.ApiResponse;
 import com.tobery.personalmusic.entity.home.BannerExtInfoEntity;
 import com.tobery.personalmusic.entity.home.HomeDiscoverEntity;
+import com.tobery.personalmusic.entity.home.LookLiveEntity;
 import com.tobery.personalmusic.http.Retrofit.RetrofitUtils;
 
 import java.util.Calendar;
@@ -32,6 +33,10 @@ public class DiscoverFragmentViewModel extends ViewModel {
     public List<HomeDiscoverEntity.DataEntity.BlocksEntity.CreativesEntity> recommendList;
 
     public List<HomeDiscoverEntity.DataEntity.BlocksEntity.CreativesEntity> selfMgcList;
+
+    public List<HomeDiscoverEntity.DataEntity.BlocksEntity.CreativesEntity> likeList;
+
+    public List<LookLiveEntity>  lookLiveList;
 
 
     public LiveData<ApiResponse<HomeDiscoverEntity>> requireDiscover(Boolean refresh){
