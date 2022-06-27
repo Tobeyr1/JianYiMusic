@@ -16,6 +16,7 @@ import com.tobery.livedata.call.livedatalib.Status;
 import com.tobery.personalmusic.databinding.FragmentDiscoverBinding;
 import com.tobery.personalmusic.entity.home.BannerExtInfoEntity;
 import com.tobery.personalmusic.entity.home.HomeDiscoverEntity;
+import com.tobery.personalmusic.ui.home.discover.adapter.LookAdapter;
 import com.tobery.personalmusic.ui.home.discover.adapter.MgcAdapter;
 import com.tobery.personalmusic.ui.home.discover.adapter.RecommendAdapter;
 import com.tobery.personalmusic.ui.home.discover.adapter.bannerAdapter;
@@ -44,6 +45,8 @@ public class DiscoverFragment extends Fragment {
     private RecommendAdapter adapter;
 
     private MgcAdapter mgcAdapter;
+
+    private LookAdapter lookAdapter;
 
     @Nullable
     @Override
@@ -76,6 +79,13 @@ public class DiscoverFragment extends Fragment {
         binding.mgcRecycle.setLayoutManager(managerMgc);
         binding.mgcRecycle.setHasFixedSize(true);
         binding.mgcRecycle.setAdapter(mgcAdapter);
+
+        lookAdapter = new LookAdapter(getContext());
+        LinearLayoutManager managerLook = new LinearLayoutManager(getContext());
+        managerLook.setOrientation(LinearLayoutManager.HORIZONTAL);
+        binding.lookRecycle.setLayoutManager(managerLook);
+        binding.lookRecycle.setHasFixedSize(true);
+        binding.lookRecycle.setAdapter(lookAdapter);
     }
 
     private void initObserver() {
@@ -91,8 +101,9 @@ public class DiscoverFragment extends Fragment {
                         case "HOMEPAGE_BLOCK_PLAYLIST_RCMD": //推荐歌单
                             viewModel.recommendList = block.getCreatives();
                             break;
-                        case "HOMEPAGE_BLOCK_LISTEN_LIVE":
-
+                        case "HOMEPAGE_BLOCK_LISTEN_LIVE"://直播
+                            binding.tvLook.setText(block.getUiElement().getSubTitle().getTitle());
+                            binding.tvLookMore.setText(block.getUiElement().getButton().getText());
                             break;
                         case "HOMEPAGE_BLOCK_STYLE_RCMD":
 
@@ -104,7 +115,7 @@ public class DiscoverFragment extends Fragment {
                             break;
 
                     }
-                    Log.e("解析后",block.getBlockCode());
+                    binding.tvBottom.setText(homeDiscoverEntityApiResponse.getData().getData().getPageConfig().getNodataToast());
                 }
                 initData(viewModel.bannerList.getBanners());
                 adapter.setDataList(viewModel.recommendList);
@@ -131,7 +142,5 @@ public class DiscoverFragment extends Fragment {
                     }
                 });
     }
-
-
 
 }

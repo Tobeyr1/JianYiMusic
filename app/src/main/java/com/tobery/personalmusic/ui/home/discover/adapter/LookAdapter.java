@@ -34,7 +34,7 @@ import java.util.List;
  * @UpdateRemark: 更新说明
  * @Version: 1.0
  */
-public class MgcAdapter extends RecyclerView.Adapter<MgcViewHolder> {
+public class LookAdapter extends RecyclerView.Adapter<LookViewHolder> {
 
     private final List<HomeDiscoverEntity.DataEntity.BlocksEntity.CreativesEntity> dataList = new ArrayList<>();
 
@@ -46,16 +46,16 @@ public class MgcAdapter extends RecyclerView.Adapter<MgcViewHolder> {
         this.onItemClick = onItemClick;
     }
 
-    public MgcAdapter(Context context) {
+    public LookAdapter(Context context) {
         this.mContext = context;
     }
 
     @NonNull
     @Override
-    public MgcViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public LookViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         ItemRecommendDiscoverBinding binding = ItemRecommendDiscoverBinding
                 .inflate(LayoutInflater.from(parent.getContext()), parent, false);
-        return new MgcViewHolder(binding);
+        return new LookViewHolder(binding);
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -66,7 +66,7 @@ public class MgcAdapter extends RecyclerView.Adapter<MgcViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MgcViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull LookViewHolder holder, int position) {
         HomeDiscoverEntity.DataEntity.BlocksEntity.CreativesEntity bean = dataList.get(position);
         holder.tvTitle.setText(bean.getUiElement().getMainTitle().getTitle());
         //holder.tvCount.setText(bean.getResources().get(0).getResourceExtInfo().getPlayCount());
@@ -89,11 +89,11 @@ public class MgcAdapter extends RecyclerView.Adapter<MgcViewHolder> {
     }
 }
 
-class MgcViewHolder extends RecyclerView.ViewHolder {
+class LookViewHolder extends RecyclerView.ViewHolder {
     TextView tvTitle, tvCount;
     ImageView imRecommend;
 
-    public MgcViewHolder(ItemRecommendDiscoverBinding binding) {
+    public LookViewHolder(ItemRecommendDiscoverBinding binding) {
         super(binding.getRoot());
         tvTitle = binding.recommendTitle;
         imRecommend = binding.imgRecommend;

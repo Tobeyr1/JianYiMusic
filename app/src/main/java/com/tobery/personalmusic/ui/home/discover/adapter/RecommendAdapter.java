@@ -70,7 +70,6 @@ public class RecommendAdapter extends RecyclerView.Adapter<ViewHolder> {
         //holder.tvCount.setText(bean.getResources().get(0).getResourceExtInfo().getPlayCount());
         RequestOptions options = new RequestOptions()
                 .placeholder(R.drawable.ic_banner_loading)
-                //这里我通过添加参数DiskCaheStrategy.RESPURCE来使其缓存我们定好的图片大小样式，而不是缓存原图片大小
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .transform(new CenterCrop(),new RoundedCorners(10))
                 .error(R.mipmap.ic_launcher);
