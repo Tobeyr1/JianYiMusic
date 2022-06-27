@@ -226,9 +226,46 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_12"
-        android:layout_marginStart="@dimen/dp_16"
+        android:layout_marginStart="@dimen/dp_8"
         app:layout_constraintTop_toBottomOf="@id/tv_recommend"/>
 
+    <TextView
+        android:id="@+id/tv_like"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_16"
+        android:textColor="@color/tv_black"
+        android:textSize="@dimen/sp_14"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/recommend_recycle"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/tv_like_more"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dp_16"
+        android:layout_marginStart="@dimen/dp_15"
+        android:background="@drawable/bg_playlist_playground"
+        android:paddingLeft="@dimen/dp_15"
+        android:paddingTop="@dimen/dp_8"
+        android:paddingRight="@dimen/dp_15"
+        android:paddingBottom="@dimen/dp_8"
+        android:textColor="@color/tv_gray_01"
+        android:textSize="@dimen/sp_11"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_like"
+        app:layout_constraintBottom_toBottomOf="@id/tv_like"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/like_recycle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_12"
+        android:layout_marginStart="@dimen/dp_8"
+        app:layout_constraintTop_toBottomOf="@id/tv_like"/>
 
     <TextView
         android:id="@+id/tv_mgc"
@@ -238,7 +275,7 @@
         android:textColor="@color/tv_black"
         android:textSize="@dimen/sp_14"
         android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/recommend_recycle"
+        app:layout_constraintTop_toBottomOf="@id/like_recycle"
         app:layout_constraintStart_toStartOf="parent"
         />
 
@@ -266,7 +303,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_12"
-        android:layout_marginStart="@dimen/dp_16"
+        android:layout_marginStart="@dimen/dp_8"
         app:layout_constraintTop_toBottomOf="@id/tv_mgc"/>
 
     <TextView
@@ -292,12 +329,11 @@
         android:paddingTop="@dimen/dp_8"
         android:paddingRight="@dimen/dp_15"
         android:paddingBottom="@dimen/dp_8"
-        android:text="@string/playlist_playground"
         android:textColor="@color/tv_gray_01"
         android:textSize="@dimen/sp_11"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/tv_mgc"
-        app:layout_constraintBottom_toBottomOf="@id/tv_mgc"
+        app:layout_constraintTop_toTopOf="@id/tv_look"
+        app:layout_constraintBottom_toBottomOf="@id/tv_look"
         />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -305,7 +341,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_12"
-        android:layout_marginStart="@dimen/dp_16"
+        android:layout_marginStart="@dimen/dp_8"
         app:layout_constraintTop_toBottomOf="@id/tv_look"/>
 
     <TextView
@@ -314,8 +350,8 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="@dimen/dp_24"
+        app:layout_constraintTop_toBottomOf="@id/look_recycle"
+        android:layout_margin="@dimen/dp_24"
         />
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

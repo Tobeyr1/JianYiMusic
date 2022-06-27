@@ -12,10 +12,13 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.tobery.livedata.call.livedatalib.Status;
 import com.tobery.personalmusic.databinding.FragmentDiscoverBinding;
 import com.tobery.personalmusic.entity.home.BannerExtInfoEntity;
 import com.tobery.personalmusic.entity.home.HomeDiscoverEntity;
+import com.tobery.personalmusic.entity.home.LookLiveEntity;
+import com.tobery.personalmusic.ui.home.discover.adapter.LikeAdapter;
 import com.tobery.personalmusic.ui.home.discover.adapter.LookAdapter;
 import com.tobery.personalmusic.ui.home.discover.adapter.MgcAdapter;
 import com.tobery.personalmusic.ui.home.discover.adapter.RecommendAdapter;
@@ -47,6 +50,8 @@ public class DiscoverFragment extends Fragment {
     private MgcAdapter mgcAdapter;
 
     private LookAdapter lookAdapter;
+
+    private LikeAdapter likeAdapter;
 
     @Nullable
     @Override
@@ -86,6 +91,13 @@ public class DiscoverFragment extends Fragment {
         binding.lookRecycle.setLayoutManager(managerLook);
         binding.lookRecycle.setHasFixedSize(true);
         binding.lookRecycle.setAdapter(lookAdapter);
+
+        likeAdapter = new LikeAdapter(getContext());
+        LinearLayoutManager managerLike = new LinearLayoutManager(getContext());
+        managerLike.setOrientation(LinearLayoutManager.HORIZONTAL);
+        binding.likeRecycle.setLayoutManager(managerLike);
+        binding.likeRecycle.setHasFixedSize(true);
+        binding.likeRecycle.setAdapter(likeAdapter);
     }
 
     private void initObserver() {
@@ -104,9 +116,14 @@ public class DiscoverFragment extends Fragment {
                         case "HOMEPAGE_BLOCK_LISTEN_LIVE"://直播
                             binding.tvLook.setText(block.getUiElement().getSubTitle().getTitle());
                             binding.tvLookMore.setText(block.getUiElement().getButton().getText());
+                            String lookJson = new Gson().toJson(block.getExtInfo());
+                            Log.e("直播",lookJson);
+                            viewModel.lookLiveList = new Gson().fromJson(lookJson,new TypeToken<List<LookLiveEntity>>(){}.getType());
                             break;
-                        case "HOMEPAGE_BLOCK_STYLE_RCMD":
-
+                        case "HOMEPAGE_BLOCK_STYLE_RCMD"://根据xxx推荐
+                            viewModel.likeList = block.getCreatives();
+                            binding.tvLike.setText(block.getUiElement().getSubTitle().getTitle());
+                            binding.tvLikeMore.setText(block.getUiElement().getButton().getText());
                             break;
                         case "HOMEPAGE_BLOCK_MGC_PLAYLIST"://雷达歌单
                             viewModel.selfMgcList = block.getCreatives();
@@ -120,6 +137,8 @@ public class DiscoverFragment extends Fragment {
                 initData(viewModel.bannerList.getBanners());
                 adapter.setDataList(viewModel.recommendList);
                 mgcAdapter.setDataList(viewModel.selfMgcList);
+                lookAdapter.setDataList(viewModel.lookLiveList);
+                likeAdapter.setDataList(viewModel.likeList);
             }else {
                 Log.e("报错",homeDiscoverEntityApiResponse.getMessage());
             }
