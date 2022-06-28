@@ -117,7 +117,6 @@ public class DiscoverFragment extends Fragment {
                             binding.tvLook.setText(block.getUiElement().getSubTitle().getTitle());
                             binding.tvLookMore.setText(block.getUiElement().getButton().getText());
                             String lookJson = new Gson().toJson(block.getExtInfo());
-                            Log.e("直播",lookJson);
                             viewModel.lookLiveList = new Gson().fromJson(lookJson,new TypeToken<List<LookLiveEntity>>(){}.getType());
                             break;
                         case "HOMEPAGE_BLOCK_STYLE_RCMD"://根据xxx推荐
