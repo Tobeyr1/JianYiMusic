@@ -71,6 +71,13 @@
             app:layout_constraintTop_toBottomOf="@id/view_top"
             app:layout_constraintBottom_toTopOf="@id/bottom_nav" />
         </ScrollView>
+
+        <include layout="@layout/item_song_bottom_bar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0"
+            android:id="@+id/song_bar"
+            app:layout_constraintBottom_toTopOf="@id/bottom_nav"/>
+
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_nav"
             android:layout_width="match_parent"

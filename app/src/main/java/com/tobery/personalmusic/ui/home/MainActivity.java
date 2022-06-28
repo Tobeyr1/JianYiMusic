@@ -19,6 +19,7 @@ import com.tobery.personalmusic.databinding.ActivityMainBinding;
 import com.tobery.personalmusic.ui.home.discover.DiscoverFragment;
 import com.tobery.personalmusic.ui.home.mine.MineFragment;
 import com.tobery.personalmusic.ui.home.podcast.PodcastFragment;
+import com.tobery.personalmusic.ui.song.CurrentSongPlayActivity;
 import com.tobery.personalmusic.util.ClickUtil;
 
 import java.util.ArrayList;
@@ -59,6 +60,11 @@ public class MainActivity extends BaseActivity {
         navigationBarView = binding.bottomNav;
         initViewPager();
         setDrawMenu();
+        binding.songBar.rootBottomBar.setOnClickListener(view -> {
+            if (ClickUtil.enableClick()){
+                startActivity(new Intent(this, CurrentSongPlayActivity.class));
+            }
+        });
     }
 
     private void initViewPager() {
