@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.tobery.personalmusic.ui.home.MainViewModel" />
+    </data>
+
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/grays_10">
 
 
     <View
@@ -14,5 +23,65 @@
         android:background="@color/colorPrimary"
         />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0"
+        android:layout_marginTop="@dimen/dp_40"
+        android:background="@drawable/bg_view_white_full"
+        android:paddingBottom="@dimen/dp_24"
+        app:layout_constraintTop_toTopOf="@id/img_head"
+        app:layout_constraintBottom_toBottomOf="@id/tv_follow"
+        android:padding="@dimen/dp_24"
+        android:layout_marginStart="@dimen/dp_8"
+        android:layout_marginEnd="@dimen/dp_8"
+        />
+
+    <ImageView
+        android:id="@+id/img_head"
+        android:layout_width="@dimen/dp_80"
+        android:layout_height="@dimen/dp_80"
+        imSrc="@{vm.ui.imageUrl}"
+        error="@{@drawable/ic_banner_loading}"
+        android:layout_margin="@dimen/dp_16"
+        android:elevation="@dimen/dp_8"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view_title_bg"
+        />
+
+    <WebView
+        android:id="@+id/web_vip"
+        android:layout_width="@dimen/dp_40"
+        android:layout_height="@dimen/dp_20"
+        app:layout_constraintBottom_toBottomOf="@id/tv_nickname"
+        app:layout_constraintStart_toEndOf="@id/tv_nickname"
+        android:layout_marginStart="@dimen/dp_5"
+        />
+
+    <TextView
+        android:id="@+id/tv_nickname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@{vm.ui.nickname}"
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp_18"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/img_head"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/tv_follow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@{vm.ui.follows}"
+        android:textColor="@color/grays_06"
+        android:layout_marginTop="@dimen/dp_50"
+        app:layout_constraintTop_toBottomOf="@id/img_head"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

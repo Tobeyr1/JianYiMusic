@@ -41,7 +41,7 @@ public class MainViewModel extends ViewModel {
 
     public MainViewModel(SavedStateHandle savedStateHandle) {
         this.state = savedStateHandle;
-        ui = state.get(KEY_MAIN_UI) == null ? new UserInfoUi(new ObservableField<>(""), new ObservableField<>(""), new ObservableInt(0)) : state.get(KEY_MAIN_UI);
+        ui = state.get(KEY_MAIN_UI) == null ? new UserInfoUi(new ObservableField<>(""), new ObservableField<>(""), new ObservableInt(0), new ObservableField<>(""), new ObservableField<>(""), new ObservableField<>("")) : state.get(KEY_MAIN_UI);
     }
 
     public void initUi() {
@@ -52,6 +52,9 @@ public class MainViewModel extends ViewModel {
             ui.nickname.set(data.getProfile().getNickname());
             ui.imageUrl.set(data.getProfile().getAvatarUrl());
             ui.userId.set(data.getProfile().getUserId());
+            ui.signature.set(data.getProfile().getSignature());
+            ui.follows.set(data.getProfile().getFollows()+"关注");
+            ui.followeds.set(data.getProfile().getFolloweds()+"粉丝");
         }
     }
 
