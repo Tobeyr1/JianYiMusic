@@ -27,7 +27,7 @@ public class BindingAdapter {
 
     @androidx.databinding.BindingAdapter({"imSrc", "error"})
     public static void loadUrl(ImageView view, @Nullable String url, Drawable error) {
-        if (!url.isEmpty()) {
+        if (url != null) {
             RequestOptions options = new RequestOptions()
                     .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                     .circleCrop();

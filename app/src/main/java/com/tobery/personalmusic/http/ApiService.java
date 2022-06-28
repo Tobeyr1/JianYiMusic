@@ -8,6 +8,7 @@ import com.tobery.personalmusic.entity.RefreshCookieEntity;
 import com.tobery.personalmusic.entity.SearchHotDetail_Bean;
 import com.tobery.personalmusic.entity.UserDetailEntity;
 import com.tobery.personalmusic.entity.home.HomeDiscoverEntity;
+import com.tobery.personalmusic.entity.user.VipInfoEntity;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;
@@ -32,5 +33,8 @@ public interface ApiService {
 
     @GET("homepage/block/page")//首页发现
     LiveData<ApiResponse<HomeDiscoverEntity>> requireHomeDiscover(@Query("refresh") Boolean start);
+
+    @GET("vip/info")//vip信息
+    LiveData<ApiResponse<VipInfoEntity>> getVipInfo();
 
 }

@@ -11,7 +11,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/white80">
 
     <View
         android:id="@+id/view_title_bg"
@@ -229,6 +229,16 @@
         android:layout_marginStart="@dimen/dp_8"
         app:layout_constraintTop_toBottomOf="@id/tv_recommend"/>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0"
+        android:layout_marginTop="@dimen/dp_8"
+        android:background="@drawable/bg_view_white_full"
+        android:paddingBottom="@dimen/dp_24"
+        app:layout_constraintTop_toBottomOf="@id/recommend_recycle"
+        app:layout_constraintBottom_toBottomOf="@id/like_recycle"
+        />
+
     <TextView
         android:id="@+id/tv_like"
         android:layout_width="wrap_content"
@@ -266,6 +276,16 @@
         android:layout_marginTop="@dimen/dp_12"
         android:layout_marginStart="@dimen/dp_8"
         app:layout_constraintTop_toBottomOf="@id/tv_like"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0"
+        android:layout_marginTop="@dimen/dp_8"
+        android:background="@drawable/bg_view_white_full"
+        android:paddingBottom="@dimen/dp_24"
+        app:layout_constraintTop_toBottomOf="@id/like_recycle"
+        app:layout_constraintBottom_toBottomOf="@id/mgc_recycle"
+        />
 
     <TextView
         android:id="@+id/tv_mgc"
