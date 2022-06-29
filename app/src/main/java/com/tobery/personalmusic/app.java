@@ -50,7 +50,6 @@ public class app extends Application {
         pool.submit(new Runnable() {
             @Override
             public void run() {
-             //   StarrySky.init(instance).apply();
 
             }
         });

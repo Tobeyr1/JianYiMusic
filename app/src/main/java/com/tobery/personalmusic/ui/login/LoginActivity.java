@@ -80,6 +80,7 @@ public class LoginActivity extends BaseActivity {
                             @Override
                             public void onError(Throwable e) {
                                 AlertDialogUtil.Companion.closeDialog(dialog);
+                                Log.e("error:",e.toString());
                                 onFailure(e, RxExceptionUtil.exceptionHandler(e));
                             }
 
