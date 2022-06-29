@@ -32,6 +32,5 @@ public class DrawerMenuFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         viewModel.initUi();
-        Log.e("网址", viewModel.ui.imageUrl.get());
     }
 }

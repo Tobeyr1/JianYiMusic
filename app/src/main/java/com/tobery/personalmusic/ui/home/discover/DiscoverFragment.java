@@ -1,5 +1,8 @@
 package com.tobery.personalmusic.ui.home.discover;
 
+import static com.tobery.personalmusic.util.Constant.BANNER_URI;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +21,7 @@ import com.tobery.personalmusic.databinding.FragmentDiscoverBinding;
 import com.tobery.personalmusic.entity.home.BannerExtInfoEntity;
 import com.tobery.personalmusic.entity.home.HomeDiscoverEntity;
 import com.tobery.personalmusic.entity.home.LookLiveEntity;
+import com.tobery.personalmusic.ui.WebActivity;
 import com.tobery.personalmusic.ui.home.discover.adapter.LikeAdapter;
 import com.tobery.personalmusic.ui.home.discover.adapter.LookAdapter;
 import com.tobery.personalmusic.ui.home.discover.adapter.MgcAdapter;
@@ -156,7 +160,10 @@ public class DiscoverFragment extends Fragment {
                 .setOnBannerListener(new OnBannerListener() {
                     @Override
                     public void OnBannerClick(Object data, int position) {
-
+                        if (banners.get(position).getUrl() != null){
+                            startActivity(new Intent(getActivity(), WebActivity.class)
+                                    .putExtra(BANNER_URI,banners.get(position).getUrl()));
+                        }
                     }
                 });
     }

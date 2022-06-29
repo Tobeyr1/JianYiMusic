@@ -40,7 +40,7 @@ public class BannerExtInfoEntity {
                     private Object showContext;
                     private int targetType;
                     private String typeTitle;
-                    private Object url;
+                    private String url;
                     private String encodeId;
                     private Object extMonitorInfo;
                     private Object monitorClick;

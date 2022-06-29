@@ -65,6 +65,7 @@ dependencies {
     // Log、吐司打印
     implementation 'com.github.getActivity:ToastUtils:10.3'
     implementation 'com.github.Tobeyr1:DialogLoading:1.0.4'
+    implementation 'com.github.Tobeyr1:webLoading:1.0.0'
 
     //banner
     implementation 'io.github.youth5201314:banner:2.2.2'
