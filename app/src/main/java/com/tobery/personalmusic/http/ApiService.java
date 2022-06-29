@@ -17,15 +17,13 @@ import retrofit2.http.Query;
 public interface ApiService {
 
 
-    @GET("login/cellphone")
-        //手机登录
+    @GET("login/cellphone")//手机登录
     Observable<LoginEntity> login(@Query("phone") String phone, @Query("password") String password);
 
     @GET("search/hot/detail")
     Observable<SearchHotDetail_Bean> getSearchHotDetail();
 
-    @GET("user/detail")
-        //用户信息
+    @GET("user/detail")//用户信息
     LiveData<ApiResponse<UserDetailEntity>> getUserDetails(@Query("uid") long userId);
 
     @GET("login/refresh")//刷新登录

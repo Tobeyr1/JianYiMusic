@@ -62,7 +62,8 @@ public class MainActivity extends BaseActivity {
         setDrawMenu();
         binding.songBar.rootBottomBar.setOnClickListener(view -> {
             if (ClickUtil.enableClick()){
-                startActivity(new Intent(this, CurrentSongPlayActivity.class));
+               // MusicPlay.playMusicByUrl("http://shunaier.oss-cn-beijing.aliyuncs.com/4h-test-img/system-c3dc731aa1dc4877a0e386fa8d0073f6-YT.aac");
+               // startActivity(new Intent(this, CurrentSongPlayActivity.class));
             }
         });
     }
