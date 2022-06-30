@@ -8,7 +8,7 @@
 
     <include layout="@layout/ui_common_title"
         android:id="@+id/view_title"/>
-    <com.tobey.webviewlibrary.WebViewLoading
+    <com.tobery.weblib.WebViewLoading
         android:id="@+id/web"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_0"
