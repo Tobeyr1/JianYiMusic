@@ -29,6 +29,8 @@ public class Constant {
 
     public static final String BANNER_URI = "BANNER_URI";
 
+    public static final String MUSIC_INFO = "MUSIC_INFO";
+
     public static final String DENIED_PERMISSION = "DENIED_PERMISSION";
 
     //设置默认超时时间
