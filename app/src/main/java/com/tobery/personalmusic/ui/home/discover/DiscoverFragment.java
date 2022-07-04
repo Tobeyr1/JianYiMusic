@@ -1,6 +1,8 @@
 package com.tobery.personalmusic.ui.home.discover;
 
 import static com.tobery.personalmusic.util.Constant.BANNER_URI;
+import static com.tobery.personalmusic.util.Constant.MUSIC_INFO;
+import static com.tobery.personalmusic.util.Constant.SONG_URL;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.tobery.livedata.call.livedatalib.Status;
+import com.tobery.musicplay.MusicInfo;
 import com.tobery.personalmusic.databinding.FragmentDiscoverBinding;
 import com.tobery.personalmusic.entity.home.BannerExtInfoEntity;
 import com.tobery.personalmusic.entity.home.HomeDiscoverEntity;
@@ -27,6 +30,7 @@ import com.tobery.personalmusic.ui.home.discover.adapter.LookAdapter;
 import com.tobery.personalmusic.ui.home.discover.adapter.MgcAdapter;
 import com.tobery.personalmusic.ui.home.discover.adapter.RecommendAdapter;
 import com.tobery.personalmusic.ui.home.discover.adapter.bannerAdapter;
+import com.tobery.personalmusic.ui.song.CurrentSongPlayActivity;
 import com.youth.banner.config.IndicatorConfig;
 import com.youth.banner.indicator.RectangleIndicator;
 import com.youth.banner.listener.OnBannerListener;
@@ -163,6 +167,16 @@ public class DiscoverFragment extends Fragment {
                         if (banners.get(position).getUrl() != null){
                             startActivity(new Intent(getActivity(), WebActivity.class)
                                     .putExtra(BANNER_URI,banners.get(position).getUrl()));
+                        }
+                        if (banners.get(position).getSong() != null){
+                            MusicInfo musicInfo = new MusicInfo();
+                            musicInfo.setSongId(banners.get(position).getSong().getId()+"");
+                            musicInfo.setSongName(banners.get(position).getSong().getName());
+                            musicInfo.setSongCover(banners.get(position).getSong().getAl().getPicUrl());
+                            musicInfo.setArtist(banners.get(position).getSong().getAr().get(0).getName());
+                            musicInfo.setSongUrl(SONG_URL+banners.get(position).getSong().getId());
+                            startActivity(new Intent(getActivity(), CurrentSongPlayActivity.class)
+                                    .putExtra(MUSIC_INFO,musicInfo));
                         }
                     }
                 });

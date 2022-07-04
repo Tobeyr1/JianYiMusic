@@ -7,12 +7,17 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
+
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
 import com.google.android.material.navigation.NavigationBarView;
+import com.tobery.musicplay.MusicPlay;
+import com.tobery.musicplay.PermissionChecks;
+import com.tobery.musicplay.PlayConfig;
 import com.tobery.personalmusic.BaseActivity;
 import com.tobery.personalmusic.R;
 import com.tobery.personalmusic.databinding.ActivityMainBinding;
@@ -34,12 +39,32 @@ public class MainActivity extends BaseActivity {
 
     private ArrayList<Fragment> fragments;
 
+    PermissionChecks checks;
+
+    private final String[] APP_PERMISSIONS = new ArrayList<String>(){
+        {
+            add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            add(Manifest.permission.READ_EXTERNAL_STORAGE);
+            add(Manifest.permission.RECORD_AUDIO);
+            add(Manifest.permission.READ_PHONE_STATE);
+        }
+    }.toArray(new String[0]);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        checks = new PermissionChecks(this);
+        checks.requestPermissions(APP_PERMISSIONS, it ->{
+            if (it){
+                MusicPlay.initConfig(this,new PlayConfig());
+            }else {
+
+            }
+            return null;
+        });
         initFragment();
         initView();
         initObserver();

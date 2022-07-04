@@ -7,8 +7,8 @@ android {
 
     defaultConfig {
         applicationId "com.tobery.personalmusic"
-        minSdk 22
-        targetSdk 32
+        minSdk 24
+        targetSdk 29
         versionCode 1
         versionName "1.0"
 
@@ -71,6 +71,7 @@ dependencies {
     implementation 'io.github.youth5201314:banner:2.2.2'
     implementation "androidx.viewpager2:viewpager2:1.0.0"
     implementation 'com.github.Tobeyr1:liveDataCallAdapter:1.0.2'
+    implementation 'com.github.Tobeyr1:MusicPlayManager:1.0.0-alpha'
     //Lombok
     implementation 'org.projectlombok:lombok:1.18.24'
     annotationProcessor 'org.projectlombok:lombok:1.18.24'
