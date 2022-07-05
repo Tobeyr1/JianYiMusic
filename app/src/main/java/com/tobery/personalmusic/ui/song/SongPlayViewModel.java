@@ -13,10 +13,10 @@ import com.google.gson.Gson;
 import com.tobery.livedata.call.livedatalib.ApiResponse;
 import com.tobery.personalmusic.entity.LoginEntity;
 import com.tobery.personalmusic.entity.LrcEntry;
+import com.tobery.personalmusic.entity.LyricEntity;
 import com.tobery.personalmusic.entity.UserDetailEntity;
 import com.tobery.personalmusic.http.Retrofit.RetrofitUtils;
 import com.tobery.personalmusic.ui.home.menu.UserInfoUi;
-import com.tobery.personalmusic.util.ContextProvider;
 import com.tobery.personalmusic.util.SharePreferencesUtil;
 
 /**
@@ -38,13 +38,15 @@ public class SongPlayViewModel extends ViewModel {
 
     private String userInfo;
 
+    public Boolean isShowLrc = false;
+
     public SongPlayViewModel(SavedStateHandle savedStateHandle) {
         this.state = savedStateHandle;
         ui = state.get(KEY_MAIN_UI) == null ? new UserInfoUi(new ObservableField<>(""), new ObservableField<>(""), new ObservableInt(0), new ObservableField<>(""), new ObservableField<>(""), new ObservableField<>("")) : state.get(KEY_MAIN_UI);
     }
 
 
-    public LiveData<ApiResponse<LrcEntry>> getLyric(long songId) {
+    public LiveData<ApiResponse<LyricEntity>> getLyric(long songId) {
         return RetrofitUtils.getmApiUrl().getLyric(songId);
     }
 
