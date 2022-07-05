@@ -4,7 +4,7 @@ package com.tobery.personalmusic.http;
 import androidx.lifecycle.LiveData;
 import com.tobery.livedata.call.livedatalib.ApiResponse;
 import com.tobery.personalmusic.entity.LoginEntity;
-import com.tobery.personalmusic.entity.LrcEntry;
+import com.tobery.personalmusic.entity.LyricEntity;
 import com.tobery.personalmusic.entity.RefreshCookieEntity;
 import com.tobery.personalmusic.entity.SearchHotDetail_Bean;
 import com.tobery.personalmusic.entity.UserDetailEntity;
@@ -37,6 +37,6 @@ public interface ApiService {
     LiveData<ApiResponse<VipInfoEntity>> getVipInfo();
 
     @GET("lyric") //获取歌词
-    LiveData<ApiResponse<LrcEntry>> getLyric(@Query("id") long songId);
+    LiveData<ApiResponse<LyricEntity>> getLyric(@Query("id") long songId);
 
 }

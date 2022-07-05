@@ -70,7 +70,7 @@ dependencies {
     implementation 'io.github.youth5201314:banner:2.2.2'
     implementation "androidx.viewpager2:viewpager2:1.0.0"
     implementation 'com.github.Tobeyr1:liveDataCallAdapter:1.0.2'
-    implementation 'com.github.Tobeyr1:MusicPlayManager:1.0.0-alpha'
+    implementation 'com.github.Tobeyr1:MusicPlayManager:1.0.0'
     //Lombok
     implementation 'org.projectlombok:lombok:1.18.24'
     annotationProcessor 'org.projectlombok:lombok:1.18.24'

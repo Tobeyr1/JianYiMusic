@@ -3,7 +3,6 @@ package com.tobery.personalmusic.ui.home;
 
 import static com.tobery.personalmusic.util.Constant.KEY_MAIN_UI;
 
-import android.util.Log;
 
 import androidx.databinding.ObservableField;
 import androidx.databinding.ObservableInt;

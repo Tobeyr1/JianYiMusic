@@ -16,7 +16,6 @@ import com.tobery.personalmusic.entity.UserDetailEntity;
 import com.tobery.personalmusic.entity.user.VipInfoEntity;
 import com.tobery.personalmusic.http.Retrofit.RetrofitUtils;
 import com.tobery.personalmusic.ui.home.menu.UserInfoUi;
-import com.tobery.personalmusic.util.ContextProvider;
 import com.tobery.personalmusic.util.SharePreferencesUtil;
 
 /**
