@@ -8,21 +8,20 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.os.Bundle;
+import android.view.View;
 import android.view.animation.LinearInterpolator;
-
-import androidx.annotation.NonNull;
-import androidx.core.content.res.ResourcesCompat;
-
-import com.lzx.starrysky.manager.PlaybackStage;
-import com.lzx.starrysky.notification.NotificationConfig;
-import com.lzx.starrysky.playback.Playback;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import com.tobery.livedata.call.livedatalib.ApiResponse;
+import com.tobery.livedata.call.livedatalib.Status;
 import com.tobery.musicplay.MusicInfo;
 import com.tobery.musicplay.MusicPlay;
 import com.tobery.musicplay.OnMusicPlayProgressListener;
 import com.tobery.musicplay.OnMusicPlayStateListener;
+import com.tobery.musicplay.ViewExtensionKt;
 import com.tobery.personalmusic.BaseActivity;
-import com.tobery.personalmusic.R;
 import com.tobery.personalmusic.databinding.ActivityCurrentSongPlayBinding;
+import com.tobery.personalmusic.entity.LrcEntry;
 import com.tobery.personalmusic.util.StatusBarUtil;
 
 public class CurrentSongPlayActivity extends BaseActivity {
@@ -30,15 +29,32 @@ public class CurrentSongPlayActivity extends BaseActivity {
     private ActivityCurrentSongPlayBinding binding;
     private ObjectAnimator rotationAnim;
     private MusicInfo musicInfo;
+    private SongPlayViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityCurrentSongPlayBinding.inflate(getLayoutInflater());
+        viewModel = new ViewModelProvider(this).get(SongPlayViewModel.class);
         setContentView(binding.getRoot());
         //StatusBarUtil.setColor(this, ResourcesCompat.getColor(getResources(),R.color.settings_top_bg_color,null),0);
         initAnim();
         initView();
+        initObserver();
+    }
+
+    private void initObserver() {
+        viewModel.getLyric(Long.parseLong(musicInfo.getSongId()))
+                .observe(this, new Observer<ApiResponse<LrcEntry>>() {
+                    @Override
+                    public void onChanged(ApiResponse<LrcEntry> lrcEntryApiResponse) {
+                        if (lrcEntryApiResponse.getStatus() == Status.SUCCESS){
+                            ViewExtensionKt.printLog(lrcEntryApiResponse.getData().getText());
+                            binding.lrc.loadLrc(lrcEntryApiResponse.getData().getText(),lrcEntryApiResponse.getData().getSecondText());
+                            binding.lrc.setVisibility(View.VISIBLE);
+                        }
+                    }
+                });
     }
 
     private void initView() {
@@ -47,10 +63,10 @@ public class CurrentSongPlayActivity extends BaseActivity {
         MusicPlay.onPlayProgressListener(new OnMusicPlayProgressListener() {
             @Override
             public void onPlayProgress(long l, long l1) {
-
+              //  ViewExtensionKt.printLog("当前总进度"+l1);
             }
         });
-        MusicPlay.onPlayStateListener(this, new OnMusicPlayStateListener() {
+      /*  MusicPlay.onPlayStateListener(this, new OnMusicPlayStateListener() {
             @Override
             public void onPlayState(@NonNull PlaybackStage playbackStage) {
                 switch (playbackStage.getStage()){
@@ -59,7 +75,7 @@ public class CurrentSongPlayActivity extends BaseActivity {
                         break;
                 }
             }
-        });
+        });*/
     }
 
     private void initAnim() {
