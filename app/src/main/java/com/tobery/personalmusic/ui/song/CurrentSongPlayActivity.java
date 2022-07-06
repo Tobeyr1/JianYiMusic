@@ -7,13 +7,17 @@ import static com.tobery.personalmusic.util.Constant.MUSIC_INFO;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
+import android.widget.SeekBar;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.palette.graphics.Palette;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -22,21 +26,25 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.request.transition.Transition;
 import com.tobery.livedata.call.livedatalib.ApiResponse;
 import com.tobery.livedata.call.livedatalib.Status;
 import com.tobery.musicplay.MusicInfo;
 import com.tobery.musicplay.MusicPlay;
 import com.tobery.musicplay.OnMusicPlayProgressListener;
 import com.tobery.musicplay.OnMusicPlayStateListener;
+import com.tobery.musicplay.PlayManger;
 import com.tobery.musicplay.ViewExtensionKt;
 import com.tobery.personalmusic.BaseActivity;
 import com.tobery.personalmusic.R;
 import com.tobery.personalmusic.databinding.ActivityCurrentSongPlayBinding;
-import com.tobery.personalmusic.entity.LrcEntry;
-import com.tobery.personalmusic.entity.LyricEntity;
 import com.tobery.personalmusic.util.ClickUtil;
 import com.tobery.personalmusic.util.StatusBarUtil;
 import com.tobery.personalmusic.util.TimeUtil;
+
+import jp.wasabeef.glide.transformations.BlurTransformation;
 
 public class CurrentSongPlayActivity extends BaseActivity {
 
@@ -67,16 +75,7 @@ public class CurrentSongPlayActivity extends BaseActivity {
 
     private void initView() {
         musicInfo = getIntent().getParcelableExtra(MUSIC_INFO);
-        Glide.with(this).load(musicInfo.getSongCover()).circleCrop().into(binding.ivMusicCover);
-        RequestOptions options = new RequestOptions()
-                .diskCacheStrategy(DiskCacheStrategy.RESOURCE);
-               // .transform(new );
-        Glide.with(this)
-                .load(musicInfo.getSongCover())
-                .apply(options)
-                .transition(new DrawableTransitionOptions().crossFade(1500))
-                .into(binding.imgBc);
-        StatusBarUtil.setTranslucentForImageView(this,0,binding.viewTitleBg);
+        initImageBg();
         MusicPlay.playMusicByInfo(musicInfo);
         loadUi();
         binding.viewBody.setOnClickListener(view -> {
@@ -85,23 +84,73 @@ public class CurrentSongPlayActivity extends BaseActivity {
                 showLyrics(viewModel.isShowLrc);
             }
         });
+        //进度
+        binding.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {}
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                MusicPlay.seekTo(seekBar.getProgress());
+            }
+        });
+    }
+
+    private void initImageBg() {
+        Glide.with(this).load(musicInfo.getSongCover()).circleCrop().into(binding.ivMusicCover);
+        RequestOptions options = new RequestOptions()
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .bitmapTransform(new BlurTransformation(25, 25));
+       /* Glide.with(this)
+                .load(musicInfo.getSongCover())
+                .apply(options)
+         .transition(new DrawableTransitionOptions().crossFade(1500))
+                 .into(binding.imgBc);*/
+        Glide.with(this)
+                .asBitmap()
+                .load(musicInfo.getSongCover())
+                .apply(options)
+               // .transition(new DrawableTransitionOptions().crossFade(1500))
+                .into(new SimpleTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                        binding.imgBc.setImageBitmap(resource);
+                        Palette.from(resource)
+                                .setRegion(10,10,10,10)
+                                .maximumColorCount(3)
+                                .generate(palette -> {
+
+                                });
+                    }
+                });
+        StatusBarUtil.setTranslucentForImageView(this,0,binding.viewTitleBg);
     }
 
     private void loadUi() {
+        binding.tvTitle.setText(musicInfo.getSongName());
         MusicPlay.onPlayStateListener(this, new OnMusicPlayStateListener() {
             @Override
-            public void onPlayState(@NonNull String s) {
-                switch (s){
-                    case "PLAYING":
-                        rotationAnim.start();
+            public void onPlayState(@NonNull String playbackStage) {
+                switch (playbackStage){
+                    case PlayManger.PAUSE:
+                    case PlayManger.IDLE:
+                        rotationAnim.cancel();
+                        binding.ivPlay.setImageResource(R.drawable.shape_play_white);
                         break;
-                    case "BUFFERING":
+                    case PlayManger.PLAYING:
+                        rotationAnim.start();
+                        //binding.ivPlay.setImageResource(R.drawable);
+                        break;
+                    case PlayManger.BUFFERING:
+                        ViewExtensionKt.printLog("缓冲");
+                        break;
+                    case PlayManger.SWITCH:
 
                         break;
-                    case "PAUSE":
-                    case "IDLE":
-                        rotationAnim.cancel();
-                        break;
+
                 }
             }
         });
@@ -136,7 +185,6 @@ public class CurrentSongPlayActivity extends BaseActivity {
                 rotationAnim.start();
             }
         });
-        //rotationAnim.start();
     }
 
     @Override
