@@ -1,5 +1,7 @@
 package com.tobery.personalmusic.ui.home;
 
+import static com.tobery.personalmusic.util.Constant.MUSIC_INFO;
+
 import androidx.annotation.NonNull;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -15,9 +17,13 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.google.android.material.navigation.NavigationBarView;
+import com.tobery.musicplay.MusicInfo;
 import com.tobery.musicplay.MusicPlay;
+import com.tobery.musicplay.OnMusicPlayStateListener;
 import com.tobery.musicplay.PermissionChecks;
 import com.tobery.musicplay.PlayConfig;
+import com.tobery.musicplay.PlayManger;
+import com.tobery.musicplay.ViewExtensionKt;
 import com.tobery.personalmusic.BaseActivity;
 import com.tobery.personalmusic.R;
 import com.tobery.personalmusic.databinding.ActivityMainBinding;
@@ -59,7 +65,7 @@ public class MainActivity extends BaseActivity {
         checks = new PermissionChecks(this);
         checks.requestPermissions(APP_PERMISSIONS, it ->{
             if (it){
-                MusicPlay.initConfig(this,new PlayConfig());
+               // MusicPlay.initConfig(this,new PlayConfig());
             }else {
 
             }
@@ -85,12 +91,44 @@ public class MainActivity extends BaseActivity {
         navigationBarView = binding.bottomNav;
         initViewPager();
         setDrawMenu();
-        binding.songBar.rootBottomBar.setOnClickListener(view -> {
-            if (ClickUtil.enableClick()){
-               // MusicPlay.playMusicByUrl("http://shunaier.oss-cn-beijing.aliyuncs.com/4h-test-img/system-c3dc731aa1dc4877a0e386fa8d0073f6-YT.aac");
-               // startActivity(new Intent(this, CurrentSongPlayActivity.class));
+        if (MusicPlay.getNowPlayingSongInfo() != null){
+            initBottomBar();
+            binding.songBar.rootBottomBar.setOnClickListener(view -> {
+                if (ClickUtil.enableClick()){
+                    startActivity(new Intent(this, CurrentSongPlayActivity.class)
+                            .putExtra(MUSIC_INFO, MusicPlay.getNowPlayingSongInfo()));
+                }
+            });
+            binding.songBar.tvSongName.setText(MusicPlay.getNowPlayingSongInfo().getSongName());
+        }
+        binding.songBar.ivBottomPlay.setOnClickListener(view -> {
+
+        });
+    }
+
+    private void initBottomBar() {
+        MusicPlay.onPlayStateListener(this, new OnMusicPlayStateListener() {
+            @Override
+            public void onPlayState(@NonNull String playbackStage) {
+                switch (playbackStage){
+                    case PlayManger.PAUSE:
+                    case PlayManger.IDLE:
+                        binding.songBar.ivBottomPlay.setImageResource(R.drawable.shape_play);
+                        break;
+                    case PlayManger.PLAYING:
+                        binding.songBar.ivBottomPlay.setImageResource(R.drawable.shape_pause_black);
+                        break;
+                    case PlayManger.BUFFERING:
+                        ViewExtensionKt.printLog("缓冲");
+                        break;
+                    case PlayManger.SWITCH:
+
+                        break;
+
+                }
             }
         });
+
     }
 
     private void initViewPager() {

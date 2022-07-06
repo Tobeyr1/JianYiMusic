@@ -22,6 +22,7 @@ import androidx.palette.graphics.Palette;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
+import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
@@ -58,6 +59,8 @@ public class CurrentSongPlayActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityCurrentSongPlayBinding.inflate(getLayoutInflater());
         viewModel = new ViewModelProvider(this).get(SongPlayViewModel.class);
+        binding.setVm(viewModel);
+        binding.setLifecycleOwner(this);
         setContentView(binding.getRoot());
         initAnim();
         initView();
@@ -69,6 +72,10 @@ public class CurrentSongPlayActivity extends BaseActivity {
                 .observe(this, lyricEntityApiResponse -> {
                     if (lyricEntityApiResponse.getStatus() == Status.SUCCESS){
                         binding.lrc.loadLrc(lyricEntityApiResponse.getData().getLrc().getLyric(),lyricEntityApiResponse.getData().getTlyric().getLyric());
+                        binding.lrc.setListener(time -> {
+                            MusicPlay.seekTo(time);
+                            return true;
+                        });
                     }
                 });
     }
@@ -95,7 +102,15 @@ public class CurrentSongPlayActivity extends BaseActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 MusicPlay.seekTo(seekBar.getProgress());
+                binding.lrc.updateTime(seekBar.getProgress());
             }
+        });
+        binding.lrc.setCoverChangeListener(()->{
+            viewModel.isShowLrc = false;
+            showLyrics(false);
+        });
+        binding.ivPlay.setOnClickListener(view -> {
+            //MusicPlay.
         });
     }
 
@@ -112,8 +127,8 @@ public class CurrentSongPlayActivity extends BaseActivity {
         Glide.with(this)
                 .asBitmap()
                 .load(musicInfo.getSongCover())
+                .transition(BitmapTransitionOptions.withCrossFade(3000))
                 .apply(options)
-               // .transition(new DrawableTransitionOptions().crossFade(1500))
                 .into(new SimpleTarget<Bitmap>() {
                     @Override
                     public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
@@ -142,7 +157,7 @@ public class CurrentSongPlayActivity extends BaseActivity {
                         break;
                     case PlayManger.PLAYING:
                         rotationAnim.start();
-                        //binding.ivPlay.setImageResource(R.drawable);
+                        binding.ivPlay.setImageResource(R.drawable.shape_pause_white);
                         break;
                     case PlayManger.BUFFERING:
                         ViewExtensionKt.printLog("缓冲");
@@ -159,6 +174,7 @@ public class CurrentSongPlayActivity extends BaseActivity {
             public void onPlayProgress(long curP, long duration) {
                 if (binding.seekBar.getMax() != duration){
                     binding.seekBar.setMax((int) duration);
+                    binding.tvTotalTime.setText(TimeUtil.getTimeNoYMDH(duration));
                 }
                 binding.tvPastTime.setText(TimeUtil.getTimeNoYMDH(curP));
                 binding.lrc.updateTime(curP);
