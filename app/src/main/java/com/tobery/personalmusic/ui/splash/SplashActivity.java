@@ -18,9 +18,11 @@ import android.os.Looper;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.hjq.toast.ToastUtils;
+import com.tobery.musicplay.MusicPlay;
+import com.tobery.musicplay.PermissionChecks;
+import com.tobery.musicplay.PlayConfig;
 import com.tobery.personalmusic.BaseActivity;
 import com.tobery.personalmusic.R;
 import com.tobery.personalmusic.databinding.ActivitySplashBinding;
@@ -36,16 +38,18 @@ public class SplashActivity extends BaseActivity {
 
     private ActivitySplashBinding binding;
 
-    ActivityResultLauncher<String[]> requestPermissionLauncher;
-
     ActivityResultLauncher<Intent> requestIntentLauncher;
 
     private AlertDialog dialog;
+
+    PermissionChecks checks;
 
     private final String[] APP_PERMISSIONS = new ArrayList<String>(){
         {
             add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
             add(Manifest.permission.READ_EXTERNAL_STORAGE);
+            add(Manifest.permission.RECORD_AUDIO);
+            add(Manifest.permission.READ_PHONE_STATE);
         }
     }.toArray(new String[0]);
 
@@ -54,6 +58,7 @@ public class SplashActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         binding = ActivitySplashBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        checks = new PermissionChecks(this);
         initView();
     }
 
@@ -62,11 +67,30 @@ public class SplashActivity extends BaseActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                requestPermissionLauncher.launch(APP_PERMISSIONS);
+                checkPermissions();
             }
         },2500);
-        requestPermissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), result -> {
-            if (!result.toString().contains("false")){
+
+        requestIntentLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),result -> {
+            if (result.getResultCode() == RESULT_OK){
+                checkPermissions();
+            }
+        });
+
+        binding.btnPhoneLogin.setOnClickListener(view -> {
+            if (ClickUtil.enableClick()){
+                Intent intent = new Intent(this, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
+            }
+        });
+    }
+
+    private void checkPermissions() {
+        checks.requestPermissions(APP_PERMISSIONS, it ->{
+            if (it){
+                MusicPlay.initConfig(this,new PlayConfig());
                 String token = SharePreferencesUtil.getInstance(this).getAuthToken(AUTH_TOKEN);
                 if (TextUtils.isEmpty(token)) {
                     binding.group.setVisibility(View.GONE);
@@ -88,21 +112,7 @@ public class SplashActivity extends BaseActivity {
                     finish();
                 }
             }
-        });
-
-        requestIntentLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),result -> {
-            if (result.getResultCode() == RESULT_OK){
-                requestPermissionLauncher.launch(APP_PERMISSIONS);
-            }
-        });
-
-        binding.btnPhoneLogin.setOnClickListener(view -> {
-            if (ClickUtil.enableClick()){
-                Intent intent = new Intent(this, LoginActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                finish();
-            }
+            return null;
         });
     }
 
@@ -134,7 +144,6 @@ public class SplashActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        requestPermissionLauncher = null;
         if (dialog !=null){
             dialog.dismiss();
             dialog = null;
