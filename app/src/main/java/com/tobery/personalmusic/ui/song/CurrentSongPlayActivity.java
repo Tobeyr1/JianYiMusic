@@ -73,7 +73,7 @@ public class CurrentSongPlayActivity extends BaseActivity {
                     if (lyricEntityApiResponse.getStatus() == Status.SUCCESS){
                         binding.lrc.loadLrc(lyricEntityApiResponse.getData().getLrc().getLyric(),lyricEntityApiResponse.getData().getTlyric().getLyric());
                         binding.lrc.setListener(time -> {
-                            MusicPlay.seekTo(time);
+                            MusicPlay.seekTo(time,true);
                             return true;
                         });
                     }
@@ -101,7 +101,7 @@ public class CurrentSongPlayActivity extends BaseActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                MusicPlay.seekTo(seekBar.getProgress());
+                MusicPlay.seekTo(seekBar.getProgress(),true);
                 binding.lrc.updateTime(seekBar.getProgress());
             }
         });
@@ -148,8 +148,8 @@ public class CurrentSongPlayActivity extends BaseActivity {
         binding.tvTitle.setText(musicInfo.getSongName());
         MusicPlay.onPlayStateListener(this, new OnMusicPlayStateListener() {
             @Override
-            public void onPlayState(@NonNull String playbackStage) {
-                switch (playbackStage){
+            public void onPlayState(@NonNull PlayManger playManger) {
+                switch (playManger.getStage()){
                     case PlayManger.PAUSE:
                     case PlayManger.IDLE:
                         rotationAnim.cancel();
@@ -163,13 +163,13 @@ public class CurrentSongPlayActivity extends BaseActivity {
                         ViewExtensionKt.printLog("缓冲");
                         break;
                     case PlayManger.SWITCH:
-
+                        ViewExtensionKt.printLog(playManger.getSongInfo().getSongName());
                         break;
 
                 }
             }
         });
-        MusicPlay.onPlayProgressListener(this, new OnMusicPlayProgressListener() {
+        MusicPlay.onPlayProgressListener(new OnMusicPlayProgressListener() {
             @Override
             public void onPlayProgress(long curP, long duration) {
                 if (binding.seekBar.getMax() != duration){
