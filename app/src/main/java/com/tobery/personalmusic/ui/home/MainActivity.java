@@ -109,8 +109,8 @@ public class MainActivity extends BaseActivity {
     private void initBottomBar() {
         MusicPlay.onPlayStateListener(this, new OnMusicPlayStateListener() {
             @Override
-            public void onPlayState(@NonNull String playbackStage) {
-                switch (playbackStage){
+            public void onPlayState(@NonNull PlayManger playbackStage) {
+                switch (playbackStage.getStage()){
                     case PlayManger.PAUSE:
                     case PlayManger.IDLE:
                         binding.songBar.ivBottomPlay.setImageResource(R.drawable.shape_play);
