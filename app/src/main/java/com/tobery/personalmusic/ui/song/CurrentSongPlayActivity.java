@@ -118,7 +118,7 @@ public class CurrentSongPlayActivity extends BaseActivity {
         Glide.with(this).load(musicInfo.getSongCover()).circleCrop().into(binding.ivMusicCover);
         RequestOptions options = new RequestOptions()
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                .bitmapTransform(new BlurTransformation(25, 25));
+                .bitmapTransform(new BlurTransformation(25, 30));
        /* Glide.with(this)
                 .load(musicInfo.getSongCover())
                 .apply(options)
@@ -127,7 +127,7 @@ public class CurrentSongPlayActivity extends BaseActivity {
         Glide.with(this)
                 .asBitmap()
                 .load(musicInfo.getSongCover())
-                .transition(BitmapTransitionOptions.withCrossFade(3000))
+                .transition(BitmapTransitionOptions.withCrossFade(1500))
                 .apply(options)
                 .into(new SimpleTarget<Bitmap>() {
                     @Override
@@ -152,7 +152,7 @@ public class CurrentSongPlayActivity extends BaseActivity {
                 switch (playManger.getStage()){
                     case PlayManger.PAUSE:
                     case PlayManger.IDLE:
-                        rotationAnim.cancel();
+                        rotationAnim.pause();
                         binding.ivPlay.setImageResource(R.drawable.shape_play_white);
                         break;
                     case PlayManger.PLAYING:
