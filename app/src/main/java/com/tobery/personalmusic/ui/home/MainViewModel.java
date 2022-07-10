@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.google.gson.Gson;
 import com.tobery.livedata.call.livedatalib.ApiResponse;
+import com.tobery.musicplay.MusicInfo;
 import com.tobery.personalmusic.entity.LoginEntity;
 import com.tobery.personalmusic.entity.UserDetailEntity;
 import com.tobery.personalmusic.entity.home.RecentSongInfoEntity;
@@ -39,6 +40,10 @@ public class MainViewModel extends ViewModel {
     public UserInfoUi ui;
 
     private String userInfo;
+
+    public ObservableField<String> currentSongUrl = new ObservableField<>("");
+    public ObservableField<String> currentSongName = new ObservableField<>("");
+    public MusicInfo currentMusicInfo;
 
     public MainViewModel(SavedStateHandle savedStateHandle) {
         this.state = savedStateHandle;
