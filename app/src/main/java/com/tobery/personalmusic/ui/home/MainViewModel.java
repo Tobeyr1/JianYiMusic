@@ -14,6 +14,8 @@ import com.google.gson.Gson;
 import com.tobery.livedata.call.livedatalib.ApiResponse;
 import com.tobery.personalmusic.entity.LoginEntity;
 import com.tobery.personalmusic.entity.UserDetailEntity;
+import com.tobery.personalmusic.entity.home.RecentSongInfoEntity;
+import com.tobery.personalmusic.entity.home.RecommendListEntity;
 import com.tobery.personalmusic.http.Retrofit.RetrofitUtils;
 import com.tobery.personalmusic.ui.home.menu.UserInfoUi;
 import com.tobery.personalmusic.util.ContextProvider;
@@ -58,7 +60,11 @@ public class MainViewModel extends ViewModel {
     }
 
     public LiveData<ApiResponse<UserDetailEntity>> getUserDetails() {
-        return RetrofitUtils.getmApiUrl().getUserDetails(374898690);
+        return RetrofitUtils.getmApiUrl().getUserDetails(1111111111);
+    }
+
+    public LiveData<ApiResponse<RecentSongInfoEntity>> getRecentSong(){
+        return RetrofitUtils.getmApiUrl().getRecentSong(1);
     }
 
 

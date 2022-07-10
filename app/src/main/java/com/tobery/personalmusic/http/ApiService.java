@@ -9,6 +9,8 @@ import com.tobery.personalmusic.entity.RefreshCookieEntity;
 import com.tobery.personalmusic.entity.SearchHotDetail_Bean;
 import com.tobery.personalmusic.entity.UserDetailEntity;
 import com.tobery.personalmusic.entity.home.HomeDiscoverEntity;
+import com.tobery.personalmusic.entity.home.RecentSongInfoEntity;
+import com.tobery.personalmusic.entity.home.RecommendListEntity;
 import com.tobery.personalmusic.entity.user.VipInfoEntity;
 
 import io.reactivex.Observable;
@@ -38,5 +40,11 @@ public interface ApiService {
 
     @GET("lyric") //获取歌词
     LiveData<ApiResponse<LyricEntity>> getLyric(@Query("id") long songId);
+
+    @GET("playlist/detail")//获取推荐歌单详情列表
+    LiveData<ApiResponse<RecommendListEntity>> getRecommendList(@Query("id") long creativeId);
+
+    @GET("record/recent/song") //最近播放音乐
+    LiveData<ApiResponse<RecentSongInfoEntity>> getRecentSong(@Query("limit") int limit);
 
 }
