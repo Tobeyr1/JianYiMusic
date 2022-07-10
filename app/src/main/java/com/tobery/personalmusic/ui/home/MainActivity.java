@@ -1,6 +1,7 @@
 package com.tobery.personalmusic.ui.home;
 
 import static com.tobery.personalmusic.util.Constant.MUSIC_INFO;
+import static com.tobery.personalmusic.util.Constant.SONG_URL;
 
 import androidx.annotation.NonNull;
 import androidx.core.view.GravityCompat;
@@ -69,6 +70,7 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
+        binding.songBar.setBottom(viewModel);
         setContentView(binding.getRoot());
         checks = new PermissionChecks(this);
         checks.requestPermissions(APP_PERMISSIONS, it ->{
@@ -99,35 +101,52 @@ public class MainActivity extends BaseActivity {
         navigationBarView = binding.bottomNav;
         initViewPager();
         setDrawMenu();
+
         viewModel.getRecentSong().observe(this,recentSongInfoEntityApiResponse -> {
             if (recentSongInfoEntityApiResponse.getStatus() == Status.SUCCESS && recentSongInfoEntityApiResponse.getData().getData().getList() != null){
                 RecentSongInfoEntity.RecentDataEntity.ListEntity.DataEntity data =recentSongInfoEntityApiResponse.getData().getData().getList()
                         .get(0).getData();
-                binding.songBar.tvSongName.setText(data.getName());
-                Glide.with(this).load(data.getAl().getPicUrl())
-                        .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE).circleCrop()).into(binding.songBar.ivCover);
+                viewModel.currentSongName.set(data.getName());
+                viewModel.currentSongUrl.set(data.getAl().getPicUrl());
+                MusicInfo musicInfo = new MusicInfo();
+                musicInfo.setArtist(data.getAr().get(0).getName());
+                musicInfo.setSongId(data.getId()+"");
+                musicInfo.setSongName(data.getName());
+                musicInfo.setSongCover(data.getAl().getPicUrl());
+                musicInfo.setSongUrl(SONG_URL+data.getId());
+                viewModel.currentMusicInfo = musicInfo;
             }
         });
-        initBottomBar();
-        if (MusicPlay.getNowPlayingSongInfo() != null){
-            initBottomBar();
-            binding.songBar.rootBottomBar.setOnClickListener(view -> {
-                if (ClickUtil.enableClick()){
-                    startActivity(new Intent(this, CurrentSongPlayActivity.class)
-                            .putExtra(MUSIC_INFO, MusicPlay.getNowPlayingSongInfo()));
-                }
-            });
-            binding.songBar.tvSongName.setText(MusicPlay.getNowPlayingSongInfo().getSongName());
-        }
-        binding.songBar.ivBottomPlay.setOnClickListener(view -> {
 
-        });
-    }
-
-    private void initBottomBar() {
-        MusicPlay.setGlobalPlaybackStageListener(new OnMusicPlayStateListener() {
+        MusicPlay.onPlayStateListener(this, new OnMusicPlayStateListener() {
             @Override
             public void onPlayState(@NonNull PlayManger playManger) {
+                viewModel.currentSongUrl.set(playManger.getSongInfo().getSongCover());
+                viewModel.currentSongName.set(playManger.getSongInfo().getSongName());
+                switch (playManger.getStage()){
+                    case PlayManger.PAUSE:
+                    case PlayManger.IDLE:
+                        binding.songBar.ivBottomPlay.setImageResource(R.drawable.shape_play);
+                        break;
+                    case PlayManger.PLAYING:
+                        binding.songBar.ivBottomPlay.setImageResource(R.drawable.shape_pause_black);
+                        viewModel.currentMusicInfo = playManger.getSongInfo();
+                        break;
+                    case PlayManger.BUFFERING:
+                        ViewExtensionKt.printLog("缓冲");
+                        break;
+                    case PlayManger.SWITCH:
+                        viewModel.currentMusicInfo = playManger.getSongInfo();
+                        break;
+
+                }
+            }
+        });
+       /* MusicPlay.setGlobalPlaybackStageListener(new OnMusicPlayStateListener() {
+            @Override
+            public void onPlayState(@NonNull PlayManger playManger) {
+                viewModel.currentSongUrl.set(playManger.getSongInfo().getSongCover());
+                viewModel.currentSongName.set(playManger.getSongInfo().getSongName());
                 switch (playManger.getStage()){
                     case PlayManger.PAUSE:
                     case PlayManger.IDLE:
@@ -145,8 +164,17 @@ public class MainActivity extends BaseActivity {
 
                 }
             }
-        });
+        });*/
 
+        binding.songBar.rootBottomBar.setOnClickListener(view -> {
+            if (ClickUtil.enableClick()){
+                startActivity(new Intent(this, CurrentSongPlayActivity.class)
+                        .putExtra(MUSIC_INFO, viewModel.currentMusicInfo));
+            }
+        });
+        binding.songBar.ivBottomPlay.setOnClickListener(view -> {
+
+        });
     }
 
     private void initViewPager() {
