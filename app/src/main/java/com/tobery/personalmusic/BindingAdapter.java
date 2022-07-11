@@ -1,6 +1,7 @@
 package com.tobery.personalmusic;
 
 import android.graphics.drawable.Drawable;
+import android.view.View;
 import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
@@ -11,6 +12,12 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
+import com.tobery.personalmusic.util.ClickUtil;
+
+import java.lang.reflect.Method;
+
+import kotlin.Function;
+import kotlin.jvm.functions.Function0;
 
 /**
  * @Package: com.tobery.personalmusic
@@ -38,5 +45,14 @@ public class BindingAdapter {
                     .apply(options)
                     .into(view);
         }
+    }
+
+    @androidx.databinding.BindingAdapter(value = "onsingleclick")
+    public static void onSingleClick(View view, final Function0  function){
+        view.setOnClickListener(v -> {
+            if (ClickUtil.enableClick()){
+                function.invoke();
+            }
+        });
     }
 }

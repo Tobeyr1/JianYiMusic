@@ -16,8 +16,10 @@
         android:id="@+id/img_bc"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:scaleType="fitXY"
         android:src="@drawable/bg_default_song"
-        android:scaleType="fitXY" />
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="52dp" />
 
     <View
         android:id="@+id/view_title_bg"
@@ -49,7 +51,8 @@
         android:id="@+id/iv_music_cover"
         android:layout_width="@dimen/dp_200"
         android:layout_height="@dimen/dp_200"
-        android:src="@drawable/shape_music_record"
+        imSrc="@{vm.currentSongUrl}"
+        error="@{@drawable/shape_music_record}"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/view_title_bg"
@@ -138,6 +141,7 @@
         android:padding="@dimen/dp_15"
         android:scaleType="centerCrop"
         android:src="@drawable/shape_pre"
+        android:onClick="@{() -> vm.previous()}"
         app:layout_constraintTop_toTopOf="@id/seek_bar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/iv_play"
@@ -152,7 +156,9 @@
         app:layout_constraintTop_toTopOf="@id/seek_bar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        android:onClick="@{() -> vm.musicPlayOrPause()}"
+        />
 
     <ImageView
         android:id="@+id/iv_next"
@@ -161,6 +167,7 @@
         android:padding="@dimen/dp_15"
         android:scaleType="centerCrop"
         android:src="@drawable/shape_next"
+        android:onClick="@{() -> vm.next()}"
         app:layout_constraintStart_toEndOf="@id/iv_play"
         app:layout_constraintTop_toTopOf="@id/seek_bar"
         app:layout_constraintBottom_toBottomOf="parent"

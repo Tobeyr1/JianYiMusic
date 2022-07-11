@@ -12,7 +12,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,8 +26,6 @@ import com.tobery.livedata.call.livedatalib.Status;
 import com.tobery.musicplay.MusicInfo;
 import com.tobery.musicplay.MusicPlay;
 import com.tobery.musicplay.OnMusicPlayStateListener;
-import com.tobery.musicplay.PermissionChecks;
-import com.tobery.musicplay.PlayConfig;
 import com.tobery.musicplay.PlayManger;
 import com.tobery.musicplay.ViewExtensionKt;
 import com.tobery.personalmusic.BaseActivity;
@@ -54,16 +51,6 @@ public class MainActivity extends BaseActivity {
 
     private ArrayList<Fragment> fragments;
 
-    PermissionChecks checks;
-
-    private final String[] APP_PERMISSIONS = new ArrayList<String>(){
-        {
-            add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-            add(Manifest.permission.READ_EXTERNAL_STORAGE);
-            add(Manifest.permission.RECORD_AUDIO);
-            add(Manifest.permission.READ_PHONE_STATE);
-        }
-    }.toArray(new String[0]);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,36 +59,13 @@ public class MainActivity extends BaseActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         binding.songBar.setBottom(viewModel);
         setContentView(binding.getRoot());
-        checks = new PermissionChecks(this);
-        checks.requestPermissions(APP_PERMISSIONS, it ->{
-            if (it){
-               // MusicPlay.initConfig(this,new PlayConfig());
-            }else {
-
-            }
-            return null;
-        });
+        initBottomBar();
         initFragment();
         initView();
         initObserver();
     }
 
-    private void initFragment() {
-        fragments = new ArrayList<>();
-        fragments.add(new DiscoverFragment());
-        fragments.add(new PodcastFragment());
-        fragments.add(new MineFragment());
-    }
-
-    private void initObserver() {
-    }
-
-    @SuppressLint("NonConstantResourceId")
-    private void initView() {
-        navigationBarView = binding.bottomNav;
-        initViewPager();
-        setDrawMenu();
-
+    private void initBottomBar() {
         viewModel.getRecentSong().observe(this,recentSongInfoEntityApiResponse -> {
             if (recentSongInfoEntityApiResponse.getStatus() == Status.SUCCESS && recentSongInfoEntityApiResponse.getData().getData().getList() != null){
                 RecentSongInfoEntity.RecentDataEntity.ListEntity.DataEntity data =recentSongInfoEntityApiResponse.getData().getData().getList()
@@ -173,8 +137,29 @@ public class MainActivity extends BaseActivity {
             }
         });
         binding.songBar.ivBottomPlay.setOnClickListener(view -> {
-
+            if (MusicPlay.isPlaying()){
+                MusicPlay.pauseMusic();
+            }else {
+                MusicPlay.restoreMusic();
+            }
         });
+    }
+
+    private void initFragment() {
+        fragments = new ArrayList<>();
+        fragments.add(new DiscoverFragment());
+        fragments.add(new PodcastFragment());
+        fragments.add(new MineFragment());
+    }
+
+    private void initObserver() {
+    }
+
+    @SuppressLint("NonConstantResourceId")
+    private void initView() {
+        navigationBarView = binding.bottomNav;
+        initViewPager();
+        setDrawMenu();
     }
 
     private void initViewPager() {

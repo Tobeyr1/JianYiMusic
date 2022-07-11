@@ -93,7 +93,7 @@ public class SplashActivity extends BaseActivity {
     private void checkPermissions() {
         checks.requestPermissions(APP_PERMISSIONS, it ->{
             if (it){
-                MusicPlay.initConfig(this,new PlayConfig());
+                MusicPlay.initConfig(this,playConfig);
                 String token = SharePreferencesUtil.getInstance(this).getAuthToken(AUTH_TOKEN);
                 if (TextUtils.isEmpty(token)) {
                     binding.group.setVisibility(View.GONE);

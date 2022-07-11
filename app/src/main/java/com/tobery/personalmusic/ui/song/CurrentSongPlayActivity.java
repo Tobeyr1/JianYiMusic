@@ -1,12 +1,12 @@
 package com.tobery.personalmusic.ui.song;
 
 
-import static android.media.MediaPlayer.MetricsConstants.PLAYING;
 import static com.tobery.personalmusic.util.Constant.MUSIC_INFO;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
@@ -15,6 +15,7 @@ import android.widget.SeekBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.graphics.ColorUtils;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.palette.graphics.Palette;
@@ -30,6 +31,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
+import com.hjq.toast.ToastUtils;
 import com.tobery.livedata.call.livedatalib.ApiResponse;
 import com.tobery.livedata.call.livedatalib.Status;
 import com.tobery.musicplay.MusicInfo;
@@ -62,13 +64,13 @@ public class CurrentSongPlayActivity extends BaseActivity {
         binding.setVm(viewModel);
         binding.setLifecycleOwner(this);
         setContentView(binding.getRoot());
-        initAnim();
         initView();
+        initAnim();
         initObserver();
     }
 
     private void initObserver() {
-        viewModel.getLyric(Long.parseLong(musicInfo.getSongId()))
+        viewModel.getLyric()
                 .observe(this, lyricEntityApiResponse -> {
                     if (lyricEntityApiResponse.getStatus() == Status.SUCCESS){
                         binding.lrc.loadLrc(lyricEntityApiResponse.getData().getLrc().getLyric(),lyricEntityApiResponse.getData().getTlyric().getLyric());
@@ -82,9 +84,9 @@ public class CurrentSongPlayActivity extends BaseActivity {
 
     private void initView() {
         musicInfo = getIntent().getParcelableExtra(MUSIC_INFO);
-        initImageBg();
         MusicPlay.playMusicByInfo(musicInfo);
-        loadUi();
+        initImageBg(musicInfo);
+        initListener();
         binding.viewBody.setOnClickListener(view -> {
             if (ClickUtil.enableClick()){
                 viewModel.isShowLrc = !viewModel.isShowLrc;
@@ -105,20 +107,23 @@ public class CurrentSongPlayActivity extends BaseActivity {
                 binding.lrc.updateTime(seekBar.getProgress());
             }
         });
+        binding.ivPlayMode.setOnClickListener(v -> {
+            if (ClickUtil.enableClick()){
+                changeRepeatMode();
+            }
+        });
         binding.lrc.setCoverChangeListener(()->{
             viewModel.isShowLrc = false;
             showLyrics(false);
         });
-        binding.ivPlay.setOnClickListener(view -> {
-            //MusicPlay.
-        });
     }
 
-    private void initImageBg() {
-        Glide.with(this).load(musicInfo.getSongCover()).circleCrop().into(binding.ivMusicCover);
+    private void initImageBg(MusicInfo musicInfo) {
+        viewModel.currentSongUrl.set(musicInfo.getSongCover());
         RequestOptions options = new RequestOptions()
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .bitmapTransform(new BlurTransformation(25, 30));
+        viewModel.currentSongId.set(Long.parseLong(musicInfo.getSongId()));
        /* Glide.with(this)
                 .load(musicInfo.getSongCover())
                 .apply(options)
@@ -127,6 +132,7 @@ public class CurrentSongPlayActivity extends BaseActivity {
         Glide.with(this)
                 .asBitmap()
                 .load(musicInfo.getSongCover())
+                //.placeholder()
                 .transition(BitmapTransitionOptions.withCrossFade(1500))
                 .apply(options)
                 .into(new SimpleTarget<Bitmap>() {
@@ -134,18 +140,32 @@ public class CurrentSongPlayActivity extends BaseActivity {
                     public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
                         binding.imgBc.setImageBitmap(resource);
                         Palette.from(resource)
-                                .setRegion(10,10,10,10)
                                 .maximumColorCount(3)
                                 .generate(palette -> {
-
+                                    Palette.Swatch mostPopularSwatch = null;
+                                    for (Palette.Swatch swatch: palette.getSwatches()){
+                                        if (mostPopularSwatch == null
+                                        || swatch.getPopulation() > mostPopularSwatch.getPopulation()){
+                                            mostPopularSwatch = swatch;
+                                        }
+                                    }
+                                    if (mostPopularSwatch!= null){
+                                        double luminance =ColorUtils.calculateLuminance(mostPopularSwatch.getRgb());
+                                        // 当luminance小于0.5时，我们认为这是一个深色值.
+                                        if (luminance < 0.5){
+                                            setDarkStatusBar();
+                                        }else {
+                                            setLightStatusBar();
+                                        }
+                                    }
                                 });
                     }
                 });
+        binding.tvTitle.setText(musicInfo.getSongName());
         StatusBarUtil.setTranslucentForImageView(this,0,binding.viewTitleBg);
     }
 
-    private void loadUi() {
-        binding.tvTitle.setText(musicInfo.getSongName());
+    private void initListener() {
         MusicPlay.onPlayStateListener(this, new OnMusicPlayStateListener() {
             @Override
             public void onPlayState(@NonNull PlayManger playManger) {
@@ -163,7 +183,9 @@ public class CurrentSongPlayActivity extends BaseActivity {
                         ViewExtensionKt.printLog("缓冲");
                         break;
                     case PlayManger.SWITCH:
-                        ViewExtensionKt.printLog(playManger.getSongInfo().getSongName());
+                        if (playManger.getSongInfo() != null){
+                            initImageBg(playManger.getSongInfo());
+                        }
                         break;
 
                 }
@@ -189,11 +211,42 @@ public class CurrentSongPlayActivity extends BaseActivity {
         binding.lrc.setVisibility(isShowLyrics ? View.VISIBLE : View.GONE);
     }
 
+    private void setLightStatusBar(){
+        binding.tvTitle.setTextColor(getColor(R.color.black80));
+        int flags = getWindow().getDecorView().getSystemUiVisibility();
+        getWindow().getDecorView().setSystemUiVisibility(flags | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+    }
+
+    private void setDarkStatusBar(){
+        binding.tvTitle.setTextColor(getColor(R.color.white));
+        int flags = getWindow().getDecorView().getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+        getWindow().getDecorView().setSystemUiVisibility(flags^View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+    }
+
+    private void changeRepeatMode(){
+        int currentModel = MusicPlay.getRepeatMode();
+        switch (currentModel){
+            case 100:
+                MusicPlay.setRepeatMode(200,true);
+                ToastUtils.show(getString(R.string.repeat_one));
+                break;
+            case 200:
+                MusicPlay.setRepeatMode(300,false);
+                ToastUtils.show(getString(R.string.repeat_random));
+                break;
+            case 300:
+                MusicPlay.setRepeatMode(100,true);
+                ToastUtils.show(getString(R.string.repeat_none));
+                break;
+        }
+    }
+
     private void initAnim() {
-        rotationAnim = ObjectAnimator.ofFloat(binding.ivMusicCover,"rotation",360f);
+        rotationAnim = ObjectAnimator.ofFloat(binding.ivMusicCover, "rotation", 360f);
+        rotationAnim.setDuration(25 * 1000);
         rotationAnim.setInterpolator(new LinearInterpolator());
-        rotationAnim.setDuration(25000);
         rotationAnim.setRepeatCount(100000);
+        rotationAnim.setRepeatMode(ValueAnimator.RESTART);
         rotationAnim.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation, boolean isReverse) {
