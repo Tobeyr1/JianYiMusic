@@ -132,6 +132,7 @@ public class MainActivity extends BaseActivity {
 
         binding.songBar.rootBottomBar.setOnClickListener(view -> {
             if (ClickUtil.enableClick()){
+                MusicPlay.playMusicByInfo(viewModel.currentMusicInfo);
                 startActivity(new Intent(this, CurrentSongPlayActivity.class)
                         .putExtra(MUSIC_INFO, viewModel.currentMusicInfo));
             }

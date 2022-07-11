@@ -2,7 +2,6 @@ package com.tobery.personalmusic.ui.home.discover.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -17,6 +16,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
+import com.tobery.personalmusic.BindingAdapter;
 import com.tobery.personalmusic.R;
 import com.tobery.personalmusic.databinding.ItemLikeDiscoverBinding;
 import com.tobery.personalmusic.databinding.ItemRecommendDiscoverBinding;
@@ -67,57 +67,28 @@ public class LikeAdapter extends RecyclerView.Adapter<LikeViewHolder> {
     public void onBindViewHolder(@NonNull LikeViewHolder holder, int position) {
         HomeDiscoverEntity.DataEntity.BlocksEntity.CreativesEntity bean = dataList.get(position);
         int num = bean.getResources().size();
-        RequestOptions options = new RequestOptions()
-                .placeholder(R.drawable.ic_banner_loading)
-                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                .transform(new CenterCrop(),new RoundedCorners(10))
-                .error(R.mipmap.ic_launcher);
         switch (num){
             case 1:
                 holder.tvTitleOne.setText(bean.getResources().get(0).getUiElement().getMainTitle().getTitle());
-                Glide.with(mContext)
-                        .load(bean.getResources().get(0).getUiElement().getImage().getImageUrl())
-                        .transition(new DrawableTransitionOptions().crossFade())
-                        .apply(options)
-                        .into(holder.imgOne);
+                BindingAdapter.loadRadiusImage(bean.getResources().get(0).getUiElement().getImage().getImageUrl(),holder.imgOne);
                 break;
             case 2:
                 holder.tvTitleOne.setText(bean.getResources().get(0).getUiElement().getMainTitle().getTitle());
-                Glide.with(mContext)
-                        .load(bean.getResources().get(0).getUiElement().getImage().getImageUrl())
-                        .transition(new DrawableTransitionOptions().crossFade())
-                        .apply(options)
-                        .into(holder.imgOne);
+                BindingAdapter.loadRadiusImage(bean.getResources().get(0).getUiElement().getImage().getImageUrl(),holder.imgOne);
 
                 holder.tvTitleTwo.setText(bean.getResources().get(1).getUiElement().getMainTitle().getTitle());
-                Glide.with(mContext)
-                        .load(bean.getResources().get(1).getUiElement().getImage().getImageUrl())
-                        .transition(new DrawableTransitionOptions().crossFade())
-                        .apply(options)
-                        .into(holder.imgTwo);
+                BindingAdapter.loadRadiusImage(bean.getResources().get(1).getUiElement().getImage().getImageUrl(),holder.imgTwo);
                 break;
             case 3:
 
                 holder.tvTitleOne.setText(bean.getResources().get(0).getUiElement().getMainTitle().getTitle());
-                Glide.with(mContext)
-                        .load(bean.getResources().get(0).getUiElement().getImage().getImageUrl())
-                        .transition(new DrawableTransitionOptions().crossFade())
-                        .apply(options)
-                        .into(holder.imgOne);
+                BindingAdapter.loadRadiusImage(bean.getResources().get(0).getUiElement().getImage().getImageUrl(),holder.imgOne);
 
                 holder.tvTitleTwo.setText(bean.getResources().get(1).getUiElement().getMainTitle().getTitle());
-                Glide.with(mContext)
-                        .load(bean.getResources().get(1).getUiElement().getImage().getImageUrl())
-                        .transition(new DrawableTransitionOptions().crossFade())
-                        .apply(options)
-                        .into(holder.imgTwo);
+                BindingAdapter.loadRadiusImage(bean.getResources().get(1).getUiElement().getImage().getImageUrl(),holder.imgTwo);
 
                 holder.tvTitleThree.setText(bean.getResources().get(2).getUiElement().getMainTitle().getTitle());
-                Glide.with(mContext)
-                        .load(bean.getResources().get(2).getUiElement().getImage().getImageUrl())
-                        .transition(new DrawableTransitionOptions().crossFade())
-                        .apply(options)
-                        .into(holder.imgThree);
+                BindingAdapter.loadRadiusImage(bean.getResources().get(2).getUiElement().getImage().getImageUrl(),holder.imgThree);
                 break;
         }
 

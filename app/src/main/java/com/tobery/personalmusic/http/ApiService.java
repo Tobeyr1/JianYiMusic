@@ -8,6 +8,7 @@ import com.tobery.personalmusic.entity.LyricEntity;
 import com.tobery.personalmusic.entity.RefreshCookieEntity;
 import com.tobery.personalmusic.entity.SearchHotDetail_Bean;
 import com.tobery.personalmusic.entity.UserDetailEntity;
+import com.tobery.personalmusic.entity.home.DailySongsEntity;
 import com.tobery.personalmusic.entity.home.HomeDiscoverEntity;
 import com.tobery.personalmusic.entity.home.RecentSongInfoEntity;
 import com.tobery.personalmusic.entity.home.RecommendListEntity;
@@ -46,5 +47,8 @@ public interface ApiService {
 
     @GET("record/recent/song") //最近播放音乐
     LiveData<ApiResponse<RecentSongInfoEntity>> getRecentSong(@Query("limit") int limit);
+
+    @GET("recommend/songs") //获取日推
+    LiveData<ApiResponse<DailySongsEntity>> getDailySongs();
 
 }
