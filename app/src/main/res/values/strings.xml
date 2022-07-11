@@ -25,4 +25,7 @@
     <string name="bottom_my">我的</string>
     <string name="bottom_follow">关注</string>
     <string name="song_no">还没有歌曲哦~</string>
+    <string name="repeat_none">列表循环</string>
+    <string name="repeat_one">单曲循环</string>
+    <string name="repeat_random">云随机</string>
 </resources>
