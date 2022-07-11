@@ -20,17 +20,21 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.tobery.livedata.call.livedatalib.Status;
 import com.tobery.musicplay.MusicInfo;
+import com.tobery.musicplay.MusicPlay;
+import com.tobery.musicplay.ViewExtensionKt;
 import com.tobery.personalmusic.databinding.FragmentDiscoverBinding;
 import com.tobery.personalmusic.entity.home.BannerExtInfoEntity;
 import com.tobery.personalmusic.entity.home.HomeDiscoverEntity;
 import com.tobery.personalmusic.entity.home.LookLiveEntity;
 import com.tobery.personalmusic.ui.WebActivity;
+import com.tobery.personalmusic.ui.daily.DailySongsActivity;
 import com.tobery.personalmusic.ui.home.discover.adapter.LikeAdapter;
 import com.tobery.personalmusic.ui.home.discover.adapter.LookAdapter;
 import com.tobery.personalmusic.ui.home.discover.adapter.MgcAdapter;
 import com.tobery.personalmusic.ui.home.discover.adapter.RecommendAdapter;
 import com.tobery.personalmusic.ui.home.discover.adapter.bannerAdapter;
 import com.tobery.personalmusic.ui.song.CurrentSongPlayActivity;
+import com.tobery.personalmusic.util.ClickUtil;
 import com.youth.banner.config.IndicatorConfig;
 import com.youth.banner.indicator.RectangleIndicator;
 import com.youth.banner.listener.OnBannerListener;
@@ -75,7 +79,16 @@ public class DiscoverFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initRecycle();
+        initView();
         initObserver();
+    }
+
+    private void initView() {
+        binding.imgRecommend.setOnClickListener(view -> {
+            if (ClickUtil.enableClick()){
+                startActivity(new Intent(getActivity(), DailySongsActivity.class));
+            }
+        });
     }
 
     private void initRecycle() {
@@ -111,6 +124,7 @@ public class DiscoverFragment extends Fragment {
     private void initObserver() {
 
         viewModel.requireDiscover(false).observe(getViewLifecycleOwner(), homeDiscoverEntityApiResponse -> {
+            ViewExtensionKt.printLog("当前"+homeDiscoverEntityApiResponse.getMessage());
             if (homeDiscoverEntityApiResponse.getStatus() == Status.SUCCESS){
                 for (HomeDiscoverEntity.DataEntity.BlocksEntity block : homeDiscoverEntityApiResponse.getData().getData().getBlocks()){
                     switch (block.getBlockCode()){
@@ -144,7 +158,9 @@ public class DiscoverFragment extends Fragment {
                 initData(viewModel.bannerList.getBanners());
                 adapter.setDataList(viewModel.recommendList);
                 mgcAdapter.setDataList(viewModel.selfMgcList);
-                lookAdapter.setDataList(viewModel.lookLiveList);
+                if (viewModel.lookLiveList != null){
+                    lookAdapter.setDataList(viewModel.lookLiveList);
+                }
                 likeAdapter.setDataList(viewModel.likeList);
             }else {
                 Log.e("报错",homeDiscoverEntityApiResponse.getMessage());
@@ -175,6 +191,7 @@ public class DiscoverFragment extends Fragment {
                             musicInfo.setSongCover(banners.get(position).getSong().getAl().getPicUrl());
                             musicInfo.setArtist(banners.get(position).getSong().getAr().get(0).getName());
                             musicInfo.setSongUrl(SONG_URL+banners.get(position).getSong().getId());
+                            MusicPlay.playMusicByInfo(musicInfo);
                             startActivity(new Intent(getActivity(), CurrentSongPlayActivity.class)
                                     .putExtra(MUSIC_INFO,musicInfo));
                         }

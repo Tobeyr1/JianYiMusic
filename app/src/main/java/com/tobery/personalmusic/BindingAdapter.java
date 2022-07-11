@@ -47,6 +47,19 @@ public class BindingAdapter {
         }
     }
 
+    public static void loadRadiusImage(@Nullable String url,ImageView view){
+        RequestOptions options = new RequestOptions()
+                .placeholder(R.drawable.ic_banner_loading)
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .transform(new CenterCrop(),new RoundedCorners(10))
+                .error(R.mipmap.ic_launcher);
+        Glide.with(view.getContext())
+                .load(url)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .apply(options)
+                .into(view);
+    }
+
     @androidx.databinding.BindingAdapter(value = "onsingleclick")
     public static void onSingleClick(View view, final Function0  function){
         view.setOnClickListener(v -> {

@@ -72,8 +72,18 @@ public class CurrentSongPlayActivity extends BaseActivity {
     private void initObserver() {
         viewModel.getLyric()
                 .observe(this, lyricEntityApiResponse -> {
+                    ViewExtensionKt.printLog("当前"+lyricEntityApiResponse.getMessage());
                     if (lyricEntityApiResponse.getStatus() == Status.SUCCESS){
-                        binding.lrc.loadLrc(lyricEntityApiResponse.getData().getLrc().getLyric(),lyricEntityApiResponse.getData().getTlyric().getLyric());
+                        if (lyricEntityApiResponse.getData().getLrc() != null){
+                            if (lyricEntityApiResponse.getData().getTlyric().getLyric() != null){
+                                binding.lrc.loadLrc(lyricEntityApiResponse.getData().getLrc().getLyric(),lyricEntityApiResponse.getData().getTlyric().getLyric());
+                            }else {
+                                binding.lrc.loadLrc(lyricEntityApiResponse.getData().getLrc().getLyric(),"");
+                            }
+                        }else {
+                            binding.lrc.loadLrc("","");
+                        }
+
                         binding.lrc.setListener(time -> {
                             MusicPlay.seekTo(time,true);
                             return true;
@@ -84,7 +94,6 @@ public class CurrentSongPlayActivity extends BaseActivity {
 
     private void initView() {
         musicInfo = getIntent().getParcelableExtra(MUSIC_INFO);
-        MusicPlay.playMusicByInfo(musicInfo);
         initImageBg(musicInfo);
         initListener();
         binding.viewBody.setOnClickListener(view -> {

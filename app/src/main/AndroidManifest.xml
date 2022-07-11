@@ -35,9 +35,12 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".ui.WebActivity"
-            android:screenOrientation="portrait"
+            android:name=".ui.daily.DailySongsActivity"
             android:exported="false" />
+        <activity
+            android:name=".ui.WebActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.song.CurrentSongPlayActivity"
             android:exported="false" />
@@ -74,7 +77,6 @@
             android:name=".ApplicationContextProvider"
             android:authorities="${applicationId}.contextProvider"
             android:exported="false" />
-
     </application>
 
 </manifest>
