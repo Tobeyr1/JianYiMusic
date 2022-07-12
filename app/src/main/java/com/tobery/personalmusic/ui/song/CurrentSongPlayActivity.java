@@ -9,6 +9,7 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.SeekBar;
@@ -148,8 +149,10 @@ public class CurrentSongPlayActivity extends BaseActivity {
                     @Override
                     public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
                         binding.imgBc.setImageBitmap(resource);
+                        StatusBarUtil.setTranslucentForImageView(CurrentSongPlayActivity.this,0,binding.viewTitleBg);
                         Palette.from(resource)
-                                .maximumColorCount(3)
+                                .setRegion(0,0,getScreenWidth(),getStatusBarHeight())
+                                .maximumColorCount(6)
                                 .generate(palette -> {
                                     Palette.Swatch mostPopularSwatch = null;
                                     for (Palette.Swatch swatch: palette.getSwatches()){
@@ -162,7 +165,7 @@ public class CurrentSongPlayActivity extends BaseActivity {
                                         double luminance =ColorUtils.calculateLuminance(mostPopularSwatch.getRgb());
                                         // 当luminance小于0.5时，我们认为这是一个深色值.
                                         if (luminance < 0.5){
-                                            setDarkStatusBar();
+                                             setDarkStatusBar();
                                         }else {
                                             setLightStatusBar();
                                         }
@@ -171,7 +174,21 @@ public class CurrentSongPlayActivity extends BaseActivity {
                     }
                 });
         binding.tvTitle.setText(musicInfo.getSongName());
-        StatusBarUtil.setTranslucentForImageView(this,0,binding.viewTitleBg);
+    }
+
+    private int getScreenWidth(){
+        DisplayMetrics displayMetrics =new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        return displayMetrics.widthPixels;
+    }
+
+    private int getStatusBarHeight(){
+        int result = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0){
+            result = getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
     }
 
     private void initListener() {
@@ -220,12 +237,13 @@ public class CurrentSongPlayActivity extends BaseActivity {
         binding.lrc.setVisibility(isShowLyrics ? View.VISIBLE : View.GONE);
     }
 
+    //使状态栏图标黑
     private void setLightStatusBar(){
         binding.tvTitle.setTextColor(getColor(R.color.black80));
         int flags = getWindow().getDecorView().getSystemUiVisibility();
         getWindow().getDecorView().setSystemUiVisibility(flags | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
     }
-
+    //使状态栏图标白
     private void setDarkStatusBar(){
         binding.tvTitle.setTextColor(getColor(R.color.white));
         int flags = getWindow().getDecorView().getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;

@@ -6,6 +6,7 @@ import com.tobery.livedata.call.livedatalib.ApiResponse;
 import com.tobery.personalmusic.entity.LoginEntity;
 import com.tobery.personalmusic.entity.LyricEntity;
 import com.tobery.personalmusic.entity.RefreshCookieEntity;
+import com.tobery.personalmusic.entity.RefreshLogin;
 import com.tobery.personalmusic.entity.SearchHotDetail_Bean;
 import com.tobery.personalmusic.entity.UserDetailEntity;
 import com.tobery.personalmusic.entity.home.DailySongsEntity;
@@ -50,5 +51,8 @@ public interface ApiService {
 
     @GET("recommend/songs") //获取日推
     LiveData<ApiResponse<DailySongsEntity>> getDailySongs();
+
+    @GET("login/refresh")//刷新登录
+    LiveData<ApiResponse<RefreshLogin>> refresh();
 
 }

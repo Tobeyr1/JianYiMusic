@@ -13,7 +13,7 @@ package com.tobery.personalmusic.util;
  */
 public class Constant {
 
-    public static final String SONG_URL = "http://music.163.com/song/media/outer/url?id=";
+    public static final String SONG_URL = "https://music.163.com/song/media/outer/url?id=";
 
     public static final String KEY_LOGIN_UI = "KEY_LOGIN_UI";
 
