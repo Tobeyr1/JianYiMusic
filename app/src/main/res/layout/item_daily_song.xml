@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_marginStart="@dimen/dp_8"
     android:layout_height="wrap_content"
     >
 
@@ -20,13 +21,40 @@
         android:layout_height="wrap_content"
         android:background="@null"
         android:ellipsize="end"
-        android:maxLines="2"
+        android:maxLines="1"
         android:layout_marginStart="@dimen/dp_5"
         android:textColor="@color/tv_black"
-        android:textSize="@dimen/sp_12"
+        android:textStyle="bold"
+        android:textSize="@dimen/sp_14"
         app:layout_constraintTop_toTopOf="@id/img_song"
         app:layout_constraintStart_toEndOf="@id/img_song"
          />
+
+    <TextView
+        android:id="@+id/tv_vip_flag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/sp_10"
+        android:padding="@dimen/dp_3"
+        android:text="@string/vip"
+        android:visibility="gone"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintStart_toEndOf="@id/img_song"
+        app:layout_constraintBottom_toBottomOf="@id/img_song"
+        />
+
+    <TextView
+        android:id="@+id/tv_music_sq"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/sp_10"
+        android:padding="@dimen/dp_3"
+        android:text="@string/music_type_sq"
+        android:visibility="gone"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintStart_toEndOf="@id/tv_vip_flag"
+        app:layout_constraintBottom_toBottomOf="@id/img_song"
+        />
 
     <TextView
         android:id="@+id/tv_singer"
@@ -34,13 +62,25 @@
         android:layout_height="wrap_content"
         android:background="@null"
         android:ellipsize="end"
-        android:maxLines="2"
+        android:maxLines="1"
         android:layout_marginTop="@dimen/dp_4"
         android:layout_marginStart="@dimen/dp_5"
         android:textColor="@color/gray_828282"
         android:textSize="@dimen/sp_12"
         app:layout_constraintBottom_toBottomOf="@id/img_song"
-        app:layout_constraintStart_toEndOf="@id/img_song"
+        app:layout_constraintStart_toEndOf="@id/tv_music_sq"
+        />
+
+    <TextView
+        android:id="@+id/tv_recommend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_4"
+        android:textSize="@dimen/sp_10"
+        app:layout_constraintStart_toEndOf="@id/tv_song_name"
+        app:layout_constraintTop_toTopOf="@id/tv_song_name"
+        app:layout_constraintBottom_toBottomOf="@id/tv_song_name"
+        android:textColor="@color/colorPrimary"
         />
 
 

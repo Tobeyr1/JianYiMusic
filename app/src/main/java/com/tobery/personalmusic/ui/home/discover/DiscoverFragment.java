@@ -177,24 +177,21 @@ public class DiscoverFragment extends Fragment {
                 .setIndicatorHeight(5)
                 .setIndicatorWidth(6,6)//选中下宽度一致
                 .setIndicatorGravity(IndicatorConfig.Direction.CENTER)
-                .setOnBannerListener(new OnBannerListener() {
-                    @Override
-                    public void OnBannerClick(Object data, int position) {
-                        if (banners.get(position).getUrl() != null){
-                            startActivity(new Intent(getActivity(), WebActivity.class)
-                                    .putExtra(BANNER_URI,banners.get(position).getUrl()));
-                        }
-                        if (banners.get(position).getSong() != null){
-                            MusicInfo musicInfo = new MusicInfo();
-                            musicInfo.setSongId(banners.get(position).getSong().getId()+"");
-                            musicInfo.setSongName(banners.get(position).getSong().getName());
-                            musicInfo.setSongCover(banners.get(position).getSong().getAl().getPicUrl());
-                            musicInfo.setArtist(banners.get(position).getSong().getAr().get(0).getName());
-                            musicInfo.setSongUrl(SONG_URL+banners.get(position).getSong().getId());
-                            MusicPlay.playMusicByInfo(musicInfo);
-                            startActivity(new Intent(getActivity(), CurrentSongPlayActivity.class)
-                                    .putExtra(MUSIC_INFO,musicInfo));
-                        }
+                .setOnBannerListener((data, position) -> {
+                    if (banners.get(position).getUrl() != null){
+                        startActivity(new Intent(getActivity(), WebActivity.class)
+                                .putExtra(BANNER_URI,banners.get(position).getUrl()));
+                    }
+                    if (banners.get(position).getSong() != null){
+                        MusicInfo musicInfo = new MusicInfo();
+                        musicInfo.setSongId(banners.get(position).getSong().getId()+"");
+                        musicInfo.setSongName(banners.get(position).getSong().getName());
+                        musicInfo.setSongCover(banners.get(position).getSong().getAl().getPicUrl());
+                        musicInfo.setArtist(banners.get(position).getSong().getAr().get(0).getName());
+                        musicInfo.setSongUrl(SONG_URL+banners.get(position).getSong().getId());
+                        MusicPlay.playMusicByInfo(musicInfo);
+                        startActivity(new Intent(getActivity(), CurrentSongPlayActivity.class)
+                                .putExtra(MUSIC_INFO,musicInfo));
                     }
                 });
     }
