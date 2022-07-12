@@ -78,7 +78,7 @@ public class RecentSongInfoEntity {
                 private int mst;
                 private int cp;
                 private int mv;
-                private int publishTime;
+                private long publishTime;
 
                 @NoArgsConstructor
                 @Data

@@ -6,6 +6,7 @@ import static com.tobery.personalmusic.util.Constant.DENIED_PERMISSION;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
+import androidx.lifecycle.Observer;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -20,12 +21,15 @@ import android.text.TextUtils;
 import android.view.View;
 
 import com.hjq.toast.ToastUtils;
+import com.tobery.livedata.call.livedatalib.ApiResponse;
 import com.tobery.musicplay.MusicPlay;
 import com.tobery.musicplay.PermissionChecks;
 import com.tobery.musicplay.PlayConfig;
 import com.tobery.personalmusic.BaseActivity;
 import com.tobery.personalmusic.R;
 import com.tobery.personalmusic.databinding.ActivitySplashBinding;
+import com.tobery.personalmusic.entity.RefreshLogin;
+import com.tobery.personalmusic.http.Retrofit.RetrofitUtils;
 import com.tobery.personalmusic.ui.home.MainActivity;
 import com.tobery.personalmusic.ui.login.LoginActivity;
 import com.tobery.personalmusic.util.ClickUtil;
@@ -99,10 +103,12 @@ public class SplashActivity extends BaseActivity {
                     binding.group.setVisibility(View.GONE);
                     binding.groupTop.setVisibility(View.VISIBLE);
                 } else {
-                    Intent intent = new Intent(this, MainActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-                    finish();
+                    RetrofitUtils.getmApiUrl().refresh().observe(this, refreshLoginApiResponse -> {
+                        Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                        finish();
+                    });
                 }
             }else {
                 int lastDeniedNum = SharePreferencesUtil.getInstance(this).getPermissionDeniedNum(DENIED_PERMISSION);
