@@ -8,7 +8,7 @@ android {
     defaultConfig {
         applicationId "com.tobery.personalmusic"
         minSdk 24
-        targetSdk 29
+        targetSdk 30
         versionCode 1
         versionName "1.0"
 

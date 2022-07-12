@@ -28,4 +28,8 @@
     <string name="repeat_none">列表循环</string>
     <string name="repeat_one">单曲循环</string>
     <string name="repeat_random">云随机</string>
+    <string name="vip">VIP</string>
+    <string name="music_type_sq">SQ</string>
+    <string name="music_type_hi">Hi-Res</string>
+    <string name="daily_play">播放全部</string>
 </resources>

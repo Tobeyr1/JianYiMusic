@@ -75,7 +75,7 @@ public class CurrentSongPlayActivity extends BaseActivity {
                     ViewExtensionKt.printLog("当前"+lyricEntityApiResponse.getMessage());
                     if (lyricEntityApiResponse.getStatus() == Status.SUCCESS){
                         if (lyricEntityApiResponse.getData().getLrc() != null){
-                            if (lyricEntityApiResponse.getData().getTlyric().getLyric() != null){
+                            if (lyricEntityApiResponse.getData().getTlyric() != null){
                                 binding.lrc.loadLrc(lyricEntityApiResponse.getData().getLrc().getLyric(),lyricEntityApiResponse.getData().getTlyric().getLyric());
                             }else {
                                 binding.lrc.loadLrc(lyricEntityApiResponse.getData().getLrc().getLyric(),"");

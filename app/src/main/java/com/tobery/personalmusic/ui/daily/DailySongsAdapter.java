@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.tobery.musicplay.MusicInfo;
 import com.tobery.musicplay.MusicPlay;
 import com.tobery.personalmusic.BindingAdapter;
+import com.tobery.personalmusic.R;
 import com.tobery.personalmusic.databinding.ItemDailySongBinding;
 import com.tobery.personalmusic.entity.home.DailySongsEntity;
 import com.tobery.personalmusic.ui.song.CurrentSongPlayActivity;
@@ -38,6 +40,7 @@ import java.util.List;
 public class DailySongsAdapter extends RecyclerView.Adapter<DailySongsViewHolder> {
 
     private final List<DailySongsEntity.DataEntity.SongsEntity> dataList = new ArrayList<>();
+    private final List<DailySongsEntity.DataEntity.RecommendReasonsEntity> reasonList = new ArrayList<>();
 
     private final Context mContext;
 
@@ -54,9 +57,11 @@ public class DailySongsAdapter extends RecyclerView.Adapter<DailySongsViewHolder
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void setDataList(List<DailySongsEntity.DataEntity.SongsEntity> data) {
+    public void setDataList(List<DailySongsEntity.DataEntity.SongsEntity> data,List<DailySongsEntity.DataEntity.RecommendReasonsEntity> reason) {
         dataList.clear();
         dataList.addAll(data);
+        reasonList.clear();
+        reasonList.addAll(reason);
         notifyDataSetChanged();
     }
 
@@ -69,9 +74,28 @@ public class DailySongsAdapter extends RecyclerView.Adapter<DailySongsViewHolder
         MusicInfo musicInfo = new MusicInfo();
         musicInfo.setSongUrl(Constant.SONG_URL+bean.getId());
         musicInfo.setSongId(String.valueOf(bean.getId()));
-        musicInfo.setSongName(bean.getName());
+        String songName = bean.getName();
+        if (bean.getTns() != null){ //外语翻译歌名
+            songName += "("+bean.getTns().get(0)+")";
+        }
+        musicInfo.setSongName(songName);
         musicInfo.setArtist(bean.getAr().get(0).getName());
         musicInfo.setSongCover(bean.getAl().getPicUrl());
+        for (DailySongsEntity.DataEntity.RecommendReasonsEntity data: reasonList){
+            if (data.getSongId() == bean.getId()){
+                holder.tvRecommend.setText(data.getReason());
+            }
+        }
+        if (bean.getFee() == 1){//1表示vip歌曲
+            holder.tvVip.setVisibility(View.VISIBLE);
+        }
+        if (bean.getSq() != null){//表示该歌曲有SQ版本
+            holder.tvSq.setVisibility(View.VISIBLE);
+        }
+        if (bean.getHr() != null){//表示有hi版
+            holder.tvSq.setText(mContext.getString(R.string.music_type_hi));
+            holder.tvSq.setVisibility(View.VISIBLE);
+        }
         holder.itemView.setOnClickListener(view -> {
             if (ClickUtil.enableClick()){
                 MusicPlay.playMusicByInfo(musicInfo);
@@ -89,7 +113,7 @@ public class DailySongsAdapter extends RecyclerView.Adapter<DailySongsViewHolder
 }
 
 class DailySongsViewHolder extends RecyclerView.ViewHolder {
-    TextView tvSongName,tvSinger;
+    TextView tvSongName,tvSinger,tvRecommend,tvVip,tvSq;
     ImageView imgSong;
 
     public DailySongsViewHolder(ItemDailySongBinding binding) {
@@ -97,5 +121,8 @@ class DailySongsViewHolder extends RecyclerView.ViewHolder {
         tvSongName = binding.tvSongName;
         tvSinger = binding.tvSinger;
         imgSong = binding.imgSong;
+        tvRecommend = binding.tvRecommend;
+        tvVip = binding.tvVipFlag;
+        tvSq = binding.tvMusicSq;
     }
 }

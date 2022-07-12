@@ -6,12 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".ui.daily.DailySongsActivity">
 
+    <ImageView
+        android:id="@+id/img_daily_bg"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_85"
+        app:layout_constraintTop_toTopOf="parent"
+        android:scaleType="fitXY"
+        android:src="@color/blue_33007A"
+        />
     <View
         android:id="@+id/view_title_bg"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_45"
         app:layout_constraintTop_toTopOf="parent"
-        android:background="@color/black"
         />
 
     <TextView
@@ -25,11 +32,47 @@
         app:layout_constraintBottom_toBottomOf="@id/view_title_bg"
         />
 
+    <View
+        android:id="@+id/view_play"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_40"
+        app:layout_constraintTop_toBottomOf="@id/view_title_bg"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/daily_play"
+        />
+
+    <TextView
+        android:id="@+id/img_play"
+        android:layout_width="@dimen/dp_24"
+        android:layout_height="@dimen/dp_24"
+        android:layout_marginStart="@dimen/dp_13"
+        android:background="@drawable/ic_daily_play_all"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/view_play"
+        app:layout_constraintBottom_toBottomOf="@id/view_play"
+        />
+
+    <TextView
+        android:id="@+id/daily_play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/sp_18"
+        android:textColor="@color/pureBlack"
+        android:text="@string/daily_play"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginStart="@dimen/dp_8"
+        app:layout_constraintTop_toTopOf="@id/view_play"
+        app:layout_constraintBottom_toBottomOf="@id/view_play"
+        app:layout_constraintStart_toEndOf="@id/img_play"
+        />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_daily"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_0"
-        app:layout_constraintTop_toBottomOf="@id/view_title_bg"
+        android:background="@color/white35"
+        app:layout_constraintTop_toBottomOf="@id/view_play"
         app:layout_constraintBottom_toBottomOf="parent"
         />
 
