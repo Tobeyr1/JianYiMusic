@@ -25,6 +25,7 @@ import com.tobery.personalmusic.util.Constant;
 import com.tobery.personalmusic.util.StatusBarUtil;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import jp.wasabeef.glide.transformations.BlurTransformation;
@@ -35,7 +36,7 @@ public class DailySongsActivity extends BaseActivity {
     private DailySongsAdapter adapter;
     private DailySongsViewModel viewModel;
     private ArrayList<MusicInfo> songList = new ArrayList<>();
-
+    public String date = Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,13 +49,15 @@ public class DailySongsActivity extends BaseActivity {
     }
 
     private void initView() {
-        StatusBarUtil.setColor(this,getResources().getColor(R.color.blue_33007A,null),0);
-        binding.ivBack.setOnClickListener(view -> {
+        StatusBarUtil.setColor(this,getResources().getColor(R.color.colorPrimary,null),0);
+        binding.tvDay.setText(Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + "");
+        binding.tvMonth.setText("/"+(Calendar.getInstance().get(Calendar.MONTH)+1)+"");
+        binding.title.ivBack.setOnClickListener(view -> {
             if (ClickUtil.enableClick()){
                 finish();
             }
         });
-        binding.viewPlay.setOnClickListener(v -> {
+        binding.rvPlayTop.setOnClickListener(v -> {
             if (ClickUtil.enableClick()){
                 MusicPlay.playMusicByList(songList,0);
                 startActivity(new Intent(this, CurrentSongPlayActivity.class)
@@ -67,12 +70,6 @@ public class DailySongsActivity extends BaseActivity {
         viewModel.getDailySongs().observe(this, dailySongsEntityApiResponse -> {
             if (dailySongsEntityApiResponse.getStatus() == Status.SUCCESS){
                 adapter.setDataList(dailySongsEntityApiResponse.getData().getData().getDailySongs(),dailySongsEntityApiResponse.getData().getData().getRecommendReasons());
-                RequestOptions options = new RequestOptions()
-                        .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                        .bitmapTransform(new BlurTransformation(25, 30));
-                Glide.with(this).asBitmap().load(dailySongsEntityApiResponse.getData().getData().getDailySongs().get(0).getAl().getPicUrl())
-                        .apply(options).into(binding.imgDailyBg);
-                StatusBarUtil.setTranslucentForImageView(this,0,binding.viewTitleBg);
                 for (DailySongsEntity.DataEntity.SongsEntity data: dailySongsEntityApiResponse.getData().getData().getDailySongs()){
                     MusicInfo musicInfo = new MusicInfo();
                     musicInfo.setSongUrl(Constant.SONG_URL+data.getId());

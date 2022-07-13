@@ -40,6 +40,7 @@ import com.tobery.musicplay.MusicPlay;
 import com.tobery.musicplay.OnMusicPlayProgressListener;
 import com.tobery.musicplay.OnMusicPlayStateListener;
 import com.tobery.musicplay.PlayManger;
+import com.tobery.musicplay.SpConstant;
 import com.tobery.musicplay.ViewExtensionKt;
 import com.tobery.personalmusic.BaseActivity;
 import com.tobery.personalmusic.R;
@@ -253,16 +254,16 @@ public class CurrentSongPlayActivity extends BaseActivity {
     private void changeRepeatMode(){
         int currentModel = MusicPlay.getRepeatMode();
         switch (currentModel){
-            case 100:
-                MusicPlay.setRepeatMode(200,true);
+            case SpConstant.REPEAT_MODE_NONE:
+                MusicPlay.setRepeatMode(SpConstant.REPEAT_MODE_ONE,true);
                 ToastUtils.show(getString(R.string.repeat_one));
                 break;
-            case 200:
-                MusicPlay.setRepeatMode(300,false);
+            case SpConstant.REPEAT_MODE_ONE:
+                MusicPlay.setRepeatMode(SpConstant.REPEAT_MODE_SHUFFLE,false);
                 ToastUtils.show(getString(R.string.repeat_random));
                 break;
-            case 300:
-                MusicPlay.setRepeatMode(100,true);
+            case SpConstant.REPEAT_MODE_SHUFFLE:
+                MusicPlay.setRepeatMode(SpConstant.REPEAT_MODE_NONE,true);
                 ToastUtils.show(getString(R.string.repeat_none));
                 break;
         }

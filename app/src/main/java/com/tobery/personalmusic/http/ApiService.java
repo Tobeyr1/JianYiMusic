@@ -13,6 +13,7 @@ import com.tobery.personalmusic.entity.home.DailySongsEntity;
 import com.tobery.personalmusic.entity.home.HomeDiscoverEntity;
 import com.tobery.personalmusic.entity.home.RecentSongInfoEntity;
 import com.tobery.personalmusic.entity.home.RecommendListEntity;
+import com.tobery.personalmusic.entity.user.UserPlayEntity;
 import com.tobery.personalmusic.entity.user.VipInfoEntity;
 
 import io.reactivex.Observable;
@@ -43,7 +44,7 @@ public interface ApiService {
     @GET("lyric") //获取歌词
     LiveData<ApiResponse<LyricEntity>> getLyric(@Query("id") long songId);
 
-    @GET("playlist/detail")//获取推荐歌单详情列表
+    @GET("playlist/detail")//获取歌单详情列表
     LiveData<ApiResponse<RecommendListEntity>> getRecommendList(@Query("id") long creativeId);
 
     @GET("record/recent/song") //最近播放音乐
@@ -54,5 +55,8 @@ public interface ApiService {
 
     @GET("login/refresh")//刷新登录
     LiveData<ApiResponse<RefreshLogin>> refresh();
+
+    @GET("user/playlist") //用户歌单
+    LiveData<ApiResponse<UserPlayEntity>> getUserPlayList(@Query("uid") long userId);
 
 }
