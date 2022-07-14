@@ -13,9 +13,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.tobery.musicplay.MusicInfo;
 import com.tobery.musicplay.MusicPlay;
+import com.tobery.musicplay.entity.MusicInfo;
 import com.tobery.personalmusic.BindingAdapter;
 import com.tobery.personalmusic.R;
 import com.tobery.personalmusic.databinding.ItemDailySongBinding;

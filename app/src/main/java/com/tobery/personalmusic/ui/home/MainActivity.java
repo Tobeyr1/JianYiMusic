@@ -23,11 +23,11 @@ import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.navigation.NavigationBarView;
 import com.tobery.livedata.call.livedatalib.ApiResponse;
 import com.tobery.livedata.call.livedatalib.Status;
-import com.tobery.musicplay.MusicInfo;
 import com.tobery.musicplay.MusicPlay;
 import com.tobery.musicplay.OnMusicPlayStateListener;
-import com.tobery.musicplay.PlayManger;
-import com.tobery.musicplay.ViewExtensionKt;
+import com.tobery.musicplay.entity.MusicInfo;
+import com.tobery.musicplay.entity.PlayManger;
+import com.tobery.musicplay.util.ViewExtensionKt;
 import com.tobery.personalmusic.BaseActivity;
 import com.tobery.personalmusic.R;
 import com.tobery.personalmusic.databinding.ActivityMainBinding;
@@ -106,29 +106,6 @@ public class MainActivity extends BaseActivity {
                 }
             }
         });
-       /* MusicPlay.setGlobalPlaybackStageListener(new OnMusicPlayStateListener() {
-            @Override
-            public void onPlayState(@NonNull PlayManger playManger) {
-                viewModel.currentSongUrl.set(playManger.getSongInfo().getSongCover());
-                viewModel.currentSongName.set(playManger.getSongInfo().getSongName());
-                switch (playManger.getStage()){
-                    case PlayManger.PAUSE:
-                    case PlayManger.IDLE:
-                        binding.songBar.ivBottomPlay.setImageResource(R.drawable.shape_play);
-                        break;
-                    case PlayManger.PLAYING:
-                        binding.songBar.ivBottomPlay.setImageResource(R.drawable.shape_pause_black);
-                        break;
-                    case PlayManger.BUFFERING:
-                        ViewExtensionKt.printLog("缓冲");
-                        break;
-                    case PlayManger.SWITCH:
-
-                        break;
-
-                }
-            }
-        });*/
 
         binding.songBar.rootBottomBar.setOnClickListener(view -> {
             if (ClickUtil.enableClick()){
