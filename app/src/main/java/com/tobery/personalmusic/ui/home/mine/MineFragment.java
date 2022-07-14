@@ -1,6 +1,7 @@
 package com.tobery.personalmusic.ui.home.mine;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,11 +10,18 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.tobery.livedata.call.livedatalib.ApiResponse;
 import com.tobery.livedata.call.livedatalib.Status;
+import com.tobery.musicplay.ViewExtensionKt;
 import com.tobery.personalmusic.databinding.FragmentMineBinding;
+import com.tobery.personalmusic.entity.UserDetailEntity;
+import com.tobery.personalmusic.entity.user.UserPlayEntity;
+import com.tobery.personalmusic.ui.daily.MinePlayListActivity;
 import com.tobery.personalmusic.ui.home.MainViewModel;
+import com.tobery.personalmusic.util.ClickUtil;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -39,6 +47,7 @@ public class MineFragment extends Fragment {
         viewModel = new ViewModelProvider(this).get(MineFragmentViewModel.class);
         binding.setLifecycleOwner(this);
         binding.setVm(homeViewModel);
+        binding.setMy(viewModel);
         return binding.getRoot();
     }
 
@@ -47,7 +56,16 @@ public class MineFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         homeViewModel.initUi();
         initWebView();
+        initView();
         initObserver();
+    }
+
+    private void initView() {
+        binding.viewLikeItem.setOnClickListener(v -> {
+            if (ClickUtil.enableClick()){
+                startActivity(new Intent(getActivity(), MinePlayListActivity.class));
+            }
+        });
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -60,6 +78,22 @@ public class MineFragment extends Fragment {
         viewModel.getVipInfo().observe(getViewLifecycleOwner(), vipInfoEntityApiResponse -> {
             if (vipInfoEntityApiResponse.getStatus() == Status.SUCCESS){
                 binding.webVip.loadDataWithBaseURL(null,changeImageUrl(vipInfoEntityApiResponse.getData().getData().getRedVipDynamicIconUrl2()),"text/html", "utf-8", null);
+            }
+        });
+
+        homeViewModel.getUserDetails().observe(getViewLifecycleOwner(), userDetailEntityApiResponse -> {
+            if (userDetailEntityApiResponse.getStatus() == Status.SUCCESS){
+                viewModel.level.set("Lv."+userDetailEntityApiResponse.getData().getLevel());
+            }
+        });
+
+        viewModel.getUserPlayList(Long.valueOf(homeViewModel.ui.userId.get())).observe(getViewLifecycleOwner(), userPlayEntityApiResponse -> {
+            ViewExtensionKt.printLog(userPlayEntityApiResponse.getMessage());
+            if (userPlayEntityApiResponse.getStatus() == Status.SUCCESS){
+                UserPlayEntity.PlaylistEntity userLike = userPlayEntityApiResponse.getData().getPlaylist().get(0);
+                viewModel.mineLikeCover.set(userLike.getCoverImgUrl());
+                viewModel.trackCount.set(userLike.getTrackCount()+"");
+                viewModel.userLikeCreator = userLike.getId();
             }
         });
     }

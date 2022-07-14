@@ -70,25 +70,25 @@ public class LikeAdapter extends RecyclerView.Adapter<LikeViewHolder> {
         switch (num){
             case 1:
                 holder.tvTitleOne.setText(bean.getResources().get(0).getUiElement().getMainTitle().getTitle());
-                BindingAdapter.loadRadiusImage(bean.getResources().get(0).getUiElement().getImage().getImageUrl(),holder.imgOne);
+                BindingAdapter.loadRadiusImage(holder.imgOne,bean.getResources().get(0).getUiElement().getImage().getImageUrl());
                 break;
             case 2:
                 holder.tvTitleOne.setText(bean.getResources().get(0).getUiElement().getMainTitle().getTitle());
-                BindingAdapter.loadRadiusImage(bean.getResources().get(0).getUiElement().getImage().getImageUrl(),holder.imgOne);
+                BindingAdapter.loadRadiusImage(holder.imgOne,bean.getResources().get(0).getUiElement().getImage().getImageUrl());
 
                 holder.tvTitleTwo.setText(bean.getResources().get(1).getUiElement().getMainTitle().getTitle());
-                BindingAdapter.loadRadiusImage(bean.getResources().get(1).getUiElement().getImage().getImageUrl(),holder.imgTwo);
+                BindingAdapter.loadRadiusImage(holder.imgTwo,bean.getResources().get(1).getUiElement().getImage().getImageUrl());
                 break;
             case 3:
 
                 holder.tvTitleOne.setText(bean.getResources().get(0).getUiElement().getMainTitle().getTitle());
-                BindingAdapter.loadRadiusImage(bean.getResources().get(0).getUiElement().getImage().getImageUrl(),holder.imgOne);
+                BindingAdapter.loadRadiusImage(holder.imgOne,bean.getResources().get(0).getUiElement().getImage().getImageUrl());
 
                 holder.tvTitleTwo.setText(bean.getResources().get(1).getUiElement().getMainTitle().getTitle());
-                BindingAdapter.loadRadiusImage(bean.getResources().get(1).getUiElement().getImage().getImageUrl(),holder.imgTwo);
+                BindingAdapter.loadRadiusImage(holder.imgTwo,bean.getResources().get(1).getUiElement().getImage().getImageUrl());
 
                 holder.tvTitleThree.setText(bean.getResources().get(2).getUiElement().getMainTitle().getTitle());
-                BindingAdapter.loadRadiusImage(bean.getResources().get(2).getUiElement().getImage().getImageUrl(),holder.imgThree);
+                BindingAdapter.loadRadiusImage(holder.imgThree,bean.getResources().get(2).getUiElement().getImage().getImageUrl());
                 break;
         }
 

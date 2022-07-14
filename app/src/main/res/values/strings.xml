@@ -32,4 +32,5 @@
     <string name="music_type_sq">SQ</string>
     <string name="music_type_hi">Hi-Res</string>
     <string name="daily_play">播放全部</string>
+    <string name="title_activity_mine_play_list">MinePlayListActivity</string>
 </resources>

@@ -178,7 +178,7 @@ public class RecommendListEntity {
             private int pst;
             private int t;
             private List<ArEntity> ar;
-            private List<?> alia;
+            private List<String> alia;
             private int pop;
             private int st;
             private String rt;
@@ -202,7 +202,7 @@ public class RecommendListEntity {
             private int djId;
             private int copyright;
             private int s_id;
-            private int mark;
+            private long mark;
             private int originCoverType;
             private Object originSongSimpleData;
             private Object tagPicList;

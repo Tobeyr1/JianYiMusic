@@ -47,7 +47,8 @@ public class BindingAdapter {
         }
     }
 
-    public static void loadRadiusImage(@Nullable String url,ImageView view){
+    @androidx.databinding.BindingAdapter(value = "rectangleSrc")
+    public static void loadRadiusImage(ImageView view,@Nullable String url){
         RequestOptions options = new RequestOptions()
                 .placeholder(R.drawable.ic_banner_loading)
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)

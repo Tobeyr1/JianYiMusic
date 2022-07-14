@@ -103,4 +103,6 @@
     <dimen name="dp_210">210dp</dimen>
     <dimen name="dp_185">185dp</dimen>
     <dimen name="dp_33">33dp</dimen>
+    <dimen name="app_bar_height">180dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
 </resources>

@@ -16,6 +16,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
+import com.tobery.personalmusic.BindingAdapter;
 import com.tobery.personalmusic.R;
 import com.tobery.personalmusic.databinding.ItemRecommendDiscoverBinding;
 import com.tobery.personalmusic.entity.home.HomeDiscoverEntity;
@@ -71,7 +72,8 @@ public class LookAdapter extends RecyclerView.Adapter<LookViewHolder> {
         LookLiveEntity bean = dataList.get(position);
         holder.tvTitle.setText(bean.getTitle());
         //holder.tvCount.setText(bean.getResources().get(0).getResourceExtInfo().getPlayCount());
-        RequestOptions options = new RequestOptions()
+        BindingAdapter.loadRadiusImage(holder.imRecommend,bean.getVerticalCover());
+      /*  RequestOptions options = new RequestOptions()
                 .placeholder(R.drawable.ic_banner_loading)
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .transform(new CenterCrop(),new RoundedCorners(10))
@@ -80,7 +82,7 @@ public class LookAdapter extends RecyclerView.Adapter<LookViewHolder> {
                 .load(bean.getVerticalCover())
                 .transition(new DrawableTransitionOptions().crossFade())
                 .apply(options)
-                .into(holder.imRecommend);
+                .into(holder.imRecommend);*/
 
     }
 
