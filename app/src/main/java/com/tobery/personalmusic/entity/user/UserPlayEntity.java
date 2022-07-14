@@ -34,9 +34,9 @@ public class UserPlayEntity {
         private Object artists;
         private Object tracks;
         private Object updateFrequency;
-        private int backgroundCoverId;
+        private long backgroundCoverId;
         private Object backgroundCoverUrl;
-        private int titleImage;
+        private long titleImage;
         private Object titleImageUrl;
         private Object englishTitle;
         private boolean opRecommend;
@@ -58,14 +58,14 @@ public class UserPlayEntity {
         private boolean highQuality;
         private boolean newImported;
         private long trackNumberUpdateTime;
-        private int playCount;
+        private long playCount;
         private int adType;
         private Object description;
         private List<?> tags;
         private boolean ordered;
         private int status;
         private String name;
-        private int id;
+        private long id;
         private String coverImgId_str;
         private Object sharedUsers;
         private Object shareStatus;

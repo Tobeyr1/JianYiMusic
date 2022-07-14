@@ -7,6 +7,9 @@
         <variable
             name="vm"
             type="com.tobery.personalmusic.ui.home.MainViewModel" />
+        <variable
+            name="my"
+            type="com.tobery.personalmusic.ui.home.mine.MineFragmentViewModel" />
     </data>
 
 <androidx.constraintlayout.widget.ConstraintLayout
@@ -16,14 +19,7 @@
 
 
     <View
-        android:id="@+id/view_title_bg"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_45"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="@color/colorPrimary"
-        />
-
-    <View
+        android:id="@+id/view_nike"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_0"
         android:layout_marginTop="@dimen/dp_40"
@@ -32,8 +28,8 @@
         app:layout_constraintTop_toTopOf="@id/img_head"
         app:layout_constraintBottom_toBottomOf="@id/tv_follow"
         android:padding="@dimen/dp_24"
-        android:layout_marginStart="@dimen/dp_8"
-        android:layout_marginEnd="@dimen/dp_8"
+        android:layout_marginStart="@dimen/dp_16"
+        android:layout_marginEnd="@dimen/dp_16"
         />
 
     <ImageView
@@ -46,7 +42,7 @@
         android:elevation="@dimen/dp_8"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/view_title_bg"
+        app:layout_constraintTop_toTopOf="parent"
         />
 
     <WebView
@@ -69,6 +65,7 @@
         app:layout_constraintTop_toBottomOf="@id/img_head"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="@dimen/dp_8"
         />
 
     <TextView
@@ -76,12 +73,84 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@{vm.ui.follows}"
-        android:textColor="@color/grays_06"
-        android:layout_marginTop="@dimen/dp_50"
-        app:layout_constraintTop_toBottomOf="@id/img_head"
+        android:textSize="@dimen/sp_14"
+        android:textColor="@color/grays_66"
+        android:layout_marginEnd="@dimen/dp_16"
+        android:paddingBottom="@dimen/dp_8"
+        app:layout_constraintTop_toBottomOf="@id/tv_nickname"
+        app:layout_constraintEnd_toStartOf="@id/tv_fans"
+        />
+    <TextView
+        android:id="@+id/tv_fans"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@{vm.ui.followeds}"
+        android:textSize="@dimen/sp_14"
+        android:textColor="@color/grays_66"
+        app:layout_constraintTop_toBottomOf="@id/tv_nickname"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         />
+
+    <TextView
+        android:id="@+id/tv_level"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@{my.level}"
+        android:textSize="@dimen/sp_14"
+        android:textColor="@color/grays_66"
+        android:layout_marginStart="@dimen/dp_16"
+        app:layout_constraintTop_toBottomOf="@id/tv_nickname"
+        app:layout_constraintStart_toEndOf="@id/tv_fans"
+        />
+
+    <View
+        android:id="@+id/view_like_item"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_80"
+        app:layout_constraintTop_toBottomOf="@id/view_nike"
+        android:background="@drawable/bg_view_white_full"
+        android:layout_margin="@dimen/dp_16"
+        />
+
+    <ImageView
+        android:id="@+id/img_cover"
+        android:layout_width="@dimen/dp_60"
+        android:layout_height="@dimen/dp_60"
+        app:layout_constraintTop_toTopOf="@id/view_like_item"
+        app:layout_constraintBottom_toBottomOf="@id/view_like_item"
+        app:layout_constraintStart_toStartOf="@id/view_like_item"
+        android:layout_marginStart="@dimen/dp_16"
+        rectangleSrc="@{my.mineLikeCover}"
+        />
+
+    <TextView
+        android:id="@+id/tv_introduction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:text="music"
+        android:textSize="@dimen/sp_16"
+        android:layout_marginStart="@dimen/dp_8"
+        app:layout_constraintTop_toTopOf="@id/view_like_item"
+        app:layout_constraintBottom_toTopOf="@id/tv_count"
+        app:layout_constraintStart_toEndOf="@id/img_cover"
+        />
+
+    <TextView
+        android:id="@+id/tv_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/grays_66"
+        android:text="@{my.trackCount}"
+        android:textSize="@dimen/sp_12"
+        android:layout_marginStart="@dimen/dp_8"
+        app:layout_constraintTop_toBottomOf="@id/tv_introduction"
+        app:layout_constraintBottom_toBottomOf="@id/view_like_item"
+        app:layout_constraintStart_toEndOf="@id/img_cover"
+        />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

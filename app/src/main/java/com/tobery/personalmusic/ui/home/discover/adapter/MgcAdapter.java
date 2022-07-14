@@ -16,6 +16,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
+import com.tobery.personalmusic.BindingAdapter;
 import com.tobery.personalmusic.R;
 import com.tobery.personalmusic.databinding.ItemRecommendDiscoverBinding;
 import com.tobery.personalmusic.entity.home.HomeDiscoverEntity;
@@ -70,16 +71,7 @@ public class MgcAdapter extends RecyclerView.Adapter<MgcViewHolder> {
         HomeDiscoverEntity.DataEntity.BlocksEntity.CreativesEntity bean = dataList.get(position);
         holder.tvTitle.setText(bean.getUiElement().getMainTitle().getTitle());
         //holder.tvCount.setText(bean.getResources().get(0).getResourceExtInfo().getPlayCount());
-        RequestOptions options = new RequestOptions()
-                .placeholder(R.drawable.ic_banner_loading)
-                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                .transform(new CenterCrop(),new RoundedCorners(10))
-                .error(R.mipmap.ic_launcher);
-        Glide.with(mContext)
-                .load(bean.getUiElement().getImage().getImageUrl())
-                .transition(new DrawableTransitionOptions().crossFade())
-                .apply(options)
-                .into(holder.imRecommend);
+        BindingAdapter.loadRadiusImage(holder.imRecommend,bean.getUiElement().getImage().getImageUrl());
 
     }
 

@@ -45,7 +45,7 @@ public interface ApiService {
     LiveData<ApiResponse<LyricEntity>> getLyric(@Query("id") long songId);
 
     @GET("playlist/detail")//获取歌单详情列表
-    LiveData<ApiResponse<RecommendListEntity>> getRecommendList(@Query("id") long creativeId);
+    LiveData<ApiResponse<RecommendListEntity>> getPlayList(@Query("id") long creativeId);
 
     @GET("record/recent/song") //最近播放音乐
     LiveData<ApiResponse<RecentSongInfoEntity>> getRecentSong(@Query("limit") int limit);

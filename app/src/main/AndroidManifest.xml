@@ -20,7 +20,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" /> <!-- 申请电源锁权限 -->
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" /> <!-- 解锁屏幕需要的权限 -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:name=".app"
@@ -34,6 +34,11 @@
         android:theme="@style/Theme.PersonalMusic"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".ui.daily.MinePlayListActivity"
+            android:exported="false"
+            android:label="@string/title_activity_mine_play_list"
+            android:theme="@style/Theme.PersonalMusic.NoActionBar" />
         <activity
             android:name=".ui.daily.DailySongsActivity"
             android:exported="false" />
