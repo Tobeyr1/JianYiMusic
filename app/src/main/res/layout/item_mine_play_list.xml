@@ -2,8 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_marginStart="@dimen/dp_8"
-    android:layout_height="@dimen/dp_30"
+    android:layout_margin="@dimen/dp_8"
+    android:layout_height="wrap_content"
     >
 
     <TextView
@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:textStyle="bold"
         android:textSize="@dimen/sp_14"
-        android:textColor="@color/grays_66"
+        android:textColor="@color/grays_03"
         android:ellipsize="end"
         android:maxLines="1"
         app:layout_constraintTop_toTopOf="parent"
@@ -52,15 +52,15 @@
 
     <TextView
         android:id="@+id/tv_singer"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@null"
         android:ellipsize="end"
         android:maxLines="1"
         android:layout_marginTop="@dimen/dp_4"
         android:layout_marginStart="@dimen/dp_5"
         android:textColor="@color/gray_828282"
         android:textSize="@dimen/sp_12"
+        app:layout_constraintTop_toBottomOf="@id/tv_song_name"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/tv_number"
         />
