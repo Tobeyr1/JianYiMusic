@@ -15,7 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.tobery.livedata.call.livedatalib.ApiResponse;
 import com.tobery.livedata.call.livedatalib.Status;
-import com.tobery.musicplay.ViewExtensionKt;
+import com.tobery.musicplay.util.ViewExtensionKt;
 import com.tobery.personalmusic.databinding.FragmentMineBinding;
 import com.tobery.personalmusic.entity.UserDetailEntity;
 import com.tobery.personalmusic.entity.user.UserPlayEntity;

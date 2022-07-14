@@ -8,13 +8,10 @@ import android.os.Bundle;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
+
 import com.tobery.livedata.call.livedatalib.Status;
-import com.tobery.musicplay.MusicInfo;
 import com.tobery.musicplay.MusicPlay;
-import com.tobery.musicplay.ViewExtensionKt;
+import com.tobery.musicplay.entity.MusicInfo;
 import com.tobery.personalmusic.BaseActivity;
 import com.tobery.personalmusic.R;
 import com.tobery.personalmusic.databinding.ActivityDailySongsBinding;
@@ -26,9 +23,7 @@ import com.tobery.personalmusic.util.StatusBarUtil;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
-import jp.wasabeef.glide.transformations.BlurTransformation;
 
 public class DailySongsActivity extends BaseActivity {
 

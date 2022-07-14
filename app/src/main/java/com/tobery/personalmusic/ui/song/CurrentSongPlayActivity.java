@@ -23,25 +23,19 @@ import androidx.palette.graphics.Palette;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 import com.hjq.toast.ToastUtils;
-import com.tobery.livedata.call.livedatalib.ApiResponse;
 import com.tobery.livedata.call.livedatalib.Status;
-import com.tobery.musicplay.MusicInfo;
 import com.tobery.musicplay.MusicPlay;
 import com.tobery.musicplay.OnMusicPlayProgressListener;
 import com.tobery.musicplay.OnMusicPlayStateListener;
-import com.tobery.musicplay.PlayManger;
 import com.tobery.musicplay.SpConstant;
-import com.tobery.musicplay.ViewExtensionKt;
+import com.tobery.musicplay.entity.MusicInfo;
+import com.tobery.musicplay.entity.PlayManger;
+import com.tobery.musicplay.util.ViewExtensionKt;
 import com.tobery.personalmusic.BaseActivity;
 import com.tobery.personalmusic.R;
 import com.tobery.personalmusic.databinding.ActivityCurrentSongPlayBinding;
@@ -123,6 +117,9 @@ public class CurrentSongPlayActivity extends BaseActivity {
                 changeRepeatMode();
             }
         });
+        /*ViewExtensionKt.setOnSingleClickListener(binding.ivPlayMode,view -> {
+            changeRepeatMode();
+        });*/
         binding.lrc.setCoverChangeListener(()->{
             viewModel.isShowLrc = false;
             showLyrics(false);

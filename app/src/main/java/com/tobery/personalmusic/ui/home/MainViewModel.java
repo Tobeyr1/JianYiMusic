@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.google.gson.Gson;
 import com.tobery.livedata.call.livedatalib.ApiResponse;
-import com.tobery.musicplay.MusicInfo;
+import com.tobery.musicplay.entity.MusicInfo;
 import com.tobery.personalmusic.entity.LoginEntity;
 import com.tobery.personalmusic.entity.UserDetailEntity;
 import com.tobery.personalmusic.entity.home.RecentSongInfoEntity;
