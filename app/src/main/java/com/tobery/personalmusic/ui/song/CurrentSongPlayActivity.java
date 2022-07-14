@@ -79,11 +79,6 @@ public class CurrentSongPlayActivity extends BaseActivity {
                         }else {
                             binding.lrc.loadLrc("","");
                         }
-
-                        binding.lrc.setListener(time -> {
-                            MusicPlay.seekTo(time,true);
-                            return true;
-                        });
                     }
                 });
     }
@@ -117,12 +112,16 @@ public class CurrentSongPlayActivity extends BaseActivity {
                 changeRepeatMode();
             }
         });
-        /*ViewExtensionKt.setOnSingleClickListener(binding.ivPlayMode,view -> {
-            changeRepeatMode();
-        });*/
+        binding.lrc.setListener(time -> {
+            MusicPlay.seekTo(time,true);
+            return true;
+        });
         binding.lrc.setCoverChangeListener(()->{
             viewModel.isShowLrc = false;
             showLyrics(false);
+        });
+        binding.ivList.setOnClickListener(view -> {
+            //MusicPlay.getPlayList()
         });
     }
 
@@ -132,6 +131,7 @@ public class CurrentSongPlayActivity extends BaseActivity {
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .bitmapTransform(new BlurTransformation(25, 30));
         viewModel.currentSongId.set(Long.parseLong(musicInfo.getSongId()));
+        initObserver();
        /* Glide.with(this)
                 .load(musicInfo.getSongCover())
                 .apply(options)

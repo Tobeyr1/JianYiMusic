@@ -42,6 +42,17 @@
 
        </RelativeLayout>
 
+       <ImageView
+           android:id="@+id/img_loading"
+           android:layout_width="@dimen/dp_40"
+           android:layout_height="@dimen/dp_40"
+           android:layout_marginTop="@dimen/dp_50"
+           app:layout_constraintStart_toStartOf="parent"
+           app:layout_constraintEnd_toEndOf="parent"
+           app:layout_constraintTop_toBottomOf="@id/rv_play_top"
+           />
+
+
        <androidx.recyclerview.widget.RecyclerView
            android:id="@+id/rv_play_list"
            android:layout_width="match_parent"

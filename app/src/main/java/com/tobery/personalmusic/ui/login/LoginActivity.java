@@ -62,7 +62,6 @@ public class LoginActivity extends BaseActivity {
 
                             @Override
                             public void onNext(LoginEntity login_bean) {
-                                Log.e("数据", login_bean.toString());
                                 AlertDialogUtil.Companion.closeDialog(dialog);
                                 if (login_bean.getCode() == 200) {
                                     SharePreferencesUtil.getInstance(LoginActivity.this).saveUserInfo(login_bean, viewModel.ui.userName.get());

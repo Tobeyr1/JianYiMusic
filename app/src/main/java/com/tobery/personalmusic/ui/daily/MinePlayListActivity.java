@@ -4,7 +4,10 @@ import static com.tobery.personalmusic.util.Constant.MUSIC_INFO;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.tobery.livedata.call.livedatalib.ApiResponse;
 import com.tobery.livedata.call.livedatalib.Status;
@@ -12,6 +15,7 @@ import com.tobery.musicplay.MusicPlay;
 import com.tobery.musicplay.entity.MusicInfo;
 import com.tobery.musicplay.util.ViewExtensionKt;
 import com.tobery.personalmusic.BaseActivity;
+import com.tobery.personalmusic.R;
 import com.tobery.personalmusic.databinding.ActivityMinePlayListBinding;
 import com.tobery.personalmusic.entity.home.RecommendListEntity;
 import com.tobery.personalmusic.ui.song.CurrentSongPlayActivity;
@@ -43,9 +47,18 @@ public class MinePlayListActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         CollapsingToolbarLayout toolBarLayout = binding.toolbarLayout;
         toolBarLayout.setTitle(getTitle());
+        loadGif();
         initRecycle();
         initObserver();
         initView();
+    }
+
+    private void loadGif() {
+        Glide.with(this)
+                .asGif()
+                .load(R.drawable.play_list_loading)
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .into(binding.content.imgLoading);
     }
 
     private void initView() {
@@ -71,6 +84,7 @@ public class MinePlayListActivity extends BaseActivity {
         viewModel.getPlayList().observe(this, playList -> {
             ViewExtensionKt.printLog(playList.getMessage());
             if (playList.getStatus() == Status.SUCCESS){
+                binding.content.imgLoading.setVisibility(View.GONE);
                 adapter.setDataList(playList.getData().getPlaylist().getTracks());
                 for (RecommendListEntity.PlaylistEntity.TracksEntity data:playList.getData().getPlaylist().getTracks()){
                     MusicInfo musicInfo = new MusicInfo();
