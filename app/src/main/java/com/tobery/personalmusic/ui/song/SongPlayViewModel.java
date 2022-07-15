@@ -17,6 +17,7 @@ import com.tobery.musicplay.MusicPlay;
 import com.tobery.personalmusic.entity.LoginEntity;
 import com.tobery.personalmusic.entity.LrcEntry;
 import com.tobery.personalmusic.entity.LyricEntity;
+import com.tobery.personalmusic.entity.SongEntity;
 import com.tobery.personalmusic.entity.UserDetailEntity;
 import com.tobery.personalmusic.http.Retrofit.RetrofitUtils;
 import com.tobery.personalmusic.ui.home.menu.UserInfoUi;
@@ -55,6 +56,10 @@ public class SongPlayViewModel extends ViewModel {
 
     public LiveData<ApiResponse<LyricEntity>> getLyric() {
         return RetrofitUtils.getmApiUrl().getLyric(currentSongId.get());
+    }
+
+    public LiveData<ApiResponse<SongEntity>> getSongInfo(long id){
+        return RetrofitUtils.getmApiUrl().getSongUrl(id);
     }
 
     public void musicPlayOrPause(){

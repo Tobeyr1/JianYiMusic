@@ -8,6 +8,7 @@ import com.tobery.personalmusic.entity.LyricEntity;
 import com.tobery.personalmusic.entity.RefreshCookieEntity;
 import com.tobery.personalmusic.entity.RefreshLogin;
 import com.tobery.personalmusic.entity.SearchHotDetail_Bean;
+import com.tobery.personalmusic.entity.SongEntity;
 import com.tobery.personalmusic.entity.UserDetailEntity;
 import com.tobery.personalmusic.entity.home.DailySongsEntity;
 import com.tobery.personalmusic.entity.home.HomeDiscoverEntity;
@@ -58,5 +59,8 @@ public interface ApiService {
 
     @GET("user/playlist") //用户歌单
     LiveData<ApiResponse<UserPlayEntity>> getUserPlayList(@Query("uid") long userId);
+
+    @GET("song/url") //获取歌曲信息
+    LiveData<ApiResponse<SongEntity>> getSongUrl(@Query("id") long songUrl);
 
 }
