@@ -28,6 +28,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.hjq.toast.ToastUtils;
+import com.tobery.livedata.call.livedatalib.ApiResponse;
 import com.tobery.livedata.call.livedatalib.Status;
 import com.tobery.musicplay.MusicPlay;
 import com.tobery.musicplay.OnMusicPlayProgressListener;
@@ -39,9 +40,12 @@ import com.tobery.musicplay.util.ViewExtensionKt;
 import com.tobery.personalmusic.BaseActivity;
 import com.tobery.personalmusic.R;
 import com.tobery.personalmusic.databinding.ActivityCurrentSongPlayBinding;
+import com.tobery.personalmusic.entity.SongEntity;
 import com.tobery.personalmusic.util.ClickUtil;
 import com.tobery.personalmusic.util.StatusBarUtil;
 import com.tobery.personalmusic.util.TimeUtil;
+
+import java.util.ArrayList;
 
 import jp.wasabeef.glide.transformations.BlurTransformation;
 
@@ -172,6 +176,7 @@ public class CurrentSongPlayActivity extends BaseActivity {
                     }
                 });
         binding.tvTitle.setText(musicInfo.getSongName());
+        binding.tvSinger.setText(musicInfo.getArtist());
     }
 
     private int getScreenWidth(){
@@ -211,6 +216,24 @@ public class CurrentSongPlayActivity extends BaseActivity {
                             initImageBg(playManger.getSongInfo());
                         }
                         break;
+                    case PlayManger.ERROR:
+                        MusicInfo musicInfo = playManger.getSongInfo();
+                        int index = MusicPlay.getNowPlayingIndex();
+                        ViewExtensionKt.printLog("当前下标"+index+"");
+                        viewModel.getSongInfo(Long.parseLong(playManger.getSongInfo().getSongId()))
+                                .observe(CurrentSongPlayActivity.this, songEntityApiResponse -> {
+                                    if (songEntityApiResponse.getStatus() == Status.SUCCESS){
+                                        if (songEntityApiResponse.getData().getData()!= null && songEntityApiResponse.getData().getData().get(0).getUrl() != null){
+                                            musicInfo.setSongUrl(songEntityApiResponse.getData().getData().get(0).getUrl());
+                                            MusicPlay.addSongInfo(musicInfo,index);
+                                            MusicPlay.playMusicByInfo(musicInfo);
+                                        }else {
+                                            ToastUtils.show(getString(R.string.no_copyright));
+                                            MusicPlay.removeSongInfoById(playManger.getSongInfo().getSongId());
+                                        }
+                                    }
+                                });
+                        break;
 
                 }
             }
@@ -238,12 +261,14 @@ public class CurrentSongPlayActivity extends BaseActivity {
     //使状态栏图标黑
     private void setLightStatusBar(){
         binding.tvTitle.setTextColor(getColor(R.color.black80));
+        binding.tvSinger.setTextColor(getColor(R.color.black70));
         int flags = getWindow().getDecorView().getSystemUiVisibility();
         getWindow().getDecorView().setSystemUiVisibility(flags | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
     }
     //使状态栏图标白
     private void setDarkStatusBar(){
         binding.tvTitle.setTextColor(getColor(R.color.white));
+        binding.tvSinger.setTextColor(getColor(R.color.white80));
         int flags = getWindow().getDecorView().getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
         getWindow().getDecorView().setSystemUiVisibility(flags^View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
     }
