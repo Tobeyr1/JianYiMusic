@@ -117,8 +117,10 @@ public class MainActivity extends BaseActivity {
         binding.songBar.ivBottomPlay.setOnClickListener(view -> {
             if (MusicPlay.isPlaying()){
                 MusicPlay.pauseMusic();
-            }else {
+            }else if (MusicPlay.isPaused()){
                 MusicPlay.restoreMusic();
+            }else {
+                MusicPlay.playMusicByInfo(viewModel.currentMusicInfo);
             }
         });
     }

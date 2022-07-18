@@ -1,7 +1,11 @@
 package com.tobery.personalmusic.ui.home.discover.adapter;
 
+import static com.tobery.personalmusic.util.Constant.PLAYLIST_ID;
+import static com.tobery.personalmusic.util.Constant.PLAY_NAME;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -14,9 +18,15 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
+import com.tobery.musicplay.entity.MusicInfo;
+import com.tobery.musicplay.util.ViewExtensionKt;
+import com.tobery.personalmusic.BindingAdapter;
 import com.tobery.personalmusic.R;
 import com.tobery.personalmusic.databinding.ItemRecommendDiscoverBinding;
 import com.tobery.personalmusic.entity.home.HomeDiscoverEntity;
+import com.tobery.personalmusic.ui.daily.MinePlayListActivity;
+import com.tobery.personalmusic.util.ClickUtil;
+import com.tobery.personalmusic.util.Constant;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,17 +78,14 @@ public class RecommendAdapter extends RecyclerView.Adapter<ViewHolder> {
         HomeDiscoverEntity.DataEntity.BlocksEntity.CreativesEntity bean = dataList.get(position);
         holder.tvTitle.setText(bean.getUiElement().getMainTitle().getTitle());
         //holder.tvCount.setText(bean.getResources().get(0).getResourceExtInfo().getPlayCount());
-        RequestOptions options = new RequestOptions()
-                .placeholder(R.drawable.ic_banner_loading)
-                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                .transform(new CenterCrop(),new RoundedCorners(10))
-                .error(R.mipmap.ic_launcher);
-        Glide.with(mContext)
-                .load(bean.getUiElement().getImage().getImageUrl())
-                .transition(new DrawableTransitionOptions().crossFade())
-                .apply(options)
-                .into(holder.imRecommend);
-
+        BindingAdapter.loadRadiusImage(holder.imRecommend,bean.getUiElement().getImage().getImageUrl());
+        holder.itemView.setOnClickListener(view -> {
+            if (ClickUtil.enableClick()){
+                mContext.startActivity(new Intent(mContext, MinePlayListActivity.class)
+                        .putExtra(PLAYLIST_ID,Long.valueOf(bean.getCreativeId()))
+                        .putExtra(PLAY_NAME,bean.getUiElement().getMainTitle().getTitle()));
+            }
+        });
     }
 
     @Override

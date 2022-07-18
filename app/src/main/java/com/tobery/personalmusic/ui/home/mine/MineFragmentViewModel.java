@@ -35,7 +35,7 @@ public class MineFragmentViewModel extends ViewModel {
     public ObservableField<String> mineLikeCover = new ObservableField<>("");
     public ObservableField<String> trackCount = new ObservableField<>("");
     public ObservableField<String> level = new ObservableField<>("");
-    public Long userLikeCreator ;
+    public Long userLikeCreator = 0L;
 
     public LiveData<ApiResponse<VipInfoEntity>> getVipInfo(){
         return RetrofitUtils.getmApiUrl().getVipInfo();

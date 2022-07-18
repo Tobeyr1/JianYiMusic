@@ -1,13 +1,21 @@
 package com.tobery.personalmusic.ui.daily;
 
 import static com.tobery.personalmusic.util.Constant.MUSIC_INFO;
+import static com.tobery.personalmusic.util.Constant.PLAYLIST_ID;
+import static com.tobery.personalmusic.util.Constant.PLAY_NAME;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.tobery.livedata.call.livedatalib.ApiResponse;
 import com.tobery.livedata.call.livedatalib.Status;
@@ -21,13 +29,20 @@ import com.tobery.personalmusic.entity.home.RecommendListEntity;
 import com.tobery.personalmusic.ui.song.CurrentSongPlayActivity;
 import com.tobery.personalmusic.util.ClickUtil;
 import com.tobery.personalmusic.util.Constant;
+import com.tobery.personalmusic.util.StatusBarUtil;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.graphics.ColorUtils;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.palette.graphics.Palette;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import java.util.ArrayList;
+
+import jp.wasabeef.glide.transformations.BlurTransformation;
 
 
 public class MinePlayListActivity extends BaseActivity {
@@ -43,10 +58,7 @@ public class MinePlayListActivity extends BaseActivity {
         binding = ActivityMinePlayListBinding.inflate(getLayoutInflater());
         viewModel  = new ViewModelProvider(this).get(MinePlayListViewModel.class);
         setContentView(binding.getRoot());
-        Toolbar toolbar = binding.toolbar;
-        setSupportActionBar(toolbar);
-        CollapsingToolbarLayout toolBarLayout = binding.toolbarLayout;
-        toolBarLayout.setTitle(getTitle());
+        viewModel.currentPlayId = getIntent().getLongExtra(PLAYLIST_ID,0L);
         loadGif();
         initRecycle();
         initObserver();
@@ -69,6 +81,12 @@ public class MinePlayListActivity extends BaseActivity {
                         .putExtra(MUSIC_INFO,songList.get(0)));
             }
         });
+        binding.title.ivBack.setOnClickListener(view -> {
+            if (ClickUtil.enableClick()){
+                finish();
+            }
+        });
+        binding.title.tvTitle.setText(getIntent().getStringExtra(PLAY_NAME));
     }
 
     private void initRecycle() {
@@ -86,6 +104,7 @@ public class MinePlayListActivity extends BaseActivity {
             if (playList.getStatus() == Status.SUCCESS){
                 binding.content.imgLoading.setVisibility(View.GONE);
                 adapter.setDataList(playList.getData().getPlaylist().getTracks());
+                //initBg(playList.getData().getPlaylist().getCoverImgUrl());
                 for (RecommendListEntity.PlaylistEntity.TracksEntity data:playList.getData().getPlaylist().getTracks()){
                     MusicInfo musicInfo = new MusicInfo();
                     musicInfo.setSongId(String.valueOf(data.getId()));
@@ -98,4 +117,71 @@ public class MinePlayListActivity extends BaseActivity {
             }
         });
     }
+
+    private void initBg(String coverImgUrl) {
+        RequestOptions options = new RequestOptions()
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .bitmapTransform(new BlurTransformation(25, 30));
+        Glide.with(this)
+                .asBitmap()
+                .load(coverImgUrl)
+                //.placeholder()
+                .transition(BitmapTransitionOptions.withCrossFade(1500))
+                .apply(options)
+                .into(new SimpleTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                        binding.imgBg.setImageBitmap(resource);
+                        StatusBarUtil.setTranslucentForImageView(MinePlayListActivity.this,0,binding.toolbar);
+                        Palette.from(resource)
+                                .setRegion(0,0,getScreenWidth(),getStatusBarHeight())
+                                .maximumColorCount(6)
+                                .generate(palette -> {
+                                    Palette.Swatch mostPopularSwatch = null;
+                                    for (Palette.Swatch swatch: palette.getSwatches()){
+                                        if (mostPopularSwatch == null
+                                                || swatch.getPopulation() > mostPopularSwatch.getPopulation()){
+                                            mostPopularSwatch = swatch;
+                                        }
+                                    }
+                                    if (mostPopularSwatch!= null){
+                                        double luminance = ColorUtils.calculateLuminance(mostPopularSwatch.getRgb());
+                                        // 当luminance小于0.5时，我们认为这是一个深色值.
+                                        if (luminance < 0.5){
+                                            setDarkStatusBar();
+                                        }else {
+                                            setLightStatusBar();
+                                        }
+                                    }
+                                });
+                    }
+                });
+    }
+
+    //使状态栏图标黑
+    private void setLightStatusBar(){
+        int flags = getWindow().getDecorView().getSystemUiVisibility();
+        getWindow().getDecorView().setSystemUiVisibility(flags | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+    }
+    //使状态栏图标白
+    private void setDarkStatusBar(){
+        int flags = getWindow().getDecorView().getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+        getWindow().getDecorView().setSystemUiVisibility(flags^View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+    }
+
+    private int getScreenWidth(){
+        DisplayMetrics displayMetrics =new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        return displayMetrics.widthPixels;
+    }
+
+    private int getStatusBarHeight(){
+        int result = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0){
+            result = getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
+    }
+
 }

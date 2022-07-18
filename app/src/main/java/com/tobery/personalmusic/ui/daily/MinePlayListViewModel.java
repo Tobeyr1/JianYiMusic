@@ -12,11 +12,13 @@ public class MinePlayListViewModel extends ViewModel {
 
     private SavedStateHandle state;
 
+    public Long currentPlayId = 0L;
+
     public MinePlayListViewModel(SavedStateHandle savedStateHandle) {
         this.state = savedStateHandle;
     }
 
     public LiveData<ApiResponse<RecommendListEntity>> getPlayList(){
-        return RetrofitUtils.getmApiUrl().getPlayList(531135835);
+        return RetrofitUtils.getmApiUrl().getPlayList(currentPlayId);
     }
 }

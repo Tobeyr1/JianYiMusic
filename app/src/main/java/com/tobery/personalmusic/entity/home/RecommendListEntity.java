@@ -33,13 +33,13 @@ public class RecommendListEntity {
     @NoArgsConstructor
     @Data
     public static class PlaylistEntity {
-        private int id;
+        private long id;
         private String name;
         private long coverImgId;
         private String coverImgUrl;
         private String coverImgId_str;
         private int adType;
-        private int userId;
+        private long userId;
         private long createTime;
         private int status;
         private boolean opRecommend;
@@ -51,7 +51,7 @@ public class RecommendListEntity {
         private int privacy;
         private long trackUpdateTime;
         private String commentThreadId;
-        private int playCount;
+        private long playCount;
         private long trackNumberUpdateTime;
         private int subscribedCount;
         private int cloudTrackCount;
@@ -59,9 +59,9 @@ public class RecommendListEntity {
         private String description;
         private List<String> tags;
         private Object updateFrequency;
-        private int backgroundCoverId;
+        private long backgroundCoverId;
         private Object backgroundCoverUrl;
-        private int titleImage;
+        private long titleImage;
         private Object titleImageUrl;
         private Object englishTitle;
         private Object officialPlaylistType;
@@ -93,7 +93,7 @@ public class RecommendListEntity {
             private int gender;
             private int city;
             private int birthday;
-            private int userId;
+            private long userId;
             private int userType;
             private String nickname;
             private String signature;
@@ -279,7 +279,7 @@ public class RecommendListEntity {
             private int t;
             private long at;
             private Object alg;
-            private int uid;
+            private long uid;
             private String rcmdReason;
             private Object sc;
         }
