@@ -1,5 +1,8 @@
 package com.tobery.personalmusic.ui.home.mine;
 
+import static com.tobery.personalmusic.util.Constant.PLAYLIST_ID;
+import static com.tobery.personalmusic.util.Constant.PLAY_NAME;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -63,7 +66,9 @@ public class MineFragment extends Fragment {
     private void initView() {
         binding.viewLikeItem.setOnClickListener(v -> {
             if (ClickUtil.enableClick()){
-                startActivity(new Intent(getActivity(), MinePlayListActivity.class));
+                startActivity(new Intent(getActivity(), MinePlayListActivity.class)
+                        .putExtra(PLAYLIST_ID,viewModel.userLikeCreator)
+                        .putExtra(PLAY_NAME,"歌单"));
             }
         });
     }

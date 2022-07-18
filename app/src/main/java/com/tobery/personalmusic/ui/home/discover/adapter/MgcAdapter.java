@@ -1,7 +1,11 @@
 package com.tobery.personalmusic.ui.home.discover.adapter;
 
+import static com.tobery.personalmusic.util.Constant.PLAYLIST_ID;
+import static com.tobery.personalmusic.util.Constant.PLAY_NAME;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -11,6 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.tobery.personalmusic.BindingAdapter;
 import com.tobery.personalmusic.databinding.ItemRecommendDiscoverBinding;
 import com.tobery.personalmusic.entity.home.HomeDiscoverEntity;
+import com.tobery.personalmusic.ui.daily.MinePlayListActivity;
+import com.tobery.personalmusic.util.ClickUtil;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,7 +69,13 @@ public class MgcAdapter extends RecyclerView.Adapter<MgcViewHolder> {
         holder.tvTitle.setText(bean.getUiElement().getMainTitle().getTitle());
         //holder.tvCount.setText(bean.getResources().get(0).getResourceExtInfo().getPlayCount());
         BindingAdapter.loadRadiusImage(holder.imRecommend,bean.getUiElement().getImage().getImageUrl());
-
+        holder.itemView.setOnClickListener(view -> {
+            if (ClickUtil.enableClick()){
+                mContext.startActivity(new Intent(mContext, MinePlayListActivity.class)
+                        .putExtra(PLAYLIST_ID,Long.valueOf(bean.getCreativeId()))
+                        .putExtra(PLAY_NAME,bean.getUiElement().getMainTitle().getTitle()));
+            }
+        });
     }
 
     @Override

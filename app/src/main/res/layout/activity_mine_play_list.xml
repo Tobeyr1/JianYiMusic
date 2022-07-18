@@ -33,10 +33,16 @@
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
+                android:layout_gravity="top"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"
-                app:popupTheme="@style/Theme.PersonalMusic.PopupOverlay" />
+                android:layout_height="@dimen/dp_45"
+                app:layout_collapseMode="pin">
+
+                <include
+                    android:id="@+id/title"
+                    layout="@layout/ui_common_play_title"
+                    app:layout_collapseMode="pin"/>
+            </androidx.appcompat.widget.Toolbar>
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>

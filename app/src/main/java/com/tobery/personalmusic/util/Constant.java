@@ -33,6 +33,10 @@ public class Constant {
 
     public static final String DENIED_PERMISSION = "DENIED_PERMISSION";
 
+    public static final String PLAYLIST_ID = "PLAYLIST_ID";
+
+    public static final String PLAY_NAME = "PLAY_NAME";
+
     //设置默认超时时间
     public static final int DEFAULT_TIME=6;
 

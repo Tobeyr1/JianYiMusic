@@ -14,6 +14,8 @@ import com.tobery.personalmusic.entity.home.DailySongsEntity;
 import com.tobery.personalmusic.entity.home.HomeDiscoverEntity;
 import com.tobery.personalmusic.entity.home.RecentSongInfoEntity;
 import com.tobery.personalmusic.entity.home.RecommendListEntity;
+import com.tobery.personalmusic.entity.song.AlbumListEntity;
+import com.tobery.personalmusic.entity.song.PersonalFm;
 import com.tobery.personalmusic.entity.user.UserPlayEntity;
 import com.tobery.personalmusic.entity.user.VipInfoEntity;
 
@@ -62,5 +64,11 @@ public interface ApiService {
 
     @GET("song/url") //获取歌曲信息
     LiveData<ApiResponse<SongEntity>> getSongUrl(@Query("id") long songUrl);
+
+    @GET("personal_fm") //私人FM
+    LiveData<ApiResponse<PersonalFm>> getFm();
+
+    @GET("album") //专辑信息
+    LiveData<ApiResponse<AlbumListEntity>>  getAlbum(@Query("id") long albumId);
 
 }

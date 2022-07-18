@@ -193,6 +193,9 @@ public class DiscoverFragment extends Fragment {
                         startActivity(new Intent(getActivity(), CurrentSongPlayActivity.class)
                                 .putExtra(MUSIC_INFO,musicInfo));
                     }
+                    if (banners.get(position).getTargetType() == 10){//专辑
+                        //banners.get(position).getTargetId();
+                    }
                 });
     }
 
