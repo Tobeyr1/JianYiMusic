@@ -44,7 +44,8 @@ android {
 
 dependencies {
 
-    implementation 'androidx.appcompat:appcompat:1.3.0'
+    implementation project(path: ':libCommon')
+    implementation 'androidx.appcompat:appcompat:1.4.2'
     implementation 'com.google.android.material:material:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
@@ -82,6 +83,9 @@ dependencies {
     implementation "androidx.viewpager2:viewpager2:1.0.0"
     implementation 'com.github.Tobeyr1:liveDataCallAdapter:1.0.2'
     implementation 'com.github.Tobeyr1:MusicPlayManager:1.0.2-alpha'
+    //navigation
+    implementation "androidx.navigation:navigation-fragment:$nav_version"
+    implementation "androidx.navigation:navigation-ui:$nav_version"
     //Lombok
     implementation 'org.projectlombok:lombok:1.18.24'
     annotationProcessor 'org.projectlombok:lombok:1.18.24'
