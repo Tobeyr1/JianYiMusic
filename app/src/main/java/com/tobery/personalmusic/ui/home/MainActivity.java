@@ -9,6 +9,9 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.Navigator;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -21,6 +24,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.navigation.NavigationBarView;
+import com.tobery.lib.util.navigation.KeepCurrentStateFragment;
 import com.tobery.livedata.call.livedatalib.ApiResponse;
 import com.tobery.livedata.call.livedatalib.Status;
 import com.tobery.musicplay.MusicPlay;
@@ -138,6 +142,15 @@ public class MainActivity extends BaseActivity {
     @SuppressLint("NonConstantResourceId")
     private void initView() {
         navigationBarView = binding.bottomNav;
+        NavController navController = Navigation.findNavController(findViewById(R.id.nav_host_fragment));
+        Fragment navHostFragment = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+        Navigator navigator = new KeepCurrentStateFragment(
+                this,
+                navHostFragment.getChildFragmentManager(),
+                R.id.nav_host_fragment
+        );
+        navController.getNavigatorProvider().addNavigator(navigator);
+        navController.setGraph(R.navigation.nav_graph,getIntent().getExtras());
         initViewPager();
         setDrawMenu();
     }
