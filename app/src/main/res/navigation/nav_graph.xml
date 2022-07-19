@@ -3,5 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph">
 
+    <keep_state_fragment
+        android:id="@+id/fragment_discover"
+        android:name="com.tobery.personalmusic.ui.home.discover.DiscoverFragment"
+        android:label="discover"/>
+
+    <keep_state_fragment
+        android:id="@+id/fragment_mine"
+        android:name="com.tobery.personalmusic.ui.home.mine.MineFragment"
+        android:label="mine"/>
+
+    <keep_state_fragment
+        android:id="@+id/fragment_podcast"
+        android:name="com.tobery.personalmusic.ui.home.podcast.PodcastFragment"
+        android:label="podcast"/>
 
 </navigation>
