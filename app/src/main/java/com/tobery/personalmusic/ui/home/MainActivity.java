@@ -7,26 +7,19 @@ import androidx.annotation.NonNull;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.Navigator;
-import androidx.viewpager2.adapter.FragmentStateAdapter;
-import androidx.viewpager2.widget.ViewPager2;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.NavigationUI;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
 import com.tobery.lib.util.navigation.KeepCurrentStateFragment;
-import com.tobery.livedata.call.livedatalib.ApiResponse;
 import com.tobery.livedata.call.livedatalib.Status;
 import com.tobery.musicplay.MusicPlay;
 import com.tobery.musicplay.OnMusicPlayStateListener;
@@ -37,14 +30,8 @@ import com.tobery.personalmusic.BaseActivity;
 import com.tobery.personalmusic.R;
 import com.tobery.personalmusic.databinding.ActivityMainBinding;
 import com.tobery.personalmusic.entity.home.RecentSongInfoEntity;
-import com.tobery.personalmusic.entity.home.RecommendListEntity;
-import com.tobery.personalmusic.ui.home.discover.DiscoverFragment;
-import com.tobery.personalmusic.ui.home.mine.MineFragment;
-import com.tobery.personalmusic.ui.home.podcast.PodcastFragment;
 import com.tobery.personalmusic.ui.song.CurrentSongPlayActivity;
 import com.tobery.personalmusic.util.ClickUtil;
-
-import java.util.ArrayList;
 
 public class MainActivity extends BaseActivity {
 
@@ -54,8 +41,6 @@ public class MainActivity extends BaseActivity {
 
     private BottomNavigationView navigationBarView;
 
-    private ArrayList<Fragment> fragments;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,10 +49,8 @@ public class MainActivity extends BaseActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         binding.songBar.setBottom(viewModel);
         setContentView(binding.getRoot());
-        initBottomBar();
-        initFragment();
         initView();
-        initObserver();
+        initBottomBar();
     }
 
     private void initBottomBar() {
@@ -130,21 +113,12 @@ public class MainActivity extends BaseActivity {
         });
     }
 
-    private void initFragment() {
-        fragments = new ArrayList<>();
-        fragments.add(new DiscoverFragment());
-        fragments.add(new PodcastFragment());
-        fragments.add(new MineFragment());
-    }
-
-    private void initObserver() {
-    }
-
     @SuppressLint("NonConstantResourceId")
     private void initView() {
         navigationBarView = binding.bottomNav;
-        NavController navController = Navigation.findNavController(findViewById(R.id.nav_host_fragment));
-        Fragment navHostFragment = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+        NavController navController = Navigation.findNavController(this,R.id.nav_host_fragment);
+        NavHostFragment navHostFragment =(NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+        //NavController navController = navHostFragment.getNavController();
         Navigator navigator = new KeepCurrentStateFragment(
                 this,
                 navHostFragment.getChildFragmentManager(),
@@ -152,45 +126,8 @@ public class MainActivity extends BaseActivity {
         );
         navController.getNavigatorProvider().addNavigator(navigator);
         navController.setGraph(R.navigation.nav_graph,getIntent().getExtras());
-        initViewPager();
+        NavigationUI.setupWithNavController(navigationBarView,navController);
         setDrawMenu();
-    }
-
-    private void initViewPager() {
-        navigationBarView.setOnItemSelectedListener(item -> {
-            switch (item.getItemId()){
-                case R.id.discoverFragment:
-                    binding.homeViewpager.setCurrentItem(0,true);
-                    break;
-                case R.id.podcastFragment:
-                    binding.homeViewpager.setCurrentItem(1,true);
-                    break;
-                case R.id.myFragment:
-                    binding.homeViewpager.setCurrentItem(2,true);
-                    break;
-            }
-            return true;
-        });
-        binding.homeViewpager.setUserInputEnabled(false); //禁止滑动
-        binding.homeViewpager.setAdapter(new FragmentStateAdapter(this) {
-            @NonNull
-            @Override
-            public Fragment createFragment(int position) {
-                return fragments.get(position);
-            }
-
-            @Override
-            public int getItemCount() {
-                return fragments.size();
-            }
-        });
-        binding.homeViewpager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-            @Override
-            public void onPageSelected(int position) {
-                super.onPageSelected(position);
-                binding.bottomNav.getMenu().getItem(position).setChecked(true);
-            }
-        });
     }
 
     @SuppressLint("NewApi")

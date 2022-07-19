@@ -1,21 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/nav_graph">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/navigation_discover">
 
     <keep_state_fragment
-        android:id="@+id/fragment_discover"
+        android:id="@+id/navigation_discover"
         android:name="com.tobery.personalmusic.ui.home.discover.DiscoverFragment"
+        tools:layout="@layout/fragment_discover"
         android:label="discover"/>
 
     <keep_state_fragment
-        android:id="@+id/fragment_mine"
+        android:id="@+id/navigation_podcast"
+        android:name="com.tobery.personalmusic.ui.home.podcast.PodcastFragment"
+        tools:layout="@layout/fragment_podcast"
+        android:label="podcast"/>
+
+    <keep_state_fragment
+        android:id="@+id/navigation_mine"
         android:name="com.tobery.personalmusic.ui.home.mine.MineFragment"
+        tools:layout="@layout/fragment_mine"
         android:label="mine"/>
 
     <keep_state_fragment
-        android:id="@+id/fragment_podcast"
-        android:name="com.tobery.personalmusic.ui.home.podcast.PodcastFragment"
-        android:label="podcast"/>
+        android:id="@+id/navigation_follow"
+        android:name="com.tobery.personalmusic.ui.home.follow.FollowFragment"
+        tools:layout="@layout/fragment_follow"
+        android:label="follow"/>
+
 
 </navigation>
