@@ -23,6 +23,7 @@ import android.view.View;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.tobery.lib.util.navigation.KeepCurrentStateFragment;
 import com.tobery.livedata.call.livedatalib.ApiResponse;
@@ -51,7 +52,7 @@ public class MainActivity extends BaseActivity {
 
     private ActivityMainBinding binding;
 
-    private NavigationBarView navigationBarView;
+    private BottomNavigationView navigationBarView;
 
     private ArrayList<Fragment> fragments;
 
