@@ -150,6 +150,22 @@
         app:layout_constraintStart_toEndOf="@id/img_cover"
         />
 
+    <View
+        android:id="@+id/view_create"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_view_white_full"
+        android:layout_margin="@dimen/dp_16"
+        app:layout_constraintTop_toBottomOf="@id/view_nike"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_create"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0"
+        app:layout_constraintTop_toTopOf="@id/view_create"
+        app:layout_constraintBottom_toBottomOf="@id/view_create"
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
