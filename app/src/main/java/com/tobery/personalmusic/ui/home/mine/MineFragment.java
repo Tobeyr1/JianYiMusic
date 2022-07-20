@@ -45,7 +45,7 @@ public class MineFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = FragmentMineBinding.inflate(inflater);
+        binding = FragmentMineBinding.inflate(inflater,container,false);
         homeViewModel = new ViewModelProvider(this).get(MainViewModel.class);
         viewModel = new ViewModelProvider(this).get(MineFragmentViewModel.class);
         binding.setLifecycleOwner(this);
