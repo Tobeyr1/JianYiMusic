@@ -61,7 +61,7 @@ public class MainActivity extends BaseActivity {
 
     private void initBottomBar() {
         viewModel.getRecentSong().observe(this,recentSongInfoEntityApiResponse -> {
-            if (recentSongInfoEntityApiResponse.getStatus() == Status.SUCCESS ){
+            if (recentSongInfoEntityApiResponse.getStatus() == Status.SUCCESS && recentSongInfoEntityApiResponse.getData().getData().getList().size() >0){
                 RecentSongInfoEntity.RecentDataEntity.ListEntity.DataEntity data =recentSongInfoEntityApiResponse.getData().getData().getList()
                         .get(0).getData();
                 viewModel.currentSongName.set(data.getName());

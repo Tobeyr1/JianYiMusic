@@ -15,10 +15,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import com.tobery.livedata.call.livedatalib.ApiResponse;
 import com.tobery.livedata.call.livedatalib.Status;
 import com.tobery.musicplay.util.ViewExtensionKt;
+import com.tobery.personalmusic.R;
 import com.tobery.personalmusic.databinding.FragmentMineBinding;
 import com.tobery.personalmusic.entity.UserDetailEntity;
 import com.tobery.personalmusic.entity.user.UserPlayEntity;
@@ -66,9 +68,13 @@ public class MineFragment extends Fragment {
     private void initView() {
         binding.viewLikeItem.setOnClickListener(v -> {
             if (ClickUtil.enableClick()){
-                startActivity(new Intent(getActivity(), MinePlayListActivity.class)
+                Bundle bundle = new Bundle();
+                bundle.putLong(PLAYLIST_ID,viewModel.userLikeCreator);
+                bundle.putString(PLAY_NAME,"歌单");
+                Navigation.findNavController(v).navigate(R.id.navigation_play_list,bundle);
+               /* startActivity(new Intent(getActivity(), MinePlayListActivity.class)
                         .putExtra(PLAYLIST_ID,viewModel.userLikeCreator)
-                        .putExtra(PLAY_NAME,"歌单"));
+                        .putExtra(PLAY_NAME,"歌单"));*/
             }
         });
     }
@@ -81,7 +87,7 @@ public class MineFragment extends Fragment {
     private void initObserver() {
 
         viewModel.getVipInfo().observe(getViewLifecycleOwner(), vipInfoEntityApiResponse -> {
-            if (vipInfoEntityApiResponse.getStatus() == Status.SUCCESS){
+            if (vipInfoEntityApiResponse.getStatus() == Status.SUCCESS && vipInfoEntityApiResponse.getData().getData().getRedVipDynamicIconUrl2()!= null){
                 binding.webVip.loadDataWithBaseURL(null,changeImageUrl(vipInfoEntityApiResponse.getData().getData().getRedVipDynamicIconUrl2()),"text/html", "utf-8", null);
             }
         });
