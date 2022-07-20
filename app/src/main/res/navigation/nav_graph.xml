@@ -5,11 +5,20 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/navigation_discover">
 
+    <action android:id="@+id/action_global_main"
+        app:destination="@id/navigation_discover"/>
+
     <keep_state_fragment
         android:id="@+id/navigation_discover"
         android:name="com.tobery.personalmusic.ui.home.discover.DiscoverFragment"
         tools:layout="@layout/fragment_discover"
-        android:label="discover"/>
+        android:label="discover">
+        <argument android:name="ShowAppBar"
+            android:defaultValue="true"/>
+        <action
+            android:id="@+id/action_navigation_discover_to_navigation_daily"
+            app:destination="@id/navigation_daily" />
+    </keep_state_fragment>
 
     <keep_state_fragment
         android:id="@+id/navigation_podcast"
@@ -29,5 +38,18 @@
         tools:layout="@layout/fragment_follow"
         android:label="follow"/>
 
+    <keep_state_fragment
+        android:id="@+id/navigation_daily"
+        android:label="daily"
+        android:name="com.tobery.personalmusic.ui.daily.DailySongsFragment"
+        tools:layout="@layout/fragment_daily_songs">
+        <argument android:name="ShowAppBar"
+            android:defaultValue="false"/>
+    </keep_state_fragment>
+
+    <activity
+        android:id="@+id/CurrentSongActivity"
+        android:name="com.tobery.personalmusic.ui.song.CurrentSongPlayActivity"
+        android:label="CurrentSongActivity"/>
 
 </navigation>

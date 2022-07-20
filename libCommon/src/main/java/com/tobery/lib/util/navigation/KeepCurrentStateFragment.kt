@@ -7,6 +7,7 @@ import androidx.annotation.Nullable
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavDestination
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigator
@@ -57,11 +58,13 @@ class KeepCurrentStateFragment(
 
         val fragments: List<Fragment> = mFragmentManager.fragments
         for (fragment in fragments) {
+            ft.setMaxLifecycle(frag, Lifecycle.State.STARTED)
             ft.hide(fragment)
         }
         if (!frag.isAdded) {
             ft.add(mContainerId, frag, className)
         }
+        ft.setMaxLifecycle(frag, Lifecycle.State.RESUMED)
         ft.show(frag)
         ft.setPrimaryNavigationFragment(frag)
         @IdRes val destId = destination.id

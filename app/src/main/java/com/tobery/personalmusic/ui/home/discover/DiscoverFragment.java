@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.gson.Gson;
@@ -22,6 +23,7 @@ import com.tobery.livedata.call.livedatalib.Status;
 import com.tobery.musicplay.MusicPlay;
 import com.tobery.musicplay.entity.MusicInfo;
 import com.tobery.musicplay.util.ViewExtensionKt;
+import com.tobery.personalmusic.R;
 import com.tobery.personalmusic.databinding.FragmentDiscoverBinding;
 import com.tobery.personalmusic.entity.home.BannerExtInfoEntity;
 import com.tobery.personalmusic.entity.home.HomeDiscoverEntity;
@@ -86,7 +88,8 @@ public class DiscoverFragment extends Fragment {
     private void initView() {
         binding.imgRecommend.setOnClickListener(view -> {
             if (ClickUtil.enableClick()){
-                startActivity(new Intent(getActivity(), DailySongsActivity.class));
+                Navigation.findNavController(view).navigate(R.id.navigation_daily);
+                //startActivity(new Intent(getActivity(), DailySongsActivity.class));
             }
         });
     }
@@ -198,5 +201,7 @@ public class DiscoverFragment extends Fragment {
                     }
                 });
     }
+
+
 
 }

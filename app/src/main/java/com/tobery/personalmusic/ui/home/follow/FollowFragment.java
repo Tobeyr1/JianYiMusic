@@ -17,7 +17,7 @@ public class FollowFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentFollowBinding.inflate(inflater,container,false);
-        binding.setLifecycleOwner(this);
+        //binding.setLifecycleOwner(this);
         return binding.getRoot();
     }
 
