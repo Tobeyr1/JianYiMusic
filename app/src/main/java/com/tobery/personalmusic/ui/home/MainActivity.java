@@ -4,21 +4,27 @@ import static com.tobery.personalmusic.util.Constant.MUSIC_INFO;
 import static com.tobery.personalmusic.util.Constant.SONG_URL;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.Navigator;
+import androidx.navigation.fragment.FragmentNavigator;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.BottomNavigationViewKt;
 import androidx.navigation.ui.NavigationUI;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+
+import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.tobery.lib.util.navigation.FragmentNavigatorHideShow;
 import com.tobery.lib.util.navigation.KeepCurrentStateFragment;
 import com.tobery.livedata.call.livedatalib.Status;
 import com.tobery.musicplay.MusicPlay;
@@ -116,10 +122,10 @@ public class MainActivity extends BaseActivity {
     @SuppressLint("NonConstantResourceId")
     private void initView() {
         navigationBarView = binding.bottomNav;
-        NavController navController = Navigation.findNavController(this,R.id.nav_host_fragment);
         NavHostFragment navHostFragment =(NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
-        //NavController navController = navHostFragment.getNavController();
-        Navigator navigator = new KeepCurrentStateFragment(
+        NavController navController = Navigation.findNavController(this,R.id.nav_host_fragment);
+        assert navHostFragment != null;
+        FragmentNavigator navigator = new KeepCurrentStateFragment(
                 this,
                 navHostFragment.getChildFragmentManager(),
                 R.id.nav_host_fragment
@@ -127,6 +133,29 @@ public class MainActivity extends BaseActivity {
         navController.getNavigatorProvider().addNavigator(navigator);
         navController.setGraph(R.navigation.nav_graph,getIntent().getExtras());
         NavigationUI.setupWithNavController(navigationBarView,navController);
+        //取消item长按点击事件
+        BottomNavigationMenuView bottomNavigationMenuView = (BottomNavigationMenuView) navigationBarView.getChildAt(0);
+        int size = bottomNavigationMenuView.getChildCount();
+        for (int index = 0; index < size;index++){
+            bottomNavigationMenuView.getChildAt(index).setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    return true;
+                }
+            });
+        }
+        //监听导航事件
+        navController.addOnDestinationChangedListener((navController1, navDestination, arguments) -> {
+            boolean showAppBar = true;
+            if (arguments != null){
+                showAppBar = arguments.getBoolean("ShowAppBar",true);
+            }
+            if (showAppBar){
+                binding.groupIsVisibility.setVisibility(View.VISIBLE);
+            }else {
+                binding.groupIsVisibility.setVisibility(View.GONE);
+            }
+        });
         setDrawMenu();
     }
 
