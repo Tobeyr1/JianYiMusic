@@ -10,12 +10,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.widget.ScrollView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -92,6 +96,20 @@ public class DiscoverFragment extends Fragment {
                 //startActivity(new Intent(getActivity(), DailySongsActivity.class));
             }
         });
+
+        binding.swipeRefresh.setOnRefreshListener(() -> {
+            initObserver();
+            binding.swipeRefresh.setRefreshing(false);
+        });
+        ScrollView scrollView = getActivity().findViewById(R.id.scroll_view);
+        if (scrollView != null){
+            scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+                @Override
+                public void onScrollChanged() {
+                    binding.swipeRefresh.setEnabled(scrollView.getScrollY() == 0);
+                }
+            });
+        }
     }
 
     private void initRecycle() {

@@ -7,6 +7,7 @@ import static com.tobery.personalmusic.util.Constant.KEY_MAIN_UI;
 import androidx.databinding.ObservableField;
 import androidx.databinding.ObservableInt;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.SavedStateHandle;
 import androidx.lifecycle.ViewModel;
 
@@ -17,10 +18,13 @@ import com.tobery.personalmusic.entity.LoginEntity;
 import com.tobery.personalmusic.entity.UserDetailEntity;
 import com.tobery.personalmusic.entity.home.RecentSongInfoEntity;
 import com.tobery.personalmusic.entity.home.RecommendListEntity;
+import com.tobery.personalmusic.entity.user.UserPlayEntity;
 import com.tobery.personalmusic.http.Retrofit.RetrofitUtils;
 import com.tobery.personalmusic.ui.home.menu.UserInfoUi;
 import com.tobery.personalmusic.util.ContextProvider;
 import com.tobery.personalmusic.util.SharePreferencesUtil;
+
+import java.util.List;
 
 /**
  * @Package: com.tobery.personalmusic.ui
@@ -44,6 +48,15 @@ public class MainViewModel extends ViewModel {
     public ObservableField<String> currentSongUrl = new ObservableField<>("");
     public ObservableField<String> currentSongName = new ObservableField<>("");
     public MusicInfo currentMusicInfo;
+
+    private MutableLiveData<List<UserPlayEntity.PlaylistEntity>> _songPlayList;
+
+    public MutableLiveData<List<UserPlayEntity.PlaylistEntity>> getSongPlayList(){
+        if (_songPlayList == null){
+            _songPlayList = new MutableLiveData<>();
+        }
+        return _songPlayList;
+    }
 
     public MainViewModel(SavedStateHandle savedStateHandle) {
         this.state = savedStateHandle;
@@ -70,6 +83,11 @@ public class MainViewModel extends ViewModel {
 
     public LiveData<ApiResponse<RecentSongInfoEntity>> getRecentSong(){
         return RetrofitUtils.getmApiUrl().getRecentSong(1);
+    }
+
+    //获取用户歌单
+    public LiveData<ApiResponse<UserPlayEntity>> getUserPlayList(Long userId){
+        return RetrofitUtils.getmApiUrl().getUserPlayList(userId);
     }
 
 

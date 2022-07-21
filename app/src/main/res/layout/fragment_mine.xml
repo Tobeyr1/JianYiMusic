@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:binding="http://schemas.android.com/tools">
 
     <data>
 
@@ -156,13 +157,35 @@
         android:layout_height="wrap_content"
         android:background="@drawable/bg_view_white_full"
         android:layout_margin="@dimen/dp_16"
-        app:layout_constraintTop_toBottomOf="@id/view_nike"
+        app:layout_constraintTop_toBottomOf="@id/view_like_item"
+        />
+
+    <com.google.android.material.tabs.TabLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_16"
+        binding:tabGravity="fill"
+        binding:tabTextColor="@color/black_text"
+        binding:tabMode="fixed"
+        android:id="@+id/tabLayout"
+        binding:tabIndicatorColor="@color/colorAccent"
+        binding:tabSelectedTextColor="@color/colorAccent"
+        app:layout_constraintTop_toBottomOf="@id/view_like_item"
+        />
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0"
+        android:id="@+id/viewpager2"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/tabLayout"
         />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_create"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_0"
+        android:visibility="gone"
         app:layout_constraintTop_toTopOf="@id/view_create"
         app:layout_constraintBottom_toBottomOf="@id/view_create"
         />
