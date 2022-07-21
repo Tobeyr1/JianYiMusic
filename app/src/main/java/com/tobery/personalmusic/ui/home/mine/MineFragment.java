@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.tobery.livedata.call.livedatalib.ApiResponse;
 import com.tobery.livedata.call.livedatalib.Status;
@@ -34,6 +35,8 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MineFragment extends Fragment {
 
@@ -42,6 +45,8 @@ public class MineFragment extends Fragment {
     private MainViewModel homeViewModel;
 
     private MineFragmentViewModel viewModel;
+
+    private CreateListAdapter adapter;
 
 
     @Nullable
@@ -77,6 +82,11 @@ public class MineFragment extends Fragment {
                         .putExtra(PLAY_NAME,"歌单"));*/
             }
         });
+        adapter = new CreateListAdapter(getContext());
+        LinearLayoutManager manager = new LinearLayoutManager(getContext());
+        manager.setOrientation(LinearLayoutManager.VERTICAL);
+        binding.rvCreate.setLayoutManager(manager);
+        binding.rvCreate.setAdapter(adapter);
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -100,11 +110,17 @@ public class MineFragment extends Fragment {
 
         viewModel.getUserPlayList(Long.valueOf(homeViewModel.ui.userId.get())).observe(getViewLifecycleOwner(), userPlayEntityApiResponse -> {
             ViewExtensionKt.printLog(userPlayEntityApiResponse.getMessage());
-            if (userPlayEntityApiResponse.getStatus() == Status.SUCCESS){
+            if (userPlayEntityApiResponse.getStatus() == Status.SUCCESS && userPlayEntityApiResponse.getData().getPlaylist().size() != 0){
                 UserPlayEntity.PlaylistEntity userLike = userPlayEntityApiResponse.getData().getPlaylist().get(0);
+                int size = userPlayEntityApiResponse.getData().getPlaylist().size();
+                List<UserPlayEntity.PlaylistEntity> dataList = new ArrayList<>();
+                for (int i=1;i< size;i++){
+                    dataList.add(userPlayEntityApiResponse.getData().getPlaylist().get(i));
+                }
                 viewModel.mineLikeCover.set(userLike.getCoverImgUrl());
                 viewModel.trackCount.set(userLike.getTrackCount()+"");
                 viewModel.userLikeCreator = userLike.getId();
+                adapter.setDataList(dataList);
             }
         });
     }
