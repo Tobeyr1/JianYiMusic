@@ -4,7 +4,6 @@ import static com.tobery.personalmusic.util.Constant.PLAYLIST_ID;
 import static com.tobery.personalmusic.util.Constant.PLAY_NAME;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,19 +12,16 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
-
-import com.tobery.livedata.call.livedatalib.ApiResponse;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.tobery.livedata.call.livedatalib.Status;
 import com.tobery.musicplay.util.ViewExtensionKt;
 import com.tobery.personalmusic.R;
 import com.tobery.personalmusic.databinding.FragmentMineBinding;
-import com.tobery.personalmusic.entity.UserDetailEntity;
 import com.tobery.personalmusic.entity.user.UserPlayEntity;
-import com.tobery.personalmusic.ui.daily.MinePlayListActivity;
 import com.tobery.personalmusic.ui.home.MainViewModel;
 import com.tobery.personalmusic.util.ClickUtil;
 
@@ -44,9 +40,13 @@ public class MineFragment extends Fragment {
 
     private MainViewModel homeViewModel;
 
+
     private MineFragmentViewModel viewModel;
 
     private CreateListAdapter adapter;
+
+    private List<Fragment> fragmentList;
+    private List<String> titleList;
 
 
     @Nullable
@@ -82,11 +82,28 @@ public class MineFragment extends Fragment {
                         .putExtra(PLAY_NAME,"歌单"));*/
             }
         });
+        initViewPager();
         adapter = new CreateListAdapter(getContext());
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         binding.rvCreate.setLayoutManager(manager);
         binding.rvCreate.setAdapter(adapter);
+    }
+
+    private void initViewPager() {
+        fragmentList = new ArrayList<>();
+        fragmentList.add(new CreateSongListFragment());
+        fragmentList.add(new CollectSongListFragment());
+        fragmentList.add(new CollectSongListFragment());
+        titleList = new ArrayList<>();
+        titleList.add("创建歌单");
+        titleList.add("收藏歌单");
+        titleList.add("歌单助手");
+        binding.viewpager2.setOffscreenPageLimit(3);
+        binding.viewpager2.setAdapter(new ScreenPagerAdapter(this));
+        new TabLayoutMediator(binding.tabLayout, binding.viewpager2,((tab, position) -> {
+            tab.setText(titleList.get(position));
+        })).attach();
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -107,9 +124,7 @@ public class MineFragment extends Fragment {
                 viewModel.level.set("Lv."+userDetailEntityApiResponse.getData().getLevel());
             }
         });
-
-        viewModel.getUserPlayList(Long.valueOf(homeViewModel.ui.userId.get())).observe(getViewLifecycleOwner(), userPlayEntityApiResponse -> {
-            ViewExtensionKt.printLog(userPlayEntityApiResponse.getMessage());
+        homeViewModel.getUserPlayList(Long.valueOf(homeViewModel.ui.userId.get())).observe(getViewLifecycleOwner(),userPlayEntityApiResponse ->{
             if (userPlayEntityApiResponse.getStatus() == Status.SUCCESS && userPlayEntityApiResponse.getData().getPlaylist().size() != 0){
                 UserPlayEntity.PlaylistEntity userLike = userPlayEntityApiResponse.getData().getPlaylist().get(0);
                 int size = userPlayEntityApiResponse.getData().getPlaylist().size();
@@ -117,12 +132,30 @@ public class MineFragment extends Fragment {
                 for (int i=1;i< size;i++){
                     dataList.add(userPlayEntityApiResponse.getData().getPlaylist().get(i));
                 }
+                homeViewModel.getSongPlayList().setValue(dataList);
                 viewModel.mineLikeCover.set(userLike.getCoverImgUrl());
                 viewModel.trackCount.set(userLike.getTrackCount()+"");
                 viewModel.userLikeCreator = userLike.getId();
-                adapter.setDataList(dataList);
+                //adapter.setDataList(dataList);
             }
         });
+
+        /*viewModel.getUserPlayList(Long.valueOf(homeViewModel.ui.userId.get())).observe(getViewLifecycleOwner(), userPlayEntityApiResponse -> {
+            if (userPlayEntityApiResponse.getStatus() == Status.SUCCESS && userPlayEntityApiResponse.getData().getPlaylist().size() != 0){
+                UserPlayEntity.PlaylistEntity userLike = userPlayEntityApiResponse.getData().getPlaylist().get(0);
+                int size = userPlayEntityApiResponse.getData().getPlaylist().size();
+                List<UserPlayEntity.PlaylistEntity> dataList = new ArrayList<>();
+                for (int i=1;i< size;i++){
+                    viewModel.songPlayList.add(userPlayEntityApiResponse.getData().getPlaylist().get(i));
+                    dataList.add(userPlayEntityApiResponse.getData().getPlaylist().get(i));
+                }
+                viewModel.getSongPlayList().setValue(dataList);
+                viewModel.mineLikeCover.set(userLike.getCoverImgUrl());
+                viewModel.trackCount.set(userLike.getTrackCount()+"");
+                viewModel.userLikeCreator = userLike.getId();
+                //adapter.setDataList(dataList);
+            }
+        });*/
     }
 
     private String changeImageUrl(String url) {
@@ -138,5 +171,30 @@ public class MineFragment extends Fragment {
         }
         assert doc != null;
         return doc.toString();
+    }
+
+    private class ScreenPagerAdapter extends FragmentStateAdapter{
+
+        public ScreenPagerAdapter(@NonNull Fragment fragment) {
+            super(fragment);
+        }
+
+        @NonNull
+        @Override
+        public Fragment createFragment(int position) {
+            return fragmentList.get(position);
+        }
+
+        @Override
+        public int getItemCount() {
+            return fragmentList.size();
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        fragmentList.clear();
+        fragmentList = null;
     }
 }

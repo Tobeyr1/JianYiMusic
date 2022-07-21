@@ -6,6 +6,7 @@ import static com.tobery.personalmusic.util.Constant.KEY_MAIN_UI;
 import androidx.databinding.ObservableField;
 import androidx.databinding.ObservableInt;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.SavedStateHandle;
 import androidx.lifecycle.ViewModel;
 
@@ -18,6 +19,9 @@ import com.tobery.personalmusic.entity.user.VipInfoEntity;
 import com.tobery.personalmusic.http.Retrofit.RetrofitUtils;
 import com.tobery.personalmusic.ui.home.menu.UserInfoUi;
 import com.tobery.personalmusic.util.SharePreferencesUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @Package: com.tobery.personalmusic.ui
@@ -32,10 +36,16 @@ import com.tobery.personalmusic.util.SharePreferencesUtil;
  */
 public class MineFragmentViewModel extends ViewModel {
 
+    private SavedStateHandle state;
     public ObservableField<String> mineLikeCover = new ObservableField<>("");
     public ObservableField<String> trackCount = new ObservableField<>("");
     public ObservableField<String> level = new ObservableField<>("");
     public Long userLikeCreator = 0L;
+
+    public MineFragmentViewModel(SavedStateHandle savedStateHandle) {
+        this.state = savedStateHandle;
+    }
+
 
     public LiveData<ApiResponse<VipInfoEntity>> getVipInfo(){
         return RetrofitUtils.getmApiUrl().getVipInfo();

@@ -22,6 +22,7 @@ import android.view.View;
 
 import com.hjq.toast.ToastUtils;
 import com.tobery.livedata.call.livedatalib.ApiResponse;
+import com.tobery.livedata.call.livedatalib.Status;
 import com.tobery.musicplay.MusicPlay;
 import com.tobery.musicplay.PlayConfig;
 import com.tobery.musicplay.util.PermissionChecks;
@@ -104,16 +105,23 @@ public class SplashActivity extends BaseActivity {
                     binding.group.setVisibility(View.GONE);
                     binding.groupTop.setVisibility(View.VISIBLE);
                 } else {
-                    /*Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                    Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
-                    finish();*/
-                    RetrofitUtils.getmApiUrl().refresh().observe(this, refreshLoginApiResponse -> {
-                        Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent);
-                        finish();
-                    });
+                    finish();
+                 /*   RetrofitUtils.getmApiUrl().refresh().observe(this, refreshLoginApiResponse -> {
+                        if (refreshLoginApiResponse.getStatus() == Status.SUCCESS && refreshLoginApiResponse.getData().getCode() == 200){
+                            Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                            finish();
+                        }else {
+                            Intent intent = new Intent(this, LoginActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                            finish();
+                        }
+                    });*/
                 }
             }else {
                 int lastDeniedNum = SharePreferencesUtil.getInstance(this).getPermissionDeniedNum(DENIED_PERMISSION);

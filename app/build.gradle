@@ -83,6 +83,10 @@ dependencies {
     implementation "androidx.viewpager2:viewpager2:1.0.0"
     implementation 'com.github.Tobeyr1:liveDataCallAdapter:1.0.2'
     implementation 'com.github.Tobeyr1:MusicPlayManager:1.0.2-alpha'
+    //滑动刷新
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    //集成 TabLayout
+    implementation "com.google.android.material:material:1.7.0-alpha03"
     //navigation
     implementation "androidx.navigation:navigation-fragment:$nav_version"
     implementation "androidx.navigation:navigation-ui:$nav_version"
@@ -93,7 +97,6 @@ dependencies {
     implementation 'com.github.franmontiel:PersistentCookieJar:v1.0.1'
     //Jsoup
     implementation 'org.jsoup:jsoup:1.13.1'
-    implementation 'com.github.Tobeyr1:MusicPlayManager:1.0.0-alpha'
 
     //room
     implementation "androidx.room:room-runtime:$room_version"
