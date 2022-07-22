@@ -75,7 +75,7 @@ public class MinePlayListActivity extends BaseActivity {
 
     private void initView() {
         binding.content.rvPlayTop.setOnClickListener(v -> {
-            if (ClickUtil.enableClick()){
+            if (ClickUtil.enableClick() && songList.size() != 0){
                 MusicPlay.playMusicByList(songList,0);
                 startActivity(new Intent(this, CurrentSongPlayActivity.class)
                         .putExtra(MUSIC_INFO,songList.get(0)));
