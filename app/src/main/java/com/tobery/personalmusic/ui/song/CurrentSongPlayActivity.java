@@ -8,6 +8,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -42,6 +43,7 @@ import com.tobery.personalmusic.R;
 import com.tobery.personalmusic.databinding.ActivityCurrentSongPlayBinding;
 import com.tobery.personalmusic.entity.SongEntity;
 import com.tobery.personalmusic.util.ClickUtil;
+import com.tobery.personalmusic.util.ImageUtils;
 import com.tobery.personalmusic.util.StatusBarUtil;
 import com.tobery.personalmusic.util.TimeUtil;
 
@@ -127,6 +129,15 @@ public class CurrentSongPlayActivity extends BaseActivity {
         binding.ivList.setOnClickListener(view -> {
             //MusicPlay.getPlayList()
         });
+        binding.ivPlay.setOnClickListener(v -> {
+            if (MusicPlay.isPlaying()){
+                MusicPlay.pauseMusic();
+                rotationAnim.pause();
+            }else {
+                MusicPlay.restoreMusic();
+                rotationAnim.resume();
+            }
+        });
     }
 
     private void initImageBg(MusicInfo musicInfo) {
@@ -150,8 +161,8 @@ public class CurrentSongPlayActivity extends BaseActivity {
                 .into(new SimpleTarget<Bitmap>() {
                     @Override
                     public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                        binding.imgBc.setImageBitmap(resource);
-                        StatusBarUtil.setTranslucentForImageView(CurrentSongPlayActivity.this,0,binding.viewTitleBg);
+                        Drawable drawable = ImageUtils.createBlurredImageFromBitmap(resource, 15);
+                        binding.imgBc.setImageDrawable(drawable);
                         Palette.from(resource)
                                 .setRegion(0,0,getScreenWidth(),getStatusBarHeight())
                                 .maximumColorCount(6)
@@ -173,6 +184,7 @@ public class CurrentSongPlayActivity extends BaseActivity {
                                         }
                                     }
                                 });
+                        StatusBarUtil.setTranslucentForImageView(CurrentSongPlayActivity.this,0,binding.viewTitleBg);
                     }
                 });
         binding.tvTitle.setText(musicInfo.getSongName());
@@ -205,7 +217,7 @@ public class CurrentSongPlayActivity extends BaseActivity {
                         binding.ivPlay.setImageResource(R.drawable.shape_play_white);
                         break;
                     case PlayManger.PLAYING:
-                        rotationAnim.start();
+                        resumeRotateAnimation();
                         binding.ivPlay.setImageResource(R.drawable.shape_pause_white);
                         break;
                     case PlayManger.BUFFERING:
@@ -292,11 +304,17 @@ public class CurrentSongPlayActivity extends BaseActivity {
     }
 
     private void initAnim() {
-        rotationAnim = ObjectAnimator.ofFloat(binding.ivMusicCover, "rotation", 360f);
-        rotationAnim.setDuration(25 * 1000);
+        rotationAnim = ObjectAnimator.ofFloat(binding.ivMusicCover, "rotation", 0F, 359F);
+        rotationAnim.setDuration(20 * 1000);
         rotationAnim.setInterpolator(new LinearInterpolator());
-        rotationAnim.setRepeatCount(100000);
+        rotationAnim.setRepeatCount(-1);
         rotationAnim.setRepeatMode(ValueAnimator.RESTART);
+        rotationAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                binding.ivMusicCover.setRotation((Float) animation.getAnimatedValue());
+            }
+        });
         rotationAnim.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation, boolean isReverse) {
@@ -304,6 +322,32 @@ public class CurrentSongPlayActivity extends BaseActivity {
                 rotationAnim.start();
             }
         });
+        if (MusicPlay.isPlaying()){
+            rotationAnim.pause();
+            rotationAnim.start();
+        }
+    }
+
+    private void resumeRotateAnimation(){
+        if (rotationAnim != null && rotationAnim.isStarted()){
+            rotationAnim.resume();
+        }else {
+            rotationAnim.start();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (rotationAnim != null && rotationAnim.isPaused() && MusicPlay.isPlaying()){
+            rotationAnim.resume();
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        rotationAnim.pause();
     }
 
     @Override
