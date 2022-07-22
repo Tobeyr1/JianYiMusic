@@ -1,5 +1,6 @@
 package com.tobery.personalmusic.ui.home.mine;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,8 +14,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.tobery.musicplay.util.ViewExtensionKt;
 import com.tobery.personalmusic.databinding.FragmentMineCreateSongListBinding;
+import com.tobery.personalmusic.entity.user.UserPlayEntity;
 import com.tobery.personalmusic.ui.home.MainViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CreateSongListFragment extends Fragment {
@@ -38,11 +41,19 @@ public class CreateSongListFragment extends Fragment {
         initObserver();
     }
 
+    @SuppressLint("SetTextI18n")
     private void initObserver() {
-        ViewExtensionKt.printLog("子页"+parentViewModel.getSongPlayList().getValue());
-        parentViewModel.getSongPlayList().observe(getViewLifecycleOwner(),playlistEntities -> {
-            ViewExtensionKt.printLog("是否有数据"+playlistEntities);
-            adapter.setDataList(playlistEntities);
+        List<UserPlayEntity.PlaylistEntity> dataList = new ArrayList<>();
+        parentViewModel.getSongPlayList().observe(getViewLifecycleOwner(), userPlayEntity -> {
+            int size = userPlayEntity.getPlaylist().size();
+            dataList.clear();
+            for (int i=1;i< size;i++){
+                if (userPlayEntity.getPlaylist().get(i).getUserId() == parentViewModel.ui.userId.get()){
+                    dataList.add(userPlayEntity.getPlaylist().get(i));
+                }
+            }
+            binding.tvCreateNum.setText("创建歌单（"+dataList.size()+"个)");
+            adapter.setDataList(dataList);
         });
 
     }
@@ -52,6 +63,7 @@ public class CreateSongListFragment extends Fragment {
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         binding.rvCreate.setLayoutManager(manager);
+        binding.rvCreate.setNestedScrollingEnabled(false);
         binding.rvCreate.setAdapter(adapter);
     }
 

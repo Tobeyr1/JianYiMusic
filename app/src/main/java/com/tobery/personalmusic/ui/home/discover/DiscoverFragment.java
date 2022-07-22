@@ -28,7 +28,6 @@ import com.tobery.personalmusic.entity.home.BannerExtInfoEntity;
 import com.tobery.personalmusic.entity.home.HomeDiscoverEntity;
 import com.tobery.personalmusic.entity.home.LookLiveEntity;
 import com.tobery.personalmusic.ui.WebActivity;
-import com.tobery.personalmusic.ui.daily.DailySongsActivity;
 import com.tobery.personalmusic.ui.home.discover.adapter.LikeAdapter;
 import com.tobery.personalmusic.ui.home.discover.adapter.LookAdapter;
 import com.tobery.personalmusic.ui.home.discover.adapter.MgcAdapter;
@@ -38,7 +37,7 @@ import com.tobery.personalmusic.ui.song.CurrentSongPlayActivity;
 import com.tobery.personalmusic.util.ClickUtil;
 import com.youth.banner.config.IndicatorConfig;
 import com.youth.banner.indicator.RectangleIndicator;
-import com.youth.banner.listener.OnBannerListener;
+
 import java.util.List;
 
 /**
@@ -81,7 +80,7 @@ public class DiscoverFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         initRecycle();
         initView();
-        initObserver();
+        initObserver(false);
     }
 
     private void initView() {
@@ -93,7 +92,7 @@ public class DiscoverFragment extends Fragment {
         });
 
         binding.swipeRefresh.setOnRefreshListener(() -> {
-            initObserver();
+            initObserver(true);
             binding.swipeRefresh.setRefreshing(false);
         });
        /* binding.scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
@@ -134,9 +133,9 @@ public class DiscoverFragment extends Fragment {
         binding.likeRecycle.setAdapter(likeAdapter);
     }
 
-    private void initObserver() {
+    private void initObserver(boolean b) {
 
-        viewModel.requireDiscover(false).observe(getViewLifecycleOwner(), homeDiscoverEntityApiResponse -> {
+        viewModel.requireDiscover(b).observe(getViewLifecycleOwner(), homeDiscoverEntityApiResponse -> {
             ViewExtensionKt.printLog("当前"+homeDiscoverEntityApiResponse.getMessage());
             if (homeDiscoverEntityApiResponse.getStatus() == Status.SUCCESS){
                 for (HomeDiscoverEntity.DataEntity.BlocksEntity block : homeDiscoverEntityApiResponse.getData().getData().getBlocks()){

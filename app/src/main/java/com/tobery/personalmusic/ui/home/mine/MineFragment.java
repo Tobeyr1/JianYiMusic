@@ -8,27 +8,24 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.viewpager2.widget.MarginPageTransformer;
+
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.tobery.lib.util.PxUtils;
 import com.tobery.livedata.call.livedatalib.Status;
-import com.tobery.musicplay.util.ViewExtensionKt;
 import com.tobery.personalmusic.R;
 import com.tobery.personalmusic.databinding.FragmentMineBinding;
-import com.tobery.personalmusic.entity.user.UserPlayEntity;
 import com.tobery.personalmusic.ui.home.MainViewModel;
 import com.tobery.personalmusic.util.ClickUtil;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -40,10 +37,7 @@ public class MineFragment extends Fragment {
 
     private MainViewModel homeViewModel;
 
-
     private MineFragmentViewModel viewModel;
-
-    private CreateListAdapter adapter;
 
     private List<Fragment> fragmentList;
     private List<String> titleList;
@@ -53,7 +47,7 @@ public class MineFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentMineBinding.inflate(inflater,container,false);
-        homeViewModel = new ViewModelProvider(this).get(MainViewModel.class);
+        homeViewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
         viewModel = new ViewModelProvider(this).get(MineFragmentViewModel.class);
         binding.setLifecycleOwner(this);
         binding.setVm(homeViewModel);
@@ -74,7 +68,7 @@ public class MineFragment extends Fragment {
         binding.viewLikeItem.setOnClickListener(v -> {
             if (ClickUtil.enableClick()){
                 Bundle bundle = new Bundle();
-                bundle.putLong(PLAYLIST_ID,viewModel.userLikeCreator);
+                bundle.putLong(PLAYLIST_ID,homeViewModel.userLikeCreator);
                 bundle.putString(PLAY_NAME,"歌单");
                 Navigation.findNavController(v).navigate(R.id.navigation_play_list,bundle);
                /* startActivity(new Intent(getActivity(), MinePlayListActivity.class)
@@ -83,11 +77,6 @@ public class MineFragment extends Fragment {
             }
         });
         initViewPager();
-        adapter = new CreateListAdapter(getContext());
-        LinearLayoutManager manager = new LinearLayoutManager(getContext());
-        manager.setOrientation(LinearLayoutManager.VERTICAL);
-        binding.rvCreate.setLayoutManager(manager);
-        binding.rvCreate.setAdapter(adapter);
     }
 
     private void initViewPager() {
@@ -100,6 +89,9 @@ public class MineFragment extends Fragment {
         titleList.add("收藏歌单");
         titleList.add("歌单助手");
         binding.viewpager2.setOffscreenPageLimit(3);
+        int pix = PxUtils.dpToPx(16,getContext());
+        MarginPageTransformer pageTransformer = new MarginPageTransformer(pix);
+        binding.viewpager2.setPageTransformer(pageTransformer);
         binding.viewpager2.setAdapter(new ScreenPagerAdapter(this));
         new TabLayoutMediator(binding.tabLayout, binding.viewpager2,((tab, position) -> {
             tab.setText(titleList.get(position));
@@ -124,38 +116,6 @@ public class MineFragment extends Fragment {
                 viewModel.level.set("Lv."+userDetailEntityApiResponse.getData().getLevel());
             }
         });
-        homeViewModel.getUserPlayList(Long.valueOf(homeViewModel.ui.userId.get())).observe(getViewLifecycleOwner(),userPlayEntityApiResponse ->{
-            if (userPlayEntityApiResponse.getStatus() == Status.SUCCESS && userPlayEntityApiResponse.getData().getPlaylist().size() != 0){
-                UserPlayEntity.PlaylistEntity userLike = userPlayEntityApiResponse.getData().getPlaylist().get(0);
-                int size = userPlayEntityApiResponse.getData().getPlaylist().size();
-                List<UserPlayEntity.PlaylistEntity> dataList = new ArrayList<>();
-                for (int i=1;i< size;i++){
-                    dataList.add(userPlayEntityApiResponse.getData().getPlaylist().get(i));
-                }
-                homeViewModel.getSongPlayList().setValue(dataList);
-                viewModel.mineLikeCover.set(userLike.getCoverImgUrl());
-                viewModel.trackCount.set(userLike.getTrackCount()+"");
-                viewModel.userLikeCreator = userLike.getId();
-                //adapter.setDataList(dataList);
-            }
-        });
-
-        /*viewModel.getUserPlayList(Long.valueOf(homeViewModel.ui.userId.get())).observe(getViewLifecycleOwner(), userPlayEntityApiResponse -> {
-            if (userPlayEntityApiResponse.getStatus() == Status.SUCCESS && userPlayEntityApiResponse.getData().getPlaylist().size() != 0){
-                UserPlayEntity.PlaylistEntity userLike = userPlayEntityApiResponse.getData().getPlaylist().get(0);
-                int size = userPlayEntityApiResponse.getData().getPlaylist().size();
-                List<UserPlayEntity.PlaylistEntity> dataList = new ArrayList<>();
-                for (int i=1;i< size;i++){
-                    viewModel.songPlayList.add(userPlayEntityApiResponse.getData().getPlaylist().get(i));
-                    dataList.add(userPlayEntityApiResponse.getData().getPlaylist().get(i));
-                }
-                viewModel.getSongPlayList().setValue(dataList);
-                viewModel.mineLikeCover.set(userLike.getCoverImgUrl());
-                viewModel.trackCount.set(userLike.getTrackCount()+"");
-                viewModel.userLikeCreator = userLike.getId();
-                //adapter.setDataList(dataList);
-            }
-        });*/
     }
 
     private String changeImageUrl(String url) {

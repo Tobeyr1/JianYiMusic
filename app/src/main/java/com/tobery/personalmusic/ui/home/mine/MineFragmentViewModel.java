@@ -1,27 +1,12 @@
 package com.tobery.personalmusic.ui.home.mine;
 
-
-import static com.tobery.personalmusic.util.Constant.KEY_MAIN_UI;
-
 import androidx.databinding.ObservableField;
-import androidx.databinding.ObservableInt;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.SavedStateHandle;
 import androidx.lifecycle.ViewModel;
-
-import com.google.gson.Gson;
 import com.tobery.livedata.call.livedatalib.ApiResponse;
-import com.tobery.personalmusic.entity.LoginEntity;
-import com.tobery.personalmusic.entity.UserDetailEntity;
-import com.tobery.personalmusic.entity.user.UserPlayEntity;
 import com.tobery.personalmusic.entity.user.VipInfoEntity;
 import com.tobery.personalmusic.http.Retrofit.RetrofitUtils;
-import com.tobery.personalmusic.ui.home.menu.UserInfoUi;
-import com.tobery.personalmusic.util.SharePreferencesUtil;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @Package: com.tobery.personalmusic.ui
@@ -49,10 +34,6 @@ public class MineFragmentViewModel extends ViewModel {
 
     public LiveData<ApiResponse<VipInfoEntity>> getVipInfo(){
         return RetrofitUtils.getmApiUrl().getVipInfo();
-    }
-    //获取用户歌单
-    public LiveData<ApiResponse<UserPlayEntity>> getUserPlayList(Long userId){
-        return RetrofitUtils.getmApiUrl().getUserPlayList(userId);
     }
 
 }
