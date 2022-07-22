@@ -36,8 +36,12 @@ import com.tobery.personalmusic.BaseActivity;
 import com.tobery.personalmusic.R;
 import com.tobery.personalmusic.databinding.ActivityMainBinding;
 import com.tobery.personalmusic.entity.home.RecentSongInfoEntity;
+import com.tobery.personalmusic.entity.user.UserPlayEntity;
 import com.tobery.personalmusic.ui.song.CurrentSongPlayActivity;
 import com.tobery.personalmusic.util.ClickUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends BaseActivity {
 
@@ -57,6 +61,26 @@ public class MainActivity extends BaseActivity {
         setContentView(binding.getRoot());
         initView();
         initBottomBar();
+        initObserver();
+    }
+
+    private void initObserver() {
+        viewModel.initUi();
+        viewModel.getUserPlayList().observe(this,userPlayEntityApiResponse ->{
+            if (userPlayEntityApiResponse.getStatus() == Status.SUCCESS && userPlayEntityApiResponse.getData().getPlaylist().size() != 0){
+                UserPlayEntity.PlaylistEntity userLike = userPlayEntityApiResponse.getData().getPlaylist().get(0);
+                viewModel.mineLikeCover.set(userLike.getCoverImgUrl());
+                viewModel.trackCount.set(userLike.getTrackCount()+"");
+                viewModel.userLikeCreator = userLike.getId();
+                ViewExtensionKt.printLog("用户信息"+userLike);
+                int size = userPlayEntityApiResponse.getData().getPlaylist().size();
+                List<UserPlayEntity.PlaylistEntity> dataList = new ArrayList<>();
+                for (int i=1;i< size;i++){
+                    dataList.add(userPlayEntityApiResponse.getData().getPlaylist().get(i));
+                }
+                viewModel.getSongPlayList().setValue(userPlayEntityApiResponse.getData());
+            }
+        });
     }
 
     private void initBottomBar() {

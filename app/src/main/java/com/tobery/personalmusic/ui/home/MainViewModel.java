@@ -48,10 +48,14 @@ public class MainViewModel extends ViewModel {
     public ObservableField<String> currentSongUrl = new ObservableField<>("");
     public ObservableField<String> currentSongName = new ObservableField<>("");
     public MusicInfo currentMusicInfo;
+    //用户喜欢的歌单信息
+    public ObservableField<String> mineLikeCover = new ObservableField<>("");
+    public ObservableField<String> trackCount = new ObservableField<>("");
+    public Long userLikeCreator = 0L;
 
-    private MutableLiveData<List<UserPlayEntity.PlaylistEntity>> _songPlayList;
+    private MutableLiveData<UserPlayEntity> _songPlayList;
 
-    public MutableLiveData<List<UserPlayEntity.PlaylistEntity>> getSongPlayList(){
+    public MutableLiveData<UserPlayEntity> getSongPlayList(){
         if (_songPlayList == null){
             _songPlayList = new MutableLiveData<>();
         }
@@ -86,8 +90,8 @@ public class MainViewModel extends ViewModel {
     }
 
     //获取用户歌单
-    public LiveData<ApiResponse<UserPlayEntity>> getUserPlayList(Long userId){
-        return RetrofitUtils.getmApiUrl().getUserPlayList(userId);
+    public LiveData<ApiResponse<UserPlayEntity>> getUserPlayList(){
+        return RetrofitUtils.getmApiUrl().getUserPlayList(ui.userId.get());
     }
 
 

@@ -12,7 +12,11 @@
             name="my"
             type="com.tobery.personalmusic.ui.home.mine.MineFragmentViewModel" />
     </data>
-
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        android:fillViewport="true">
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -108,7 +112,7 @@
     <View
         android:id="@+id/view_like_item"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_80"
+        android:layout_height="@dimen/dp_65"
         app:layout_constraintTop_toBottomOf="@id/view_nike"
         android:background="@drawable/bg_view_white_full"
         android:layout_margin="@dimen/dp_16"
@@ -116,13 +120,13 @@
 
     <ImageView
         android:id="@+id/img_cover"
-        android:layout_width="@dimen/dp_60"
-        android:layout_height="@dimen/dp_60"
+        android:layout_width="@dimen/dp_45"
+        android:layout_height="@dimen/dp_45"
         app:layout_constraintTop_toTopOf="@id/view_like_item"
         app:layout_constraintBottom_toBottomOf="@id/view_like_item"
         app:layout_constraintStart_toStartOf="@id/view_like_item"
         android:layout_marginStart="@dimen/dp_16"
-        rectangleSrc="@{my.mineLikeCover}"
+        rectangleSrc="@{vm.mineLikeCover}"
         />
 
     <TextView
@@ -143,7 +147,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/grays_66"
-        android:text="@{my.trackCount}"
+        android:text="@{vm.trackCount}"
         android:textSize="@dimen/sp_12"
         android:layout_marginStart="@dimen/dp_8"
         app:layout_constraintTop_toBottomOf="@id/tv_introduction"
@@ -151,19 +155,11 @@
         app:layout_constraintStart_toEndOf="@id/img_cover"
         />
 
-    <View
-        android:id="@+id/view_create"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bg_view_white_full"
-        android:layout_margin="@dimen/dp_16"
-        app:layout_constraintTop_toBottomOf="@id/view_like_item"
-        />
-
     <com.google.android.material.tabs.TabLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_18"
+        android:background="@null"
         binding:tabGravity="fill"
         binding:tabTextColor="@color/black_text"
         binding:tabMode="fixed"
@@ -176,20 +172,14 @@
     <androidx.viewpager2.widget.ViewPager2
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_0"
+        android:layout_margin="@dimen/dp_16"
         android:id="@+id/viewpager2"
         android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@id/tabLayout"
-        />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_create"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_0"
-        android:visibility="gone"
-        app:layout_constraintTop_toTopOf="@id/view_create"
-        app:layout_constraintBottom_toBottomOf="@id/view_create"
+        app:layout_constraintBottom_toBottomOf="parent"
         />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 </layout>
