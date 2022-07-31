@@ -48,12 +48,6 @@ public class RecommendAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     private final Context mContext;
 
-    private OnItemClick onItemClick;
-
-    public void setOnItemClick(OnItemClick onItemClick) {
-        this.onItemClick = onItemClick;
-    }
-
     public RecommendAdapter(Context context) {
         this.mContext = context;
     }
@@ -104,8 +98,4 @@ class ViewHolder extends RecyclerView.ViewHolder {
         imRecommend = binding.imgRecommend;
         tvCount = binding.playCount;
     }
-}
-
-interface OnItemClick {
-    void onClick();
 }

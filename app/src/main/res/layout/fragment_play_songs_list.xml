@@ -84,9 +84,8 @@
         android:layout_width="@dimen/dp_40"
         android:layout_height="@dimen/dp_40"
         android:layout_marginTop="@dimen/dp_50"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rv_play_top"
+        android:layout_centerHorizontal="true"
         />
 
 
@@ -98,7 +97,5 @@
         android:orientation="vertical"
         />
     </RelativeLayout>
-    <!--<include layout="@layout/content_scrolling"
-        android:id="@+id/content"/>-->
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

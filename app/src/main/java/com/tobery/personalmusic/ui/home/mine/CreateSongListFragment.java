@@ -1,5 +1,8 @@
 package com.tobery.personalmusic.ui.home.mine;
 
+import static com.tobery.personalmusic.util.Constant.PLAYLIST_ID;
+import static com.tobery.personalmusic.util.Constant.PLAY_NAME;
+
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,9 +13,11 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.tobery.musicplay.util.ViewExtensionKt;
+import com.tobery.personalmusic.R;
 import com.tobery.personalmusic.databinding.FragmentMineCreateSongListBinding;
 import com.tobery.personalmusic.entity.user.UserPlayEntity;
 import com.tobery.personalmusic.ui.home.MainViewModel;
@@ -65,6 +70,12 @@ public class CreateSongListFragment extends Fragment {
         binding.rvCreate.setLayoutManager(manager);
         binding.rvCreate.setNestedScrollingEnabled(false);
         binding.rvCreate.setAdapter(adapter);
+        adapter.setOnItemClick((coverId, playName) -> {
+            Bundle bundle = new Bundle();
+            bundle.putLong(PLAYLIST_ID,coverId);
+            bundle.putString(PLAY_NAME,playName);
+            Navigation.findNavController(binding.rvCreate).navigate(R.id.navigation_play_list,bundle);
+        });
     }
 
 }

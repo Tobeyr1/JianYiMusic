@@ -87,7 +87,6 @@ public class DiscoverFragment extends Fragment {
         binding.imgRecommend.setOnClickListener(view -> {
             if (ClickUtil.enableClick()){
                 Navigation.findNavController(view).navigate(R.id.navigation_daily);
-                //startActivity(new Intent(getActivity(), DailySongsActivity.class));
             }
         });
 

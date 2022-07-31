@@ -31,11 +31,6 @@ public class LookAdapter extends RecyclerView.Adapter<LookViewHolder> {
 
     private final Context mContext;
 
-    private OnItemClick onItemClick;
-
-    public void setOnItemClick(OnItemClick onItemClick) {
-        this.onItemClick = onItemClick;
-    }
 
     public LookAdapter(Context context) {
         this.mContext = context;
@@ -62,16 +57,6 @@ public class LookAdapter extends RecyclerView.Adapter<LookViewHolder> {
         holder.tvTitle.setText(bean.getTitle());
         //holder.tvCount.setText(bean.getResources().get(0).getResourceExtInfo().getPlayCount());
         BindingAdapter.loadRadiusImage(holder.imRecommend,bean.getVerticalCover());
-      /*  RequestOptions options = new RequestOptions()
-                .placeholder(R.drawable.ic_banner_loading)
-                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                .transform(new CenterCrop(),new RoundedCorners(10))
-                .error(R.mipmap.ic_launcher);
-        Glide.with(mContext)
-                .load(bean.getVerticalCover())
-                .transition(new DrawableTransitionOptions().crossFade())
-                .apply(options)
-                .into(holder.imRecommend);*/
 
     }
 
