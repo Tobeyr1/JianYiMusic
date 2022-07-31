@@ -10,8 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.tobery.personalmusic.BindingAdapter;
 import com.tobery.personalmusic.databinding.ItemCreateListBinding;
-import com.tobery.personalmusic.entity.home.LookLiveEntity;
 import com.tobery.personalmusic.entity.user.UserPlayEntity;
+import com.tobery.personalmusic.util.ClickUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +25,12 @@ public class CreateListAdapter extends RecyclerView.Adapter<CreateViewHolder> {
 
     public CreateListAdapter(Context context) {
         this.mContext = context;
+    }
+
+    private OnCoverItemClick onItemClick;
+
+    public void setOnItemClick(OnCoverItemClick onItemClick) {
+        this.onItemClick = onItemClick;
     }
 
     @NonNull
@@ -48,6 +54,11 @@ public class CreateListAdapter extends RecyclerView.Adapter<CreateViewHolder> {
         holder.tvCreateName.setText(bean.getName());
         BindingAdapter.loadRadiusImage(holder.imgCreate,bean.getCoverImgUrl());
         holder.tvCount.setText(bean.getTrackCount()+"");
+        holder.itemView.setOnClickListener(view -> {
+            if (ClickUtil.enableClick() && this.onItemClick != null){
+               onItemClick.onClick(bean.getId(),bean.getName());
+            }
+        });
     }
 
     @Override
@@ -66,4 +77,7 @@ class CreateViewHolder extends RecyclerView.ViewHolder {
         imgCreate = binding.imgCreate;
         tvCount = binding.tvCount;
     }
+}
+interface OnCoverItemClick {
+    void onClick(Long coverId,String playName);
 }

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+
+        <variable
+            name="message"
+            type="com.tobery.personalmusic.entity.follow.DynamicListEntity.EventEntity" />
+        <variable
+            name="user"
+            type="com.tobery.personalmusic.entity.follow.DynamicListEntity.EventEntity.UserEntity" />
+    </data>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <ImageView
+        android:id="@+id/img_dynamic"
+        android:layout_width="@dimen/dp_45"
+        android:layout_height="@dimen/dp_45"
+        android:layout_margin="@dimen/dp_8"
+        imSrc="@{user.avatarUrl}"
+        error="@{@drawable/ic_banner_loading}"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:scaleType="fitXY" />
+
+
+    <TextView
+        android:id="@+id/tv_dynamic_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:text="@{user.nickname}"
+        android:textColor="@color/pureBlack"
+        android:textSize="@dimen/sp_14"
+        app:layout_constraintTop_toTopOf="@id/img_dynamic"
+        app:layout_constraintBottom_toBottomOf="@id/img_dynamic"
+        app:layout_constraintStart_toEndOf="@id/img_dynamic"
+        />
+
+    <TextView
+        android:id="@+id/tv_show_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@{String.valueOf(message.showTime)}"
+        android:textColor="@color/grays_03"
+        app:layout_constraintTop_toBottomOf="@id/img_dynamic"
+        app:layout_constraintStart_toEndOf="@id/img_dynamic"
+        />
+
+    <TextView
+        android:id="@+id/tv_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/sp_12"
+        android:text="@{message.json}"
+        app:layout_constraintStart_toEndOf="@id/img_dynamic"
+        app:layout_constraintTop_toBottomOf="@id/img_dynamic"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

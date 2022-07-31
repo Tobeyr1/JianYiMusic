@@ -53,6 +53,8 @@ public class MainViewModel extends ViewModel {
     public ObservableField<String> trackCount = new ObservableField<>("");
     public Long userLikeCreator = 0L;
 
+    public Long currentSaveTime = 0L;
+
     private MutableLiveData<UserPlayEntity> _songPlayList;
 
     public MutableLiveData<UserPlayEntity> getSongPlayList(){

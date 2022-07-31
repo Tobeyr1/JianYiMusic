@@ -38,12 +38,6 @@ public class MgcAdapter extends RecyclerView.Adapter<MgcViewHolder> {
 
     private final Context mContext;
 
-    private OnItemClick onItemClick;
-
-    public void setOnItemClick(OnItemClick onItemClick) {
-        this.onItemClick = onItemClick;
-    }
-
     public MgcAdapter(Context context) {
         this.mContext = context;
     }

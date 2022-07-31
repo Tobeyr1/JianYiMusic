@@ -10,6 +10,8 @@ import com.tobery.personalmusic.entity.RefreshLogin;
 import com.tobery.personalmusic.entity.SearchHotDetail_Bean;
 import com.tobery.personalmusic.entity.SongEntity;
 import com.tobery.personalmusic.entity.UserDetailEntity;
+import com.tobery.personalmusic.entity.follow.DynamicListEntity;
+import com.tobery.personalmusic.entity.follow.FollowListEntity;
 import com.tobery.personalmusic.entity.home.DailySongsEntity;
 import com.tobery.personalmusic.entity.home.HomeDiscoverEntity;
 import com.tobery.personalmusic.entity.home.RecentSongInfoEntity;
@@ -70,5 +72,11 @@ public interface ApiService {
 
     @GET("album") //专辑信息
     LiveData<ApiResponse<AlbumListEntity>>  getAlbum(@Query("id") long albumId);
+
+    @GET("user/follows")//关注的人的列表
+    LiveData<ApiResponse<FollowListEntity>> getFollowsList(@Query("uid") long userId);
+
+    @GET("event") //动态
+    LiveData<ApiResponse<DynamicListEntity>> getDynamicList(@Query("pagesize") int pageSize,@Query("lasttime") Long lastTime);
 
 }
