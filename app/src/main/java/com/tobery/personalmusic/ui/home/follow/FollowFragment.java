@@ -1,6 +1,7 @@
 package com.tobery.personalmusic.ui.home.follow;
 
 import android.os.Bundle;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,8 @@ import com.tobery.personalmusic.entity.follow.DynamicListEntity;
 import com.tobery.personalmusic.entity.follow.FollowListEntity;
 import com.tobery.personalmusic.ui.home.MainViewModel;
 
+import java.util.ArrayList;
+
 public class FollowFragment extends Fragment {
 
     private FragmentFollowBinding binding;
@@ -26,6 +29,8 @@ public class FollowFragment extends Fragment {
     private DynamicListAdapter dynamicAdapter;
     private MainViewModel parentViewModel;
     private FollowFragmentViewModel viewModel;
+
+    public static final SparseArray<String> eventType = new SparseArray<>();
 
     @Nullable
     @Override
@@ -41,6 +46,14 @@ public class FollowFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         initView();
         initObserver();
+        initData();
+    }
+
+    private void initData() {
+        eventType.set(18,"分享单曲");
+        eventType.set(24,"分享专栏文章");
+        eventType.set(13,"分享歌单");
+        eventType.set(19,"分享专辑");
     }
 
     private void initView() {
@@ -72,7 +85,7 @@ public class FollowFragment extends Fragment {
         if(parentViewModel.currentSaveTime !=0L) {
             lastTime =  parentViewModel.currentSaveTime;
         }else{
-            lastTime =  System.currentTimeMillis();
+            lastTime =  -1;
         }
         viewModel.getDynamicList(15,lastTime).observe(getViewLifecycleOwner(), dynamicListEntityApiResponse -> {
             if (dynamicListEntityApiResponse.getStatus() == Status.SUCCESS && dynamicListEntityApiResponse.getData().getEvent() != null){

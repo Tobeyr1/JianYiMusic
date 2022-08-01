@@ -2,6 +2,9 @@
 <layout>
     <data>
 
+        <import type="android.util.SparseArray"/>
+        <variable name="sparse" type="SparseArray&lt;String>"/>
+        <variable name="picture" type="SparseArray&lt;String>"/>
         <variable
             name="message"
             type="com.tobery.personalmusic.entity.follow.DynamicListEntity.EventEntity" />
@@ -42,6 +45,19 @@
         />
 
     <TextView
+        android:id="@+id/tv_action"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:text="@{sparse[message.info.commentThread.resourceInfo.eventType]}"
+        android:textColor="@color/grays_02"
+        android:textSize="@dimen/sp_14"
+        app:layout_constraintStart_toEndOf="@id/tv_dynamic_name"
+        app:layout_constraintTop_toTopOf="@id/img_dynamic"
+        app:layout_constraintBottom_toBottomOf="@id/img_dynamic"
+        />
+
+    <TextView
         android:id="@+id/tv_show_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -56,10 +72,48 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="@dimen/sp_12"
-        android:text="@{message.json}"
         app:layout_constraintStart_toEndOf="@id/img_dynamic"
-        app:layout_constraintTop_toBottomOf="@id/img_dynamic"
+        app:layout_constraintTop_toBottomOf="@id/tv_show_time"
         />
+
+    <ImageView
+        android:id="@+id/img_0_pic"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_80"
+        rectangleSrc="@{picture[0]}"
+        app:layout_constraintTop_toBottomOf="@id/tv_message"
+        app:layout_constraintStart_toStartOf="@id/tv_dynamic_name"
+        app:layout_constraintEnd_toStartOf="@id/img_1_pic"/>
+
+    <ImageView
+        android:id="@+id/img_1_pic"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_0"
+        app:layout_constraintTop_toBottomOf="@id/tv_message"
+        app:layout_constraintStart_toEndOf="@id/img_0_pic"
+        app:layout_constraintEnd_toStartOf="@id/img_2_pic"/>
+
+    <ImageView
+        android:id="@+id/img_2_pic"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_0"
+        app:layout_constraintTop_toBottomOf="@id/tv_message"
+        app:layout_constraintStart_toEndOf="@id/img_1_pic"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_actName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/sp_10"
+        android:text="@{message.actName}"
+        android:textColor="@color/primaryBlue"
+        app:layout_constraintTop_toBottomOf="@id/tv_message"
+        app:layout_constraintStart_toStartOf="@id/tv_dynamic_name"
+        android:layout_marginStart="@dimen/dp_4"
+        />
+    
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
