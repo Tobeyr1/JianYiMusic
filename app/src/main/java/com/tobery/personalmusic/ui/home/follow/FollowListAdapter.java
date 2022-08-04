@@ -1,7 +1,6 @@
 package com.tobery.personalmusic.ui.home.follow;
 
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -9,6 +8,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.content.res.AppCompatResources;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 import com.tobery.personalmusic.BindingAdapter;
 import com.tobery.personalmusic.R;
@@ -30,13 +31,12 @@ import java.util.List;
  * @UpdateRemark: 更新说明
  * @Version: 1.0
  */
-public class FollowListAdapter extends RecyclerView.Adapter<FollowListViewHolder> {
-
-    private final List<FollowListEntity.FollowEntity> dataList = new ArrayList<>();
+public class FollowListAdapter extends ListAdapter<FollowListEntity.FollowEntity,FollowListViewHolder> {
 
     private final Context mContext;
 
     public FollowListAdapter(Context context) {
+        super(new followCallback());
         this.mContext = context;
     }
 
@@ -48,16 +48,10 @@ public class FollowListAdapter extends RecyclerView.Adapter<FollowListViewHolder
         return new FollowListViewHolder(binding);
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    public void setDataList(List<FollowListEntity.FollowEntity> data) {
-        dataList.clear();
-        dataList.addAll(data);
-        notifyDataSetChanged();
-    }
 
     @Override
     public void onBindViewHolder(@NonNull FollowListViewHolder holder, int position) {
-        FollowListEntity.FollowEntity bean = dataList.get(position);
+        FollowListEntity.FollowEntity bean = getItem(position);
         holder.tvName.setText(bean.getNickname());
         BindingAdapter.loadUrl(holder.imFollow,bean.getAvatarUrl(), AppCompatResources.getDrawable(mContext,R.drawable.ic_banner_loading));
         holder.itemView.setOnClickListener(view -> {
@@ -67,10 +61,6 @@ public class FollowListAdapter extends RecyclerView.Adapter<FollowListViewHolder
         });
     }
 
-    @Override
-    public int getItemCount() {
-        return dataList.size();
-    }
 }
 
 class FollowListViewHolder extends RecyclerView.ViewHolder {
@@ -81,5 +71,17 @@ class FollowListViewHolder extends RecyclerView.ViewHolder {
         super(binding.getRoot());
         tvName = binding.tvFollowName;
         imFollow = binding.imgCreate;
+    }
+}
+class followCallback extends DiffUtil.ItemCallback<FollowListEntity.FollowEntity>{
+
+    @Override
+    public boolean areItemsTheSame(@NonNull FollowListEntity.FollowEntity oldItem, @NonNull FollowListEntity.FollowEntity newItem) {
+        return oldItem.getUserId() == newItem.getUserId();
+    }
+
+    @Override
+    public boolean areContentsTheSame(@NonNull FollowListEntity.FollowEntity oldItem, @NonNull FollowListEntity.FollowEntity newItem) {
+        return oldItem.getUserId() == newItem.getUserId() && oldItem.getNickname().equals(newItem.getNickname());
     }
 }

@@ -61,13 +61,11 @@ public class FollowFragment extends Fragment {
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         manager.setOrientation(LinearLayoutManager.HORIZONTAL);
         binding.rvFollows.setLayoutManager(manager);
-        binding.rvFollows.setHasFixedSize(true);
         binding.rvFollows.setAdapter(adapter);
         dynamicAdapter = new DynamicListAdapter(getContext());
         LinearLayoutManager verticalManager = new LinearLayoutManager(getContext());
         verticalManager.setOrientation(LinearLayoutManager.VERTICAL);
         binding.rvDynamic.setLayoutManager(verticalManager);
-        binding.rvDynamic.setHasFixedSize(true);
         binding.rvDynamic.setAdapter(dynamicAdapter);
         binding.swipeRefresh.setOnRefreshListener(() -> {
             initObserver();
@@ -78,7 +76,7 @@ public class FollowFragment extends Fragment {
     private void initObserver() {
         viewModel.getFollowsList((long) parentViewModel.ui.userId.get()).observe(getViewLifecycleOwner(), followListEntityApiResponse -> {
             if (followListEntityApiResponse.getStatus() == Status.SUCCESS && followListEntityApiResponse.getData().getFollow() != null){
-                adapter.setDataList(followListEntityApiResponse.getData().getFollow());
+                adapter.submitList(followListEntityApiResponse.getData().getFollow());
             }
         });
         long lastTime;
@@ -90,7 +88,7 @@ public class FollowFragment extends Fragment {
         viewModel.getDynamicList(15,lastTime).observe(getViewLifecycleOwner(), dynamicListEntityApiResponse -> {
             if (dynamicListEntityApiResponse.getStatus() == Status.SUCCESS && dynamicListEntityApiResponse.getData().getEvent() != null){
                 parentViewModel.currentSaveTime = dynamicListEntityApiResponse.getData().getLasttime();
-                dynamicAdapter.setDataList(dynamicListEntityApiResponse.getData().getEvent());
+                dynamicAdapter.submitList(dynamicListEntityApiResponse.getData().getEvent());
             }
         });
     }

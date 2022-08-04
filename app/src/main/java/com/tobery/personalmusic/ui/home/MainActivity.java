@@ -4,27 +4,20 @@ import static com.tobery.personalmusic.util.Constant.MUSIC_INFO;
 import static com.tobery.personalmusic.util.Constant.SONG_URL;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
-import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
-import androidx.navigation.Navigator;
 import androidx.navigation.fragment.FragmentNavigator;
 import androidx.navigation.fragment.NavHostFragment;
-import androidx.navigation.ui.BottomNavigationViewKt;
 import androidx.navigation.ui.NavigationUI;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.tobery.lib.util.navigation.FragmentNavigatorHideShow;
 import com.tobery.lib.util.navigation.KeepCurrentStateFragment;
 import com.tobery.livedata.call.livedatalib.Status;
 import com.tobery.musicplay.MusicPlay;
@@ -39,7 +32,6 @@ import com.tobery.personalmusic.entity.home.RecentSongInfoEntity;
 import com.tobery.personalmusic.entity.user.UserPlayEntity;
 import com.tobery.personalmusic.ui.song.CurrentSongPlayActivity;
 import com.tobery.personalmusic.util.ClickUtil;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -143,7 +135,7 @@ public class MainActivity extends BaseActivity {
         });
     }
 
-    @SuppressLint("NonConstantResourceId")
+
     private void initView() {
         navigationBarView = binding.bottomNav;
         NavHostFragment navHostFragment =(NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
