@@ -1,6 +1,5 @@
 package com.tobery.personalmusic.ui.home.discover.adapter;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -8,13 +7,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 import com.tobery.personalmusic.BindingAdapter;
 import com.tobery.personalmusic.databinding.ItemLikeDiscoverBinding;
 import com.tobery.personalmusic.entity.home.HomeDiscoverEntity;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @Package: com.tobery.personalmusic.ui.home.discover.adapter
@@ -27,14 +25,13 @@ import java.util.List;
  * @UpdateRemark: 更新说明
  * @Version: 1.0
  */
-public class LikeAdapter extends RecyclerView.Adapter<LikeViewHolder> {
-
-    private final List<HomeDiscoverEntity.DataEntity.BlocksEntity.CreativesEntity> dataList = new ArrayList<>();
+public class LikeAdapter extends ListAdapter<HomeDiscoverEntity.DataEntity.BlocksEntity.CreativesEntity,LikeViewHolder> {
 
     private final Context mContext;
 
 
     public LikeAdapter(Context context) {
+        super(new likeItemCallback());
         this.mContext = context;
     }
 
@@ -46,16 +43,9 @@ public class LikeAdapter extends RecyclerView.Adapter<LikeViewHolder> {
         return new LikeViewHolder(binding);
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    public void setDataList(List<HomeDiscoverEntity.DataEntity.BlocksEntity.CreativesEntity> data) {
-        dataList.clear();
-        dataList.addAll(data);
-        notifyDataSetChanged();
-    }
-
     @Override
     public void onBindViewHolder(@NonNull LikeViewHolder holder, int position) {
-        HomeDiscoverEntity.DataEntity.BlocksEntity.CreativesEntity bean = dataList.get(position);
+        HomeDiscoverEntity.DataEntity.BlocksEntity.CreativesEntity bean = getItem(position);
         int num = bean.getResources().size();
         switch (num){
             case 1:
@@ -84,10 +74,6 @@ public class LikeAdapter extends RecyclerView.Adapter<LikeViewHolder> {
 
     }
 
-    @Override
-    public int getItemCount() {
-        return dataList.size();
-    }
 }
 
 class LikeViewHolder extends RecyclerView.ViewHolder {
@@ -105,5 +91,18 @@ class LikeViewHolder extends RecyclerView.ViewHolder {
         tvSubOne = binding.likeSubTitleOne;
         tvSubTwo = binding.likeSubTitleTwo;
         tvSubThree = binding.likeSubTitleThree;
+    }
+}
+
+class likeItemCallback extends DiffUtil.ItemCallback<HomeDiscoverEntity.DataEntity.BlocksEntity.CreativesEntity>{
+
+    @Override
+    public boolean areItemsTheSame(@NonNull HomeDiscoverEntity.DataEntity.BlocksEntity.CreativesEntity oldItem, @NonNull HomeDiscoverEntity.DataEntity.BlocksEntity.CreativesEntity newItem) {
+        return oldItem.getCreativeId().equals(newItem.getCreativeId());
+    }
+
+    @Override
+    public boolean areContentsTheSame(@NonNull HomeDiscoverEntity.DataEntity.BlocksEntity.CreativesEntity oldItem, @NonNull HomeDiscoverEntity.DataEntity.BlocksEntity.CreativesEntity newItem) {
+        return oldItem.getCreativeId().equals(newItem.getCreativeId());
     }
 }

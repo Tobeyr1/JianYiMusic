@@ -3,7 +3,6 @@ package com.tobery.personalmusic.ui.home.discover.adapter;
 import static com.tobery.personalmusic.util.Constant.PLAYLIST_ID;
 import static com.tobery.personalmusic.util.Constant.PLAY_NAME;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -11,15 +10,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 import com.tobery.personalmusic.BindingAdapter;
 import com.tobery.personalmusic.databinding.ItemRecommendDiscoverBinding;
 import com.tobery.personalmusic.entity.home.HomeDiscoverEntity;
 import com.tobery.personalmusic.ui.daily.MinePlayListActivity;
 import com.tobery.personalmusic.util.ClickUtil;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @Package: com.tobery.personalmusic.ui.home.discover.adapter
@@ -32,13 +30,12 @@ import java.util.List;
  * @UpdateRemark: 更新说明
  * @Version: 1.0
  */
-public class MgcAdapter extends RecyclerView.Adapter<MgcViewHolder> {
-
-    private final List<HomeDiscoverEntity.DataEntity.BlocksEntity.CreativesEntity> dataList = new ArrayList<>();
+public class MgcAdapter extends ListAdapter<HomeDiscoverEntity.DataEntity.BlocksEntity.CreativesEntity,MgcViewHolder> {
 
     private final Context mContext;
 
     public MgcAdapter(Context context) {
+        super(new mgcItemCallback());
         this.mContext = context;
     }
 
@@ -50,16 +47,9 @@ public class MgcAdapter extends RecyclerView.Adapter<MgcViewHolder> {
         return new MgcViewHolder(binding);
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    public void setDataList(List<HomeDiscoverEntity.DataEntity.BlocksEntity.CreativesEntity> data) {
-        dataList.clear();
-        dataList.addAll(data);
-        notifyDataSetChanged();
-    }
-
     @Override
     public void onBindViewHolder(@NonNull MgcViewHolder holder, int position) {
-        HomeDiscoverEntity.DataEntity.BlocksEntity.CreativesEntity bean = dataList.get(position);
+        HomeDiscoverEntity.DataEntity.BlocksEntity.CreativesEntity bean = getItem(position);
         holder.tvTitle.setText(bean.getUiElement().getMainTitle().getTitle());
         //holder.tvCount.setText(bean.getResources().get(0).getResourceExtInfo().getPlayCount());
         BindingAdapter.loadRadiusImage(holder.imRecommend,bean.getUiElement().getImage().getImageUrl());
@@ -70,11 +60,6 @@ public class MgcAdapter extends RecyclerView.Adapter<MgcViewHolder> {
                         .putExtra(PLAY_NAME,bean.getUiElement().getMainTitle().getTitle()));
             }
         });
-    }
-
-    @Override
-    public int getItemCount() {
-        return dataList.size();
     }
 }
 
@@ -87,5 +72,18 @@ class MgcViewHolder extends RecyclerView.ViewHolder {
         tvTitle = binding.recommendTitle;
         imRecommend = binding.imgRecommend;
         tvCount = binding.playCount;
+    }
+}
+
+class mgcItemCallback extends DiffUtil.ItemCallback<HomeDiscoverEntity.DataEntity.BlocksEntity.CreativesEntity>{
+
+    @Override
+    public boolean areItemsTheSame(@NonNull HomeDiscoverEntity.DataEntity.BlocksEntity.CreativesEntity oldItem, @NonNull HomeDiscoverEntity.DataEntity.BlocksEntity.CreativesEntity newItem) {
+        return oldItem.getCreativeId().equals(newItem.getCreativeId());
+    }
+
+    @Override
+    public boolean areContentsTheSame(@NonNull HomeDiscoverEntity.DataEntity.BlocksEntity.CreativesEntity oldItem, @NonNull HomeDiscoverEntity.DataEntity.BlocksEntity.CreativesEntity newItem) {
+        return oldItem.getCreativeId().equals(newItem.getCreativeId());
     }
 }

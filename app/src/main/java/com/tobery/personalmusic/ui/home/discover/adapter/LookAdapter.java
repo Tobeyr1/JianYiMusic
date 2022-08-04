@@ -1,18 +1,17 @@
 package com.tobery.personalmusic.ui.home.discover.adapter;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 import com.tobery.personalmusic.BindingAdapter;
 import com.tobery.personalmusic.databinding.ItemRecommendDiscoverBinding;
 import com.tobery.personalmusic.entity.home.LookLiveEntity;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @Package: com.tobery.personalmusic.ui.home.discover.adapter
@@ -25,14 +24,13 @@ import java.util.List;
  * @UpdateRemark: 更新说明
  * @Version: 1.0
  */
-public class LookAdapter extends RecyclerView.Adapter<LookViewHolder> {
-
-    private final List<LookLiveEntity> dataList = new ArrayList<>();
+public class LookAdapter extends ListAdapter<LookLiveEntity,LookViewHolder> {
 
     private final Context mContext;
 
 
     public LookAdapter(Context context) {
+        super(new lookItemCallback());
         this.mContext = context;
     }
 
@@ -44,26 +42,16 @@ public class LookAdapter extends RecyclerView.Adapter<LookViewHolder> {
         return new LookViewHolder(binding);
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    public void setDataList(List<LookLiveEntity> data) {
-        dataList.clear();
-        dataList.addAll(data);
-        notifyDataSetChanged();
-    }
 
     @Override
     public void onBindViewHolder(@NonNull LookViewHolder holder, int position) {
-        LookLiveEntity bean = dataList.get(position);
+        LookLiveEntity bean = getItem(position);
         holder.tvTitle.setText(bean.getTitle());
         //holder.tvCount.setText(bean.getResources().get(0).getResourceExtInfo().getPlayCount());
         BindingAdapter.loadRadiusImage(holder.imRecommend,bean.getVerticalCover());
 
     }
 
-    @Override
-    public int getItemCount() {
-        return dataList.size();
-    }
 }
 
 class LookViewHolder extends RecyclerView.ViewHolder {
@@ -75,5 +63,17 @@ class LookViewHolder extends RecyclerView.ViewHolder {
         tvTitle = binding.recommendTitle;
         imRecommend = binding.imgRecommend;
         tvCount = binding.playCount;
+    }
+}
+class lookItemCallback extends DiffUtil.ItemCallback<LookLiveEntity>{
+
+    @Override
+    public boolean areItemsTheSame(@NonNull LookLiveEntity oldItem, @NonNull LookLiveEntity newItem) {
+        return oldItem.getLiveId() == newItem.getLiveId();
+    }
+
+    @Override
+    public boolean areContentsTheSame(@NonNull LookLiveEntity oldItem, @NonNull LookLiveEntity newItem) {
+        return oldItem.getLiveId() == newItem.getLiveId() && oldItem.getLiveUrl() == newItem.getLiveUrl();
     }
 }
