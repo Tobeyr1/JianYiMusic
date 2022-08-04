@@ -2,8 +2,6 @@ package com.tobery.personalmusic.ui.home.discover.adapter;
 
 import static com.tobery.personalmusic.util.Constant.PLAYLIST_ID;
 import static com.tobery.personalmusic.util.Constant.PLAY_NAME;
-
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -11,25 +9,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
-import com.bumptech.glide.request.RequestOptions;
-import com.tobery.musicplay.entity.MusicInfo;
-import com.tobery.musicplay.util.ViewExtensionKt;
 import com.tobery.personalmusic.BindingAdapter;
-import com.tobery.personalmusic.R;
 import com.tobery.personalmusic.databinding.ItemRecommendDiscoverBinding;
 import com.tobery.personalmusic.entity.home.HomeDiscoverEntity;
 import com.tobery.personalmusic.ui.daily.MinePlayListActivity;
 import com.tobery.personalmusic.util.ClickUtil;
-import com.tobery.personalmusic.util.Constant;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @Package: com.tobery.personalmusic.ui.home.discover.adapter
@@ -42,13 +29,13 @@ import java.util.List;
  * @UpdateRemark: 更新说明
  * @Version: 1.0
  */
-public class RecommendAdapter extends RecyclerView.Adapter<ViewHolder> {
+public class RecommendAdapter extends ListAdapter<HomeDiscoverEntity.DataEntity.BlocksEntity.CreativesEntity,ViewHolder> {
 
-    private final List<HomeDiscoverEntity.DataEntity.BlocksEntity.CreativesEntity> dataList = new ArrayList<>();
 
     private final Context mContext;
 
     public RecommendAdapter(Context context) {
+        super(new itemCallback());
         this.mContext = context;
     }
 
@@ -60,16 +47,9 @@ public class RecommendAdapter extends RecyclerView.Adapter<ViewHolder> {
         return new ViewHolder(binding);
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    public void setDataList(List<HomeDiscoverEntity.DataEntity.BlocksEntity.CreativesEntity> data) {
-        dataList.clear();
-        dataList.addAll(data);
-        notifyDataSetChanged();
-    }
-
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        HomeDiscoverEntity.DataEntity.BlocksEntity.CreativesEntity bean = dataList.get(position);
+        HomeDiscoverEntity.DataEntity.BlocksEntity.CreativesEntity bean = getItem(position);
         holder.tvTitle.setText(bean.getUiElement().getMainTitle().getTitle());
         //holder.tvCount.setText(bean.getResources().get(0).getResourceExtInfo().getPlayCount());
         BindingAdapter.loadRadiusImage(holder.imRecommend,bean.getUiElement().getImage().getImageUrl());
@@ -82,10 +62,6 @@ public class RecommendAdapter extends RecyclerView.Adapter<ViewHolder> {
         });
     }
 
-    @Override
-    public int getItemCount() {
-        return dataList.size();
-    }
 }
 
 class ViewHolder extends RecyclerView.ViewHolder {
@@ -97,5 +73,19 @@ class ViewHolder extends RecyclerView.ViewHolder {
         tvTitle = binding.recommendTitle;
         imRecommend = binding.imgRecommend;
         tvCount = binding.playCount;
+    }
+}
+
+class itemCallback extends DiffUtil.ItemCallback<HomeDiscoverEntity.DataEntity.BlocksEntity.CreativesEntity>{
+
+
+    @Override
+    public boolean areItemsTheSame(@NonNull HomeDiscoverEntity.DataEntity.BlocksEntity.CreativesEntity oldItem, @NonNull HomeDiscoverEntity.DataEntity.BlocksEntity.CreativesEntity newItem) {
+        return oldItem.getCreativeId().equals(newItem.getCreativeId());
+    }
+
+    @Override
+    public boolean areContentsTheSame(@NonNull HomeDiscoverEntity.DataEntity.BlocksEntity.CreativesEntity oldItem, @NonNull HomeDiscoverEntity.DataEntity.BlocksEntity.CreativesEntity newItem) {
+        return oldItem.getCreativeId().equals(newItem.getCreativeId());
     }
 }

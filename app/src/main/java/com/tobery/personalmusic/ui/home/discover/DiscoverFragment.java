@@ -107,28 +107,24 @@ public class DiscoverFragment extends Fragment {
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         manager.setOrientation(LinearLayoutManager.HORIZONTAL);
         binding.recommendRecycle.setLayoutManager(manager);
-        binding.recommendRecycle.setHasFixedSize(true);
         binding.recommendRecycle.setAdapter(adapter);
 
         mgcAdapter = new MgcAdapter(getContext());
         LinearLayoutManager managerMgc = new LinearLayoutManager(getContext());
         managerMgc.setOrientation(LinearLayoutManager.HORIZONTAL);
         binding.mgcRecycle.setLayoutManager(managerMgc);
-        binding.mgcRecycle.setHasFixedSize(true);
         binding.mgcRecycle.setAdapter(mgcAdapter);
 
         lookAdapter = new LookAdapter(getContext());
         LinearLayoutManager managerLook = new LinearLayoutManager(getContext());
         managerLook.setOrientation(LinearLayoutManager.HORIZONTAL);
         binding.lookRecycle.setLayoutManager(managerLook);
-        binding.lookRecycle.setHasFixedSize(true);
         binding.lookRecycle.setAdapter(lookAdapter);
 
         likeAdapter = new LikeAdapter(getContext());
         LinearLayoutManager managerLike = new LinearLayoutManager(getContext());
         managerLike.setOrientation(LinearLayoutManager.HORIZONTAL);
         binding.likeRecycle.setLayoutManager(managerLike);
-        binding.likeRecycle.setHasFixedSize(true);
         binding.likeRecycle.setAdapter(likeAdapter);
     }
 
@@ -167,12 +163,12 @@ public class DiscoverFragment extends Fragment {
                     binding.tvBottom.setText(homeDiscoverEntityApiResponse.getData().getData().getPageConfig().getNodataToast());
                 }
                 initData(viewModel.bannerList.getBanners());
-                adapter.setDataList(viewModel.recommendList);
-                mgcAdapter.setDataList(viewModel.selfMgcList);
+                adapter.submitList(viewModel.recommendList);
+                mgcAdapter.submitList(viewModel.selfMgcList);
                 if (viewModel.lookLiveList != null){
-                    lookAdapter.setDataList(viewModel.lookLiveList);
+                    lookAdapter.submitList(viewModel.lookLiveList);
                 }
-                likeAdapter.setDataList(viewModel.likeList);
+                likeAdapter.submitList(viewModel.likeList);
             }else {
                 Log.e("报错",homeDiscoverEntityApiResponse.getMessage());
             }
