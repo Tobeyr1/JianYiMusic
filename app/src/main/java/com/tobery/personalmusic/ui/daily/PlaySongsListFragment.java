@@ -115,7 +115,7 @@ public class PlaySongsListFragment extends BaseFragment {
             ViewExtensionKt.printLog(playList.getMessage());
             if (playList.getStatus() == Status.SUCCESS){
                 binding.imgLoading.setVisibility(View.GONE);
-                adapter.setDataList(playList.getData().getPlaylist().getTracks());
+                adapter.submitList(playList.getData().getPlaylist().getTracks());
                 //initBg(playList.getData().getPlaylist().getCoverImgUrl());
                 for (RecommendListEntity.PlaylistEntity.TracksEntity data:playList.getData().getPlaylist().getTracks()){
                     MusicInfo musicInfo = new MusicInfo();

@@ -95,7 +95,6 @@ public class MinePlayListActivity extends BaseActivity {
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         binding.content.rvPlayList.setLayoutManager(manager);
         binding.content.rvPlayList.setAdapter(adapter);
-        binding.content.rvPlayList.setHasFixedSize(true);
     }
 
     private void initObserver() {
@@ -103,7 +102,7 @@ public class MinePlayListActivity extends BaseActivity {
             ViewExtensionKt.printLog(playList.getMessage());
             if (playList.getStatus() == Status.SUCCESS){
                 binding.content.imgLoading.setVisibility(View.GONE);
-                adapter.setDataList(playList.getData().getPlaylist().getTracks());
+                adapter.submitList(playList.getData().getPlaylist().getTracks());
                 //initBg(playList.getData().getPlaylist().getCoverImgUrl());
                 for (RecommendListEntity.PlaylistEntity.TracksEntity data:playList.getData().getPlaylist().getTracks()){
                     MusicInfo musicInfo = new MusicInfo();

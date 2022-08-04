@@ -1,6 +1,5 @@
 package com.tobery.personalmusic.util;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -14,6 +13,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -37,8 +37,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
     //用来存储设备信息和异常信息
     private Map<String,String> infos = new HashMap<>();
     //用于格式化日期，作为日志文件名的一部分
-    @SuppressLint("SimpleDateFormat")
-    private DateFormat format = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+    private final DateFormat format = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss", Locale.CHINESE);
 
     private CrashHandler(){}
 

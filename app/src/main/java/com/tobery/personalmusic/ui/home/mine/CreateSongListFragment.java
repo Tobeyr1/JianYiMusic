@@ -2,8 +2,6 @@ package com.tobery.personalmusic.ui.home.mine;
 
 import static com.tobery.personalmusic.util.Constant.PLAYLIST_ID;
 import static com.tobery.personalmusic.util.Constant.PLAY_NAME;
-
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,17 +9,13 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
-
-import com.tobery.musicplay.util.ViewExtensionKt;
 import com.tobery.personalmusic.R;
 import com.tobery.personalmusic.databinding.FragmentMineCreateSongListBinding;
 import com.tobery.personalmusic.entity.user.UserPlayEntity;
 import com.tobery.personalmusic.ui.home.MainViewModel;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,7 +40,6 @@ public class CreateSongListFragment extends Fragment {
         initObserver();
     }
 
-    @SuppressLint("SetTextI18n")
     private void initObserver() {
         List<UserPlayEntity.PlaylistEntity> dataList = new ArrayList<>();
         parentViewModel.getSongPlayList().observe(getViewLifecycleOwner(), userPlayEntity -> {
@@ -57,8 +50,9 @@ public class CreateSongListFragment extends Fragment {
                     dataList.add(userPlayEntity.getPlaylist().get(i));
                 }
             }
-            binding.tvCreateNum.setText("创建歌单（"+dataList.size()+"个)");
-            adapter.setDataList(dataList);
+            String createName = "创建歌单（"+dataList.size()+"个)";
+            binding.tvCreateNum.setText(createName);
+            adapter.submitList(dataList);
         });
 
     }

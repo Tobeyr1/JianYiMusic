@@ -56,7 +56,7 @@ public class CollectSongListFragment extends Fragment {
                 }
             }
             binding.tvCollectNum.setText("收藏歌单（"+dataList.size()+"个）");
-            adapter.setDataList(dataList);
+            adapter.submitList(dataList);
         });
 
     }
