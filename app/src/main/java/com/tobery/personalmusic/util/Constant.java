@@ -37,6 +37,8 @@ public class Constant {
 
     public static final String PLAY_NAME = "PLAY_NAME";
 
+    public static final String LIVE_INFO = "LIVE_INFO";
+
     //设置默认超时时间
     public static final int DEFAULT_TIME=6;
 

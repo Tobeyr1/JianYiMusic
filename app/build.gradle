@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.tobery.personalmusic"
@@ -101,6 +101,11 @@ dependencies {
     //room
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
+
+    implementation 'xyz.doikki.android.dkplayer:dkplayer-java:3.3.7'
+    implementation 'xyz.doikki.android.dkplayer:player-exo:3.3.7'
+    implementation 'xyz.doikki.android.dkplayer:videocache:3.3.7'
+    implementation 'xyz.doikki.android.dkplayer:dkplayer-ui:3.3.7'
     // optional - RxJava2 support for Room
     implementation "androidx.room:room-rxjava2:$room_version"
     // optional - Guava support for Room, including Optional and ListenableFuture
