@@ -63,6 +63,7 @@
             android:defaultValue="false"/>
     </keep_state_fragment>
 
+
     <activity
         android:id="@+id/CurrentSongActivity"
         android:name="com.tobery.personalmusic.ui.song.CurrentSongPlayActivity"

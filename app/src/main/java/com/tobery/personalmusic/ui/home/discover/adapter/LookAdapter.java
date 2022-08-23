@@ -1,6 +1,9 @@
 package com.tobery.personalmusic.ui.home.discover.adapter;
 
+import static com.tobery.personalmusic.util.Constant.LIVE_INFO;
+
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -12,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.tobery.personalmusic.BindingAdapter;
 import com.tobery.personalmusic.databinding.ItemRecommendDiscoverBinding;
 import com.tobery.personalmusic.entity.home.LookLiveEntity;
+import com.tobery.personalmusic.ui.home.video.VideoPlayActivity;
 
 /**
  * @Package: com.tobery.personalmusic.ui.home.discover.adapter
@@ -49,7 +53,10 @@ public class LookAdapter extends ListAdapter<LookLiveEntity,LookViewHolder> {
         holder.tvTitle.setText(bean.getTitle());
         //holder.tvCount.setText(bean.getResources().get(0).getResourceExtInfo().getPlayCount());
         BindingAdapter.loadRadiusImage(holder.imRecommend,bean.getVerticalCover());
-
+        holder.itemView.setOnClickListener(view -> {
+            mContext.startActivity(new Intent(mContext, VideoPlayActivity.class)
+                    .putExtra(LIVE_INFO,bean));
+        });
     }
 
 }

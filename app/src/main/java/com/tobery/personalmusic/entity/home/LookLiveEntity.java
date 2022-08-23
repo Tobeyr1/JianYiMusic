@@ -1,5 +1,6 @@
 package com.tobery.personalmusic.entity.home;
 
+import java.io.Serializable;
 import java.util.List;
 
 import lombok.Data;
@@ -18,7 +19,7 @@ import lombok.NoArgsConstructor;
  */
 @NoArgsConstructor
 @Data
-public class LookLiveEntity {
+public class LookLiveEntity implements Serializable {
     private int liveId;
     private String title;
     private double anchorId;
@@ -57,9 +58,11 @@ public class LookLiveEntity {
     private CloudMusicMyFollowRecInfoEntity cloudMusicMyFollowRecInfo;
     private Object adSpreadDto;
 
+
+
     @NoArgsConstructor
     @Data
-    public static class LiveUrlEntity {
+    public static class LiveUrlEntity implements Serializable{
         private String httpPullUrl;
         private String hlsPullUrl;
         private String rtmpPullUrl;
@@ -67,7 +70,7 @@ public class LookLiveEntity {
 
     @NoArgsConstructor
     @Data
-    public static class UserInfoEntity {
+    public static class UserInfoEntity implements Serializable{
         private double userId;
         private String nickname;
         private String avatarUrl;
@@ -82,7 +85,7 @@ public class LookLiveEntity {
 
     @NoArgsConstructor
     @Data
-    public static class RecLiveDTOEntity {
+    public static class RecLiveDTOEntity implements Serializable{
         private String skipUrl;
         private String typeDesc;
         private int cardType;
@@ -100,7 +103,7 @@ public class LookLiveEntity {
 
         @NoArgsConstructor
         @Data
-        public static class SupplemetParamEntity {
+        public static class SupplemetParamEntity implements Serializable{
             private String hp_moduletitle;
             private String coverID;
             private String liveOnlineNumber;
@@ -109,12 +112,12 @@ public class LookLiveEntity {
 
     @NoArgsConstructor
     @Data
-    public static class SupplementParamToClientEntity {
+    public static class SupplementParamToClientEntity implements Serializable{
         private String ops;
     }
 
     @NoArgsConstructor
     @Data
-    public static class CloudMusicMyFollowRecInfoEntity {
+    public static class CloudMusicMyFollowRecInfoEntity implements Serializable{
     }
 }

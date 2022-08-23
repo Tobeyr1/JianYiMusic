@@ -35,6 +35,10 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ui.home.video.VideoPlayActivity"
+            android:screenOrientation="portrait"
+            android:exported="false" />
+        <activity
             android:name=".ui.daily.MinePlayListActivity"
             android:exported="false"
             android:label="@string/title_activity_mine_play_list"
