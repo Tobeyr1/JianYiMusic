@@ -24,6 +24,13 @@
     <style name="Theme.PersonalMusic.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <style name="activityFull" parent="Theme.MaterialComponents.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="android:statusBarColor" >@color/transparent</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
     <style name="Theme.PersonalMusic.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

@@ -2,30 +2,11 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     >
-
-    <data>
-
-    </data>
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
     >
-
-    <View
-        android:id="@+id/view_title_bg"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_45"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="@color/colorPrimary"
-        />
-
-    <xyz.doikki.videoplayer.player.VideoView
-        android:id="@+id/player"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_400"
-        app:layout_constraintTop_toBottomOf="@id/view_title_bg"
-        app:layout_constraintBottom_toBottomOf="parent"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

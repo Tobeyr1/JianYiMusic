@@ -37,6 +37,7 @@
         <activity
             android:name=".ui.home.video.VideoPlayActivity"
             android:screenOrientation="portrait"
+            android:theme="@style/activityFull"
             android:exported="false" />
         <activity
             android:name=".ui.daily.MinePlayListActivity"

@@ -2,14 +2,12 @@ package com.tobery.personalmusic.ui.home.video;
 
 import static com.tobery.personalmusic.util.Constant.LIVE_INFO;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
-
 import com.bumptech.glide.Glide;
 import com.tobery.personalmusic.BaseActivity;
 import com.tobery.personalmusic.databinding.ActivityVideoPlayBinding;
 import com.tobery.personalmusic.entity.home.LookLiveEntity;
+import com.tobery.personalmusic.util.StatusBarUtil;
 
 import xyz.doikki.videocontroller.StandardVideoController;
 
@@ -35,5 +33,25 @@ public class VideoPlayActivity extends BaseActivity {
         binding.player.setVideoController(controller); //设置控制器
         binding.player.start(); //开始播放，不调用则不自动播放
         Glide.with(this).load(data.getBgCoverUrl()).centerCrop().into(binding.imgBg);
+        //填充状态栏
+        StatusBarUtil.setTransparentForWindow(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        binding.player.pause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        binding.player.resume();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        binding.player.release();
     }
 }
