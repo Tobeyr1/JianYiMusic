@@ -3,6 +3,9 @@ package com.tobery.personalmusic.ui.home.video;
 import static com.tobery.personalmusic.util.Constant.LIVE_INFO;
 
 import android.os.Bundle;
+
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import com.bumptech.glide.Glide;
 import com.tobery.personalmusic.BaseActivity;
 import com.tobery.personalmusic.databinding.ActivityVideoPlayBinding;
@@ -27,6 +30,7 @@ public class VideoPlayActivity extends BaseActivity {
 
     private void initView() {
         data = (LookLiveEntity) getIntent().getSerializableExtra(LIVE_INFO);
+        binding.setLive(data);
         binding.player.setUrl(data.getLiveUrl().getHlsPullUrl());
         StandardVideoController controller = new StandardVideoController(this);
         controller.addDefaultControlComponent(data.getTitle(), true);
@@ -35,6 +39,13 @@ public class VideoPlayActivity extends BaseActivity {
         Glide.with(this).load(data.getBgCoverUrl()).centerCrop().into(binding.imgBg);
         //填充状态栏
         StatusBarUtil.setTransparentForWindow(this);
+        ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) binding.imgUser.getLayoutParams();
+        params.topMargin = StatusBarUtil.getStatusBarHeight(this);
+        binding.imgUser.setLayoutParams(params);
+        binding.imgClose.setOnClickListener(view -> {
+            binding.player.release();
+            finish();
+        });
     }
 
     @Override
