@@ -569,7 +569,7 @@ public class StatusBarUtil {
     /**
      * 设置透明
      */
-    private static void setTransparentForWindow(Activity activity) {
+    public static void setTransparentForWindow(Activity activity) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             activity.getWindow().setStatusBarColor(Color.TRANSPARENT);
             activity.getWindow()

@@ -105,11 +105,7 @@ public class SplashActivity extends BaseActivity {
                     binding.group.setVisibility(View.GONE);
                     binding.groupTop.setVisibility(View.VISIBLE);
                 } else {
-                    Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-                    finish();
-                 /*   RetrofitUtils.getmApiUrl().refresh().observe(this, refreshLoginApiResponse -> {
+                    RetrofitUtils.getmApiUrl().refresh().observe(this, refreshLoginApiResponse -> {
                         if (refreshLoginApiResponse.getStatus() == Status.SUCCESS && refreshLoginApiResponse.getData().getCode() == 200){
                             Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -121,7 +117,7 @@ public class SplashActivity extends BaseActivity {
                             startActivity(intent);
                             finish();
                         }
-                    });*/
+                    });
                 }
             }else {
                 int lastDeniedNum = SharePreferencesUtil.getInstance(this).getPermissionDeniedNum(DENIED_PERMISSION);
