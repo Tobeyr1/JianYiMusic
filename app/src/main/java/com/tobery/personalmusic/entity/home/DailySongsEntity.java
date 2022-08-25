@@ -101,7 +101,7 @@ public class DailySongsEntity {
                 private int br;
                 private int fid;
                 private int size;
-                private int vd;
+                private double vd;
                 private int sr;
             }
 
@@ -111,7 +111,7 @@ public class DailySongsEntity {
                 private int br;
                 private int fid;
                 private int size;
-                private int vd;
+                private double vd;
                 private int sr;
             }
 
@@ -121,7 +121,7 @@ public class DailySongsEntity {
                 private int br;
                 private int fid;
                 private int size;
-                private int vd;
+                private double vd;
                 private int sr;
             }
 

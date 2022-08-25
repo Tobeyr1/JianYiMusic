@@ -12,8 +12,6 @@ import com.tobery.personalmusic.util.CrashHandler;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
-import xyz.doikki.videoplayer.exo.ExoMediaPlayerFactory;
 import xyz.doikki.videoplayer.player.VideoViewConfig;
 import xyz.doikki.videoplayer.player.VideoViewManager;
 
@@ -46,8 +44,6 @@ public class app extends Application {
         CrashHandler.getInstance().init(this);
         ExecutorService pool = Executors.newFixedThreadPool(CORE_POOL_SIZE);
         VideoViewManager.setConfig(VideoViewConfig.newBuilder()
-                //使用ExoPlayer解码
-                .setPlayerFactory(ExoMediaPlayerFactory.create())
                 .build());
         pool.submit(new Runnable() {
             @Override
