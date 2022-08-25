@@ -103,7 +103,6 @@ dependencies {
     annotationProcessor "androidx.room:room-compiler:$room_version"
 
     implementation 'xyz.doikki.android.dkplayer:dkplayer-java:3.3.7'
-    implementation 'xyz.doikki.android.dkplayer:player-exo:3.3.7'
     implementation 'xyz.doikki.android.dkplayer:videocache:3.3.7'
     implementation 'xyz.doikki.android.dkplayer:dkplayer-ui:3.3.7'
     // optional - RxJava2 support for Room

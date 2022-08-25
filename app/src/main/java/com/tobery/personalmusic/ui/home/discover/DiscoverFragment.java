@@ -94,12 +94,6 @@ public class DiscoverFragment extends Fragment {
             initObserver(true);
             binding.swipeRefresh.setRefreshing(false);
         });
-       /* binding.scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
-            @Override
-            public void onScrollChanged() {
-                binding.swipeRefresh.setEnabled(binding.scrollView.getScrollY() == 0);
-            }
-        });*/
     }
 
     private void initRecycle() {
