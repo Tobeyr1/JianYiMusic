@@ -6,6 +6,7 @@ import static com.tobery.personalmusic.util.Constant.KEY_MAIN_UI;
 
 import androidx.databinding.ObservableField;
 import androidx.databinding.ObservableInt;
+import androidx.databinding.ObservableLong;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.SavedStateHandle;
@@ -66,7 +67,7 @@ public class MainViewModel extends ViewModel {
 
     public MainViewModel(SavedStateHandle savedStateHandle) {
         this.state = savedStateHandle;
-        ui = state.get(KEY_MAIN_UI) == null ? new UserInfoUi(new ObservableField<>(""), new ObservableField<>(""), new ObservableInt(0), new ObservableField<>(""), new ObservableField<>(""), new ObservableField<>(""), new ObservableField<>("")) : state.get(KEY_MAIN_UI);
+        ui = state.get(KEY_MAIN_UI) == null ? new UserInfoUi(new ObservableField<>(""), new ObservableField<>(""), new ObservableLong(0), new ObservableField<>(""), new ObservableField<>(""), new ObservableField<>(""), new ObservableField<>("")) : state.get(KEY_MAIN_UI);
     }
 
     public void initUi() {

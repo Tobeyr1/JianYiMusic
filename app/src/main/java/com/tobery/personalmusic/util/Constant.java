@@ -42,5 +42,5 @@ public class Constant {
     //设置默认超时时间
     public static final int DEFAULT_TIME=6;
 
-    public final static  String BaseUrl = "http://121.5.194.180:3030/";
+    public final static  String BaseUrl = "https://netease-cloud-music-api-nine-umber.vercel.app/";
 }

@@ -31,7 +31,7 @@ public class LoginEntity {
     @NoArgsConstructor
     @Data
     public static class AccountEntity {
-        private int id;
+        private long id;
         private String userName;
         private int type;
         private int status;
@@ -52,7 +52,7 @@ public class LoginEntity {
     @Data
     public static class ProfileEntity {
         private String backgroundImgIdStr;
-        private int userId;
+        private long userId;
         private String avatarImgIdStr;
         private boolean followed;
         private String backgroundUrl;

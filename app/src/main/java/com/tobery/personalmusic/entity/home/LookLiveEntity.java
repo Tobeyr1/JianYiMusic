@@ -32,7 +32,7 @@ public class LookLiveEntity implements Serializable {
     private int liveStatus;
     private long startTime;
     private int endTime;
-    private int roomId;
+    private float roomId;
     private Object channelId;
     private int liveType;
     private int appKeyType;
